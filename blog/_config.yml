@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-author: John Doe
+title: Eason Du's note
+subtitle: 
+description: 
+author: Eason Du
 language:
 timezone:
 
@@ -72,7 +72,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: hexo-theme-next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
