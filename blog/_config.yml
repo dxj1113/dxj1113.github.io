@@ -81,3 +81,15 @@ deploy:
     type: git   #有的版本是github也是个小坑，注意
     repo: git@github.com:dxj1113/dxj1113.github.io.git
     branch: master
+
+# math:
+  # engine: 'mathjax' # or 'katex'
+  # mathjax:
+    # src: custom_mathjax_source
+    # config:
+      # MathJax config
+  # katex:
+    # css: custom_css_source
+    # js: custom_js_source # not used
+    # config:
+      # KaTeX config
