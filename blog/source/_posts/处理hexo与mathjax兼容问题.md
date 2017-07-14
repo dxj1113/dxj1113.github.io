@@ -83,4 +83,5 @@ The second command install new Markdown renderer which can support MathJax fully
 
 minw,b12∥w∥2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
 minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
-完美~ The end.
+完美~ 
+----EOF----

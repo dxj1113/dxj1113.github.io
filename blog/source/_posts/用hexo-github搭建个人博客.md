@@ -133,4 +133,4 @@ categories: 技术
 >   npm install hexo-deployer-git
 
   （记得，不需要hexo init这条指令）
-
+----EOF----
