@@ -1,9 +1,8 @@
 ---
 title: 用hexo+github搭建个人博客
-
 date: 2017-07-12 13:45:51
-
-tags: [Marddown,Hexo,nodejs,git]
+tags: [Markdown,Hexo,nodejs,git]
+categories: 技术
 ---
 
 ##  搭建hexo
