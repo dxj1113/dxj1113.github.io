@@ -3,7 +3,7 @@ title: 用hexo+github搭建个人博客
 
 date: 2017-07-12 13:45:51
 
-tags:
+tags: tags: [Marddown,Hexo,nodejs,git]
 ---
 
 ##  搭建hexo
