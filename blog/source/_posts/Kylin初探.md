@@ -4,9 +4,10 @@ date: 2017-07-17 13:36:26
 tags: [Apache,Big data,CUBE,OLAP,HADOOP]
 categories: 技术
 ---
-![](http://ot801bf4v.bkt.clouddn.com/d6056a590c58eae323a27bfce551a1c4_r%20%281%29.png)
-# Kylin #
 
+# Kylin #
+[Apache kylin](http://kylin.apache.org)是一个开源的分布式分析引擎。它通过[ANSI-SQL](http://www.whoishostingthis.com/resources/ansi-sql-standards/)接口，提供基于[hadoop](http://hadoop.apache.org)的超大数据集（TB-PB级）的多维分析（[OLAP](https://en.wikipedia.org/wiki/OLAP)）功能。
+ <!-- more -->
 *整理 by  杜锡俊*
 # OLAP简介
 ## OLAP的历史与基本概念
@@ -15,7 +16,7 @@ OLAP全称为在线联机分析应用，是一种对于多维数据分析查询�
 最早的OLAP查询工具是发布于1970年的Express，然而完整的OLAP概念是在1993年由关系数据库之父EdgarF.Codd 提出，伴随而来的是著名的“twelvelaws of online analytical processing”. 1998年微软发布MicrosoftAnalysis Services，并且在早一年通过OLE DB for OLAP API引入MDX查询语言，2001年微软和Hyperion发布的XML forAnalysis 成为了事实上的OLAP查询标准。如今，MDX已成为与SQL旗鼓相当的OLAP 查询语言，被各家OLAP厂商先后支持。
 
 OLAPCube是一种典型的多维数据分析技术，Cube本身可以认为是不同维度数据组成的dataset，一个OLAP Cube 可以拥有多个维度（Dimension），以及多个事实（Factor Measure）。用户通过OLAP工具从多个角度来进行数据的多维分析。通常认为OLAP包括三种基本的分析操作：上卷（rollup）、下钻（drilldown）、切片切块（slicingand dicing），原始数据经过聚合以及整理后变成一个或多个维度的视图。
- <!-- more -->
+
 ## ROLAP和MOLAP
 传统OLAP根据数据存储方式的不同分为ROLAP（Relational OLAP）以及MOLAP（Multi-dimensionOLAP）
 
