@@ -81,7 +81,7 @@ The second command install new Markdown renderer which can support MathJax fully
 
 最后的最后，再码一条写在SVM笔记里的长公式检验一下吧：
 
-minw,b12∥w∥2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
-minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
+$$minw,b12∥w∥2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)$$
+$$minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)$$
 完美~ 
 ----EOF----
