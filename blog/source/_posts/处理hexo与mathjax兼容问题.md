@@ -6,7 +6,7 @@ categories: 技术
 ---
 写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * [Jump to the end to see sulution](#小结) 。
  <!-- more -->
-#问题重现
+# 问题重现
 
 先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：
 
@@ -18,7 +18,7 @@ $$R_{m \times n} = U_{m \times m} S_{m \times n} V_{n \times n}'$$
 
 
 
-#问题思考
+# 问题思考
 
 琢磨了一下，MathJax支持是开了的，这么简单的公式都渲染不出，肯定不是MathJax要背的锅。简单地测试了一下，发现：
 
@@ -32,7 +32,7 @@ $$R_{m \times n}$$
 
 原来下划线被渲染成了 `<em>`，在HTML里这个tag是用于将文本准换为斜体进行强调的。为什么会产生这样的错误呢？其实，在Markdown语法中 两个下划线之间的文本会被转换为斜体，所以这个错误是由Markdown渲染器引起的。Markdown本身没有支持Latex，在渲染时正则匹配到两条下划线就会把下划线替换成了 `<em>`，于是到了MathJax渲染公式时就彻底懵了。
 
-#解决过程
+# 解决过程
 
 意识到这个问题的本质后，带着疑问，我先来到Next主题的[Github主页](https://github.com/iissnan/hexo-theme-next/)，在[issue](https://github.com/iissnan/hexo-theme-next/issues?utf8=%E2%9C%93&q=mathjax)里面搜索MathJax。很可惜，没有找到直接的答案，但是思路清晰了一些。Next不背这个锅，我们要做的是更换Hexo使用的Markdown渲染器。
 
@@ -59,7 +59,7 @@ npm install hexo-renderer-kramed --save
 
 P.S. 其实，这个问题就是因为Markdown渲染和MathJax渲染冲突造成的，除了换别的渲染器，直接修改渲染用的正则表达式也是一种解决思路，但是这个思路有一定风险，如果引起了别的bug而没有及时发现，自己又没有做好备份和记录，就需要浪费很多额外的时间来定位问题。
 
-#小结
+# 小结
 
 简单来说，要让你的Hexo支持MathJax渲染公式，你只需要使用两条命令：
 To fully support MathJax in your Hexo blog, you can simply use the following commands:
