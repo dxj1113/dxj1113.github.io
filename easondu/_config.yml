@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Eason Du's Notes
 subtitle:
-description:
-author: John Doe
-language:
+description: 即使天空暗淡，阳光也会照耀圣西罗。
+author: Eason Du
+language: zh-Hans
 timezone:
 
 # URL
@@ -42,7 +42,7 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace:
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -51,7 +51,7 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
-  
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -72,9 +72,24 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
+
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+    type: git   #有的版本是github也是个小坑，注意
+    repo: git@github.com:dxj1113/dxj1113.github.io.git
+    branch: master
+
+# math:
+  # engine: 'mathjax' # or 'katex'
+  # mathjax:
+    # src: custom_mathjax_source
+    # config:
+      # MathJax config
+  # katex:
+    # css: custom_css_source
+    # js: custom_js_source # not used
+    # config:
+      # KaTeX config
