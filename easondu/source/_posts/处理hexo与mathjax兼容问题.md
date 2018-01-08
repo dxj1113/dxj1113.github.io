@@ -9,7 +9,7 @@ categories: 技术
 # 问题重现
 
 先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：
-
+$$c^2$$
 ```
 $$R_{m \times n} = U_{m \times m} S_{m \times n} V_{n \times n}'$$
 ```
