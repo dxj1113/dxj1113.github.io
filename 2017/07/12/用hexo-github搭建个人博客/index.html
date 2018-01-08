@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Markdown,Hexo,nodejs,git," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="即使天空暗淡，阳光也会照耀圣西罗。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eason Du&#39;s Notes">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="搭建hexo即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。">
+<meta name="keywords" content="Markdown,Hexo,nodejs,git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用hexo+github搭建个人博客">
+<meta property="og:url" content="http://yoursite.com/2017/07/12/用hexo-github搭建个人博客/index.html">
 <meta property="og:site_name" content="Eason Du&#39;s Notes">
-<meta property="og:description" content="即使天空暗淡，阳光也会照耀圣西罗。">
+<meta property="og:description" content="搭建hexo即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-08T11:33:23.109Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eason Du&#39;s Notes">
-<meta name="twitter:description" content="即使天空暗淡，阳光也会照耀圣西罗。">
+<meta name="twitter:title" content="用hexo+github搭建个人博客">
+<meta name="twitter:description" content="搭建hexo即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/12/用hexo-github搭建个人博客/"/>
 
 
 
 
 
-  <title>Eason Du's Notes</title>
+  <title>用hexo+github搭建个人博客 | Eason Du's Notes</title>
   
 
 
@@ -143,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,137 +218,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eason Du">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Eason Du's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/08/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T16:20:15+08:00">
-                2018-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -377,9 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/12/用hexo-github搭建个人博客/" itemprop="url">用hexo+github搭建个人博客</a></h1>
+          <h1 class="post-title" itemprop="name headline">用hexo+github搭建个人博客</h1>
         
 
         <div class="post-meta">
@@ -451,16 +322,106 @@
       
 
       
-        
-          <h1 id="搭建hexo"><a href="#搭建hexo" class="headerlink" title="搭建hexo"></a>搭建hexo</h1><p>即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/12/用hexo-github搭建个人博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h1 id="搭建hexo"><a href="#搭建hexo" class="headerlink" title="搭建hexo"></a>搭建hexo</h1><p>即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。</p>
+<a id="more"></a>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p> 安装nodejs（必须）</p>
+<ul>
+<li>作用：用来生成静态页面的</li>
+<li>方法：到<a href="http://nodejs.cn/" target="_blank" rel="noopener">node.js</a>官网下载并安装。我是用的是win10下v6.9.1版本。</li>
+</ul>
+<p> 安装git（必须）</p>
+<ul>
+<li>作用：把本地的hexo内容提交到github上去。</li>
+<li>方法：进入git官方下载即可，速度较慢。</li>
+</ul>
+<p> 申请GitHub账号（必须）</p>
+<ul>
+<li>作用：是用来做博客的远程创库、域名、服务器之类的。</li>
+<li>方法：到<a href="https://github.com/" target="_blank" rel="noopener">github</a>官网自行注册，如果想深入学习请看<a href="http://iissnan.com/progit/" target="_blank" rel="noopener">pro git</a>教程</li>
+</ul>
+<h1 id="GITHUB库创建"><a href="#GITHUB库创建" class="headerlink" title="GITHUB库创建"></a>GITHUB库创建</h1><ol>
+<li><p>创建仓库，<a href="https://github.com/dxj1113/dxj1113.github.io/" target="_blank" rel="noopener">https://github.com/dxj1113/dxj1113.github.io/</a></p>
+</li>
+<li><p>创建两个分支：master 与 hexo；</p>
+</li>
+<li><p>设置hexo为默认分支（setting—branch—default branch）；</p>
+</li>
+<li><p>使用</p>
+</li>
+</ol>
+<blockquote>
+<p>  git clone git@github.com:dxj1113/dxj1113.github.io.git</p>
+</blockquote>
+<p>   拷贝仓库；</p>
+<ol>
+<li>在本地dxj1113.github.io.git文件夹下通过Git bash依次执行</li>
+</ol>
+<blockquote>
+<p>npm install hexo-cli -g</p>
+<p>hexo init blog</p>
+<p>cd blog</p>
+<p>npm install</p>
+<p>npm install hexo-deployer-git</p>
+</blockquote>
+<p>   （此时当前分支应显示为hexo）;</p>
+<ol>
+<li>修改_config.yml中的deploy参数，设置如下</li>
+</ol>
+<blockquote>
+<p>deploy:</p>
+<p>  type: git</p>
+<p>  repo: git@github.com:dxj1113/dxj1113.github.io.git</p>
+<p>  branch: master</p>
+</blockquote>
+<ol>
+<li>依次执行</li>
+</ol>
+<blockquote>
+<p>  git add .、</p>
+<p>  git commit -m “…”、</p>
+<p>  git push origin hexo</p>
+</blockquote>
+<p>   提交网站相关的文件；</p>
+<ol>
+<li>执行</li>
+</ol>
+<blockquote>
+<p>  hexo g -d</p>
+</blockquote>
+<p>   生成网站并部署到GitHub上。</p>
+<h1 id="关于日常的改动流程"><a href="#关于日常的改动流程" class="headerlink" title="关于日常的改动流程"></a>关于日常的改动流程</h1><p>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理。</p>
+<ol>
+<li>依次执行<blockquote>
+<p>git add .</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>git commit -m “…”</p>
+<p>git push origin master:hexo</p>
+</blockquote>
+<p>指令将改动推送到GitHub（此时当前分支应为hexo）；</p>
+<ol>
+<li>然后才执行</li>
+</ol>
+<blockquote>
+<p>  hexo g -d</p>
+</blockquote>
+<p>   发布网站到master分支上。虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
+<h1 id="本地资料丢失后的流程"><a href="#本地资料丢失后的流程" class="headerlink" title="本地资料丢失后的流程"></a>本地资料丢失后的流程</h1><p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：</p>
+<ol>
+<li>使用git clone git@github.com:dxj1113/dxj1113.github.io.git拷贝仓库（默认分支为hexo）；</li>
+</ol>
+<ol>
+<li>在本地新拷贝的dxj1113.github.io文件夹下通过Git bash依次执行下列指令：</li>
+</ol>
+<blockquote>
+<p>  npm install hexo</p>
+<p>  npm install</p>
+<p>  npm install hexo-deployer-git</p>
+</blockquote>
+<p>  （记得，不需要hexo init这条指令）<br>—-EOF—-</p>
+
       
     </div>
     
@@ -475,14 +436,42 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+            <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/08/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -492,10 +481,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -503,6 +493,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -523,8 +517,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -584,6 +587,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建hexo"><span class="nav-number">1.</span> <span class="nav-text">搭建hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GITHUB库创建"><span class="nav-number">3.</span> <span class="nav-text">GITHUB库创建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于日常的改动流程"><span class="nav-number">4.</span> <span class="nav-text">关于日常的改动流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地资料丢失后的流程"><span class="nav-number">5.</span> <span class="nav-text">本地资料丢失后的流程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -717,6 +736,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
