@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Marddown,Mathjax,Hexo," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
+<meta name="keywords" content="Marddown,Mathjax,Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理hexo与mathjax兼容问题">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/处理hexo与mathjax兼容问题/index.html">
+<meta property="og:site_name" content="Eason Du&#39;s Notes">
+<meta property="og:description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png">
+<meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer2.png">
+<meta property="og:updated_time" content="2018-01-08T11:37:55.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="处理hexo与mathjax兼容问题">
+<meta name="twitter:description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
+<meta name="twitter:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/14/处理hexo与mathjax兼容问题/"/>
+
+
+
+
+
+  <title>处理hexo与mathjax兼容问题 | Eason Du's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eason Du's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/处理hexo与mathjax兼容问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eason Du">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eason Du's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">处理hexo与mathjax兼容问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T11:25:20+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * <a href="#小结">Jump to the end to see sulution</a> 。<br> <a id="more"></a></p>
+<h1 id="问题重现"><a href="#问题重现" class="headerlink" title="问题重现"></a>问题重现</h1><p>先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$R_&#123;m \times n&#125; = U_&#123;m \times m&#125; S_&#123;m \times n&#125; V_&#123;n \times n&#125;&apos;$$</span><br></pre></td></tr></table></figure>
+<p>渲染出来却变成了（红框内变为了斜体）：<br><img src="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png" alt="enter image description here"></p>
+<h1 id="问题思考"><a href="#问题思考" class="headerlink" title="问题思考"></a>问题思考</h1><p>琢磨了一下，MathJax支持是开了的，这么简单的公式都渲染不出，肯定不是MathJax要背的锅。简单地测试了一下，发现：</p>
+<p>$$R<em>{m \times n}$$<br>这个公式是能work的，那到底是什么问题呢？回到前面的公式，细心观察一下，不难发现渲染之后下划线 `</em><code>被吞掉了，而两个下划线</code>_` 之间的文本变为了斜体，这就很有意思了。</p>
+<p>浏览一下网页源码，可以看到对应这一条公式的代码是：</p>
+<p><img src="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer2.png" alt="enter image description here"></p>
+<p>原来下划线被渲染成了 <code>&lt;em&gt;</code>，在HTML里这个tag是用于将文本准换为斜体进行强调的。为什么会产生这样的错误呢？其实，在Markdown语法中 两个下划线之间的文本会被转换为斜体，所以这个错误是由Markdown渲染器引起的。Markdown本身没有支持Latex，在渲染时正则匹配到两条下划线就会把下划线替换成了 <code>&lt;em&gt;</code>，于是到了MathJax渲染公式时就彻底懵了。</p>
+<h1 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h1><p>意识到这个问题的本质后，带着疑问，我先来到Next主题的<a href="https://github.com/iissnan/hexo-theme-next/" target="_blank" rel="noopener">Github主页</a>，在<a href="https://github.com/iissnan/hexo-theme-next/issues?utf8=%E2%9C%93&amp;q=mathjax" target="_blank" rel="noopener">issue</a>里面搜索MathJax。很可惜，没有找到直接的答案，但是思路清晰了一些。Next不背这个锅，我们要做的是更换Hexo使用的Markdown渲染器。</p>
+<p>接下来我又到Hexo的<a href="https://github.com/hexojs/hexo/" target="_blank" rel="noopener">Github主页</a>搜索相关的解决方案，在<a href="https://github.com/hexojs/hexo/issues/524" target="_blank" rel="noopener">issue #524</a> 中，有人提到了可以使用 <strong>rawblock</strong> 来解决，可是每次要写公式都得在公式前后加上 rawblock 来声明实在太烦了，对于公式大户来说简直要崩溃（想想之后要写机器学习的相关文章，一大堆公式证明，已经想手动再见了）。</p>
+<p>另一个提出的解决方案是更换<strong>pandoc渲染器</strong>，pandoc大法固然好，但要下载安装完pandoc然后再装hexo插件实在是太重量级了.. 我只是想轻松愉悦地写写博客呀。当然，感兴趣的朋友也不妨去<a href="https://github.com/wzpan/hexo-renderer-pandoc" target="_blank" rel="noopener">hexo-renderer-pandoc主页</a>看看。</p>
+<p>有没有更好的方法呢？我在segmentfault查到另一位朋友写的解决方案，可以使用 hexo-renderer-markdown-it 进行渲染，似乎是个不错的思路，在hexo-renderer-markdown-it的文档中可以看到操作相当简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-markdown-it --save</span><br></pre></td></tr></table></figure></p>
+<p>两行命令即可完成，先卸载Hexo自带的Markdown解析器 hexo-renderer-marked 再安装 <strong>hexo-renderer-markdown-it</strong> 就可以了。安装完以后，先 hexo clean &amp;&amp; hexo g 重新生成静态网页，然后 hexo s 查看，这回公式能正常显示了：</p>
+<p>但是这是我又发现一个新的问题，使用 <strong>hexo-renderer-markdown-it</strong> 渲染之后，我原本为Markdown编写的TOC里的链接都失效了，而侧边栏的快速导航链接也都失效了。这怎么可以呢？文章写得短还好，鼠标滚轮滚一滚就好了。要是写得长那岂不就得浪费很多时间才能定位到自己想看的地方？这可不行！！！</p>
+<p>继续查找更优的解决方案，Hexo有没有更好的Markdown渲染插件呢？有的，在<strong><a href="https://hexo.io/plugins/" target="_blank" rel="noopener">Hexo主站的插件页</a></strong>搜索关键字 Markdown，发现了 hexo-renderer-kramed 这个插件，打开它的<a href="https://github.com/sun11/hexo-renderer-kramed" target="_blank" rel="noopener">Github主页</a>，描述已经说得很清楚，作者fork了 hexo-renderer-marked 项目，并且只针对MathJax支持进行了改进，这正是我们需要的！！卸载 hexo-renderer-marked（注意，如果你使用了其他的渲染插件，请卸载对应的插件），然后安装 hexo-renderer-kramed：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure></p>
+<p>这下，不仅能正常使用TOC，也能完美地支持MathJax渲染了。至此，问题得到了解决。</p>
+<p>P.S. 其实，这个问题就是因为Markdown渲染和MathJax渲染冲突造成的，除了换别的渲染器，直接修改渲染用的正则表达式也是一种解决思路，但是这个思路有一定风险，如果引起了别的bug而没有及时发现，自己又没有做好备份和记录，就需要浪费很多额外的时间来定位问题。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>简单来说，要让你的Hexo支持MathJax渲染公式，你只需要使用两条命令：<br>To fully support MathJax in your Hexo blog, you can simply use the following commands:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure></p>
+<p>第一条命令用于卸载 hexo-renderer-marked（注意，如果你使用了其他的渲染插件，请卸载对应的插件），它是hexo自带的Markdown渲染引擎。<br>The first command uninstall Hexo’s default Markdown renderer.</p>
+<p>第二条命令用于安装 hexo-renderer-kramed 插件，这个渲染插件针对MathJax支持进行了改进。安装完成后，重新生成博客就会惊喜地发现你的公式已经能够正常显示了。<br>The second command install new Markdown renderer which can support MathJax fully. After installation, you should regenerate your blog to see the changes.</p>
+<p>感想</p>
+<p>作为一名编程人员，不屈服于bug，不妥协于简陋的solution是很重要的。除此之外，也要善于定位问题和解决问题，能够弄清楚出问题的地方，并且利用丰富的网络资源来解决问题。</p>
+<p>最后，感谢开源和分享。</p>
+<p>最后的最后，再码一条写在SVM笔记里的长公式检验一下吧：</p>
+<p>$$minw,b12∥w∥2s.t.yi(wTϕ(x)+b)≥1,i=1,2,…,m(9)$$<br>$$minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,…,m(9)$$<br>完美~<br>—-EOF—-</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Marddown/" rel="tag"># Marddown</a>
+          
+            <a href="/tags/Mathjax/" rel="tag"># Mathjax</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/12/用hexo-github搭建个人博客/" rel="next" title="用hexo+github搭建个人博客">
+                <i class="fa fa-chevron-left"></i> 用hexo+github搭建个人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/17/Kylin初探/" rel="prev" title="Kylin初探">
+                Kylin初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eason Du</p>
+              <p class="site-description motion-element" itemprop="description">即使天空暗淡，阳光也会照耀圣西罗。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题重现"><span class="nav-number">1.</span> <span class="nav-text">问题重现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题思考"><span class="nav-number">2.</span> <span class="nav-text">问题思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决过程"><span class="nav-number">3.</span> <span class="nav-text">解决过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eason Du</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

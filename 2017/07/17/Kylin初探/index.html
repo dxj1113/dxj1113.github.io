@@ -1,0 +1,2449 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Apache,Big data,CUBE,OLAP,HADOOP," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="KylinApache kylin是一个开源的分布式分析引擎。它通过ANSI-SQL接口，提供基于hadoop的超大数据集（TB-PB级）的多维分析（OLAP）功能。">
+<meta name="keywords" content="Apache,Big data,CUBE,OLAP,HADOOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kylin初探">
+<meta property="og:url" content="http://yoursite.com/2017/07/17/Kylin初探/index.html">
+<meta property="og:site_name" content="Eason Du&#39;s Notes">
+<meta property="og:description" content="KylinApache kylin是一个开源的分布式分析引擎。它通过ANSI-SQL接口，提供基于hadoop的超大数据集（TB-PB级）的多维分析（OLAP）功能。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/7bb67e5fddac56630e11795523d198af_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/b74b5bb601134979a0c6e7f592ff363f_b.jpg">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/c509e5c3098617b534a54ebb7e1ca4d0_b.jpg">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/ed38c518cc133e153b5344ea68fff38a_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/a0b22a6631b738c05bf8fcae4faf0f67_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/85057685bcc7ecb67961cc9c6054162a_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/bbd5a6023d74cf1a7530db2698c9993f_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/658496f85b8d625e72326710e86b0ec4_b.png">
+<meta property="og:image" content="http://ot801bf4v.bkt.clouddn.com/256ebd1d306843ca0bd2305c01ce1eb4_r.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/1%20login.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/2%20tables.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/3%20cubes.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/4%20form-view.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/5%20sql-view.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/6%20visualization.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/7%20access.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/8%20query.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/9%20query-table.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/10%20query-result.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/11%20save-query.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/11%20save-query-2.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/12%20general.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/13%20results.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/14%20drag.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/15%20bar-chart.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/16%20pie-chart.png">
+<meta property="og:image" content="http://kylin.apache.org/images/Kylin-Web-Tutorial/17%20line-chart.png">
+<meta property="og:updated_time" content="2018-01-08T11:36:53.553Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kylin初探">
+<meta name="twitter:description" content="KylinApache kylin是一个开源的分布式分析引擎。它通过ANSI-SQL接口，提供基于hadoop的超大数据集（TB-PB级）的多维分析（OLAP）功能。">
+<meta name="twitter:image" content="http://ot801bf4v.bkt.clouddn.com/7bb67e5fddac56630e11795523d198af_b.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/17/Kylin初探/"/>
+
+
+
+
+
+  <title>Kylin初探 | Eason Du's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eason Du's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/Kylin初探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eason Du">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eason Du's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kylin初探</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T13:36:26+08:00">
+                2017-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Kylin"><a href="#Kylin" class="headerlink" title="Kylin"></a>Kylin</h1><p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>是一个开源的分布式分析引擎。它通过<a href="http://www.whoishostingthis.com/resources/ansi-sql-standards/" target="_blank" rel="noopener">ANSI-SQL</a>接口，提供基于<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>的超大数据集（TB-PB级）的多维分析（<a href="https://en.wikipedia.org/wiki/OLAP" target="_blank" rel="noopener">OLAP</a>）功能。<br> <a id="more"></a><br><em>整理 by  杜锡俊</em></p>
+<h1 id="OLAP简介"><a href="#OLAP简介" class="headerlink" title="OLAP简介"></a>OLAP简介</h1><h2 id="OLAP的历史与基本概念"><a href="#OLAP的历史与基本概念" class="headerlink" title="OLAP的历史与基本概念"></a>OLAP的历史与基本概念</h2><p>OLAP全称为在线联机分析应用，是一种对于多维数据分析查询的解决方案。典型的OLAP应用场景包括销售、市场、管理等商务报表，预算决算，经济报表等等。</p>
+<p>最早的OLAP查询工具是发布于1970年的Express，然而完整的OLAP概念是在1993年由关系数据库之父EdgarF.Codd 提出，伴随而来的是著名的“twelvelaws of online analytical processing”. 1998年微软发布MicrosoftAnalysis Services，并且在早一年通过OLE DB for OLAP API引入MDX查询语言，2001年微软和Hyperion发布的XML forAnalysis 成为了事实上的OLAP查询标准。如今，MDX已成为与SQL旗鼓相当的OLAP 查询语言，被各家OLAP厂商先后支持。</p>
+<p>OLAPCube是一种典型的多维数据分析技术，Cube本身可以认为是不同维度数据组成的dataset，一个OLAP Cube 可以拥有多个维度（Dimension），以及多个事实（Factor Measure）。用户通过OLAP工具从多个角度来进行数据的多维分析。通常认为OLAP包括三种基本的分析操作：上卷（rollup）、下钻（drilldown）、切片切块（slicingand dicing），原始数据经过聚合以及整理后变成一个或多个维度的视图。</p>
+<h2 id="ROLAP和MOLAP"><a href="#ROLAP和MOLAP" class="headerlink" title="ROLAP和MOLAP"></a>ROLAP和MOLAP</h2><p>传统OLAP根据数据存储方式的不同分为ROLAP（Relational OLAP）以及MOLAP（Multi-dimensionOLAP）</p>
+<p>ROLAP 以关系模型的方式存储用作多维分析用的数据，优点在于存储体积小，查询方式灵活，然而缺点也显而易见，每次查询都需要对数据进行聚合计算，为了改善短板，ROLAP使用了列存、并行查询、查询优化、位图索引等技术</p>
+<p>MOLAP 将分析用的数据物理上存储为多维数组的形式，形成CUBE结构。维度的属性值映射成多维数组的下标或者下标范围，事实以多维数组的值存储在数组单元中，优势是查询快速，缺点是数据量不容易控制，可能会出现维度爆炸的问题。</p>
+<h2 id="大数据时代OLAP的挑战"><a href="#大数据时代OLAP的挑战" class="headerlink" title="大数据时代OLAP的挑战"></a>大数据时代OLAP的挑战</h2><p>近二十年内，ROLAP技术随着MPP并行数据库技术的发展，尤其是列存技术的支持下，实现了分析能力大幅度的跨越提升，同时伴随着内存成本的进一步降低，单节点内存扩展性增强，集群单节点的查询性能实现了飞跃，内存数据库的实用性跨上了一个新台阶，这些技术进步共同作用的结果是类似的技术基本覆盖了TB级别的数据分析需求。 Hadoop以及相关大数据技术的出现提供了一个几近无限扩展的数据平台，在相关技术的支持下，各个应用的数据已突破了传统OLAP所能支持的容量上界。每天千万、数亿条的数据，提供若干维度的分析模型，大数据OLAP最迫切所要解决的问题就是大量实时运算导致的响应时间迟滞。</p>
+<p>#Kylin 相关研究</p>
+<h2 id="Apache-kylin介绍"><a href="#Apache-kylin介绍" class="headerlink" title="Apache kylin介绍"></a>Apache kylin介绍</h2><p>OLAP全称为在线联机分析应用，是一种对于多维数据分析查询的解决方案。典型的OLAP应用场景包括销售、市场、管理等商务报表，预算决算，经济报表等等。</p>
+<p>最早的OLAP查询工具是发布于1970年的Express，然而完整的OLAP概念是在1993年由关系数据库之父EdgarF.Codd 提出，伴随而来的是著名的“twelvelaws of online analytical processing”. 1998年微软发布MicrosoftAnalysis Services，并且在早一年通过OLE DB for OLAP API引入MDX查询语言，2001年微软和Hyperion发布的XML forAnalysis 成为了事实上的OLAP查询标准。如今，MDX已成为与SQL旗鼓相当的OLAP 查询语言，被各家OLAP厂商先后支持。</p>
+<p>OLAPCube是一种典型的多维数据分析技术，Cube本身可以认为是不同维度数据组成的dataset，一个OLAP Cube 可以拥有多个维度（Dimension），以及多个事实（Factor Measure）。用户通过OLAP工具从多个角度来进行数据的多维分析。通常认为OLAP包括三种基本的分析操作：上卷（rollup）、下钻（drilldown）、切片切块（slicingand dicing），原始数据经过聚合以及整理后变成一个或多个维度的视图。</p>
+<h3 id="Apache-kylin是什么。"><a href="#Apache-kylin是什么。" class="headerlink" title="Apache kylin是什么。"></a>Apache kylin是什么。</h3><p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>是一个开源的分布式分析引擎。它通过<a href="http://www.whoishostingthis.com/resources/ansi-sql-standards/" target="_blank" rel="noopener">ANSI-SQL</a>接口，提供基于<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>的超大数据集（TB-PB级）的多维分析（<a href="https://en.wikipedia.org/wiki/OLAP" target="_blank" rel="noopener">OLAP</a>）功能。</p>
+<p>只需三步，kylin即可实现超大数据集上的亚秒级（sub-second latency）查询。</p>
+<ol>
+<li>确定hadoop上一个星型模式（<a href="https://en.wikipedia.org/wiki/Star_schema" target="_blank" rel="noopener">wiki:Star schema</a>）的数据集。</li>
+<li>构建数据立方体（<a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">wiki:Data cube</a>）。</li>
+<li>可通过<a href="http://kylin.apache.org/docs/tutorial/odbc.html" target="_blank" rel="noopener">ODBC</a>, <a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>,<a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">RESTful API</a>等接口在亚秒级的延迟内查询相关数据。<br><img src="http://ot801bf4v.bkt.clouddn.com/7bb67e5fddac56630e11795523d198af_b.png" alt=""></li>
+</ol>
+<h3 id="为什么引入kylin。"><a href="#为什么引入kylin。" class="headerlink" title="为什么引入kylin。"></a>为什么引入kylin。</h3><p>由于数据是基于hadoop分布式存储,所以比<a href="https://www.mysql.com/" target="_blank" rel="noopener">mysql</a>的伸缩性好。</p>
+<p>提供hadoop上超大数据规模（ 百亿行级别的数据）的亚秒级（sub-second latency）SQL查询，相对于<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>的离线分析，可做到实时查询。<br>可无缝整合其他<a href="https://en.wikipedia.org/wiki/Business_intelligence" target="_blank" rel="noopener">BI</a>工具，如<a href="http://kylin.apache.org/docs/tutorial/tableau_91.html" target="_blank" rel="noopener">Tableau</a>, <a href="https://powerbi.microsoft.com/" target="_blank" rel="noopener">PowerBI</a>，<a href="https://products.office.com/en-us/excel" target="_blank" rel="noopener">Excel</a>。</p>
+<h3 id="Apache-kylin-生态系统"><a href="#Apache-kylin-生态系统" class="headerlink" title="Apache kylin 生态系统"></a>Apache kylin 生态系统</h3><p><img src="http://ot801bf4v.bkt.clouddn.com/b74b5bb601134979a0c6e7f592ff363f_b.jpg" alt=""></p>
+<ul>
+<li><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>核心：<a href="http://kylin.apache.org" target="_blank" rel="noopener">Kylin</a>的（<a href="https://en.wikipedia.org/wiki/OLAP" target="_blank" rel="noopener">OLAP</a>） 引擎由<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>引擎、查询引擎、任务引擎、存储引擎组成。另外，它还有一个<a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">rest</a>服务器对外提供查询请求的服务。</li>
+<li>可扩展性：提供插件机制支持额外的特性和功能。</li>
+<li>与其他系统的整合：可整合任务调度器，<a href="https://en.wikipedia.org/wiki/Extract,_transform,_load" target="_blank" rel="noopener">ETL</a>工具、监控及告警系统。</li>
+<li>驱动包（Drivers）：提供<a href="http://kylin.apache.org/docs/tutorial/odbc.html" target="_blank" rel="noopener">ODBC</a>、<a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>驱动支持与其他工具（如<a href="http://kylin.apache.org/docs/tutorial/tableau_91.html" target="_blank" rel="noopener">Tableau</a>）的整合。</li>
+</ul>
+<h2 id="Apache-kylin内部解剖"><a href="#Apache-kylin内部解剖" class="headerlink" title="Apache kylin内部解剖"></a>Apache kylin内部解剖</h2><h3 id="Apache-kylin的核心概念"><a href="#Apache-kylin的核心概念" class="headerlink" title="Apache kylin的核心概念"></a>Apache kylin的核心概念</h3><ul>
+<li><p>表（<a href="https://en.wikipedia.org/wiki/Table_(database" target="_blank" rel="noopener">Table</a>) ）：表定义在<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>中，是数据立方体（Data <a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">wiki:Data cube</a>）的数据源，在build cube 之前，必须同步在 <a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>中。</p>
+</li>
+<li><p>模型（<a href="https://en.wikipedia.org/wiki/Category:Data_modeling" target="_blank" rel="noopener">model</a>）:模型描述了一个星型模式的数据结构，它定义了一个事实表（Fact Table： <a href="https://en.wikipedia.org/wiki/Fact_table" target="_blank" rel="noopener">Wiki:Fact_table</a>）和多个查找表（Lookup Table：Wiki:<a href="https://en.wikipedia.org/wiki/Lookup_table" target="_blank" rel="noopener">Lookup_table</a>）的连接和过滤关系。</p>
+</li>
+<li><p>立方体（<a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">Cube</a>）：它定义了使用的模型、模型中的表的维度（dimension:Wiki:<a href="https://en.wikipedia.org/wiki/Dimension_(data_warehouse" target="_blank" rel="noopener">dimension</a>)）、度量（measure:Wiki:<a href="https://en.wikipedia.org/wiki/Measure_(data_warehouse" target="_blank" rel="noopener">measure</a>) ,一般指聚合函数，如：sum、count、average等）、如何对段分区（ segments partition）、合并段（segments auto-merge）等的规则。</p>
+</li>
+<li><p>立方体段（<a href="http://kylin.apache.org/docs/gettingstarted/concepts.html" target="_blank" rel="noopener">Cube Segment</a>）：它是立方体构建（build）后的数据载体，一个 segment 映射<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中的一张表，立方体实例构建（build）后，会产生一个新的segment，一旦某个已经构建的立方体的原始数据发生变化，只需刷新（fresh）变化的时间段所关联的segment即可。</p>
+</li>
+<li><p>作业（<a href="http://kylin.apache.org/docs/gettingstarted/concepts.html" target="_blank" rel="noopener">Job</a>）：对立方体实例发出构建（build）请求后，会产生一个作业。该作业记录了立方体实例build时的每一步任务信息。作业的状态信息反映构建立方体实例的结果信息。如作业执行的状态信息为RUNNING 时，表明立方体实例正在被构建；若作业状态信息为FINISHED ，表明立方体实例构建成功；若作业状态信息为ERROR ，表明立方体实例构建失败！作业的所有状态如下：</p>
+<pre><code>1，NEW - This denotes one job has been just created.
+
+2，PENDING - This denotes one job is paused by job scheduler and waiting for resources.
+
+3，RUNNING - This denotes one job is running in progress.
+
+4，FINISHED - This denotes one job is successfully finished.
+
+5，ERROR - This denotes one job is aborted with errors.
+
+6，DISCARDED - This denotes one job is cancelled by end users.
+</code></pre></li>
+</ul>
+<h3 id="Apache-kylin的工作机制"><a href="#Apache-kylin的工作机制" class="headerlink" title="Apache kylin的工作机制"></a>Apache kylin的工作机制</h3><p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a> 能提供低延迟（sub-second latency）的秘诀就是预计算，即针对一个星型拓扑结构的数据立方体，预计算多个维度组合的度量，然后将结果保存在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中，对外暴露<a href="http://kylin.apache.org/docs/tutorial/odbc.html" target="_blank" rel="noopener">ODBC</a>, <a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>,<a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">RESTful API</a>的查询接口，即可实现实时查询。<br>数据立方体一般由<a href="http://hive.apache.org" target="_blank" rel="noopener">Hive</a>中的一个事实表,多个查找表组成。预计算的过程在<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>中就是 <a href="(https://en.wikipedia.org/wiki/OLAP_cube">Cube</a>) 的build过程，如下图：<br><img src="http://ot801bf4v.bkt.clouddn.com/c509e5c3098617b534a54ebb7e1ca4d0_b.jpg" alt=""></p>
+<p>当前<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>构建（build）数据立方体，采用逐层算法（By Layer Cubing）。未来的发布中将采用快速立方体算法（Fast Cubing）。下面简单介绍一下逐层算法：<br>一个完整的数据立方体，由N-dimension立方体，N-1 dimension立方体，N-2维立方体，0 dimension立方体这样的层关系组成，除了N-dimension立方体，基于原数据计算，其他层的立方体可基于其父层的立方体计算。所以该算法的核心是N次顺序的<a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html" target="_blank" rel="noopener">MapReduce</a>计算。<br>在<a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html" target="_blank" rel="noopener">MapReduce</a>模型中，key由维度的组合的构成，value由度量的组合构成，当一个Map读到一个<a href="https://en.wikipedia.org/wiki/Key-value_database" target="_blank" rel="noopener">key-value</a>对时，它会计算所有的子立方体（child cuboid），在每个子立方体中，Map从key中移除一个维度，将新key和value输出到reducer中。直到当所有层计算完毕，才完成数据立方体的计算。过程如下图：</p>
+<p><img src="http://ot801bf4v.bkt.clouddn.com/ed38c518cc133e153b5344ea68fff38a_b.png" alt=""></p>
+<p>在数据立方体计算完毕后，有一个任务（Convert Cuboid Data to HFile），其职责是将reduce输出的运算结果（Cuboid Data）转化成<a href="http://hbase.apache.org" target="_blank" rel="noopener">Hbase</a>中的存储载体（<a href="https://hbase.apache.org/devapidocs/org/apache/hadoop/[hbase](http://hbase.apache.org" target="_blank" rel="noopener">HFile</a>/io/hfile/HFile.html)），最终将HFile 加载到<a href="http://hbase.apache.org" target="_blank" rel="noopener">Hbase</a>表中便于查询。其中表的rowkey由维度组合而成，维度组合对应的度量值构成了column family，为了查询减少存储空间，会对RowKey和column family的值进行编码，默认编码是Snappy。</p>
+<p><img src="http://ot801bf4v.bkt.clouddn.com/a0b22a6631b738c05bf8fcae4faf0f67_b.png" alt=""></p>
+<p>整个数据立方体的构建流程如下：</p>
+<p><img src="http://ot801bf4v.bkt.clouddn.com/85057685bcc7ecb67961cc9c6054162a_b.png" alt=""></p>
+<ol>
+<li>根据Cube定义的事实表以及维度表，利用Hive创建一张宽表</li>
+<li>抽取事实表上的维度的distinct值，将事实表上的维度以字典树方式压缩编码成目录，将维度表以字典树的方式编码</li>
+<li>利用MapReduce从第一步得到的宽表文件作为输入，创建 N－Dimension cuboid，然后每次根据前一步的结果串行生成 N-1 cuboid, N-2 cuboid … 0-Cuboid</li>
+<li>根据生成的Cuboid数据量计算HTable的Region分割策略，创建HTable，将HFile导入进来</li>
+</ol>
+<p>Apache Kylin与传统的OLAP一样，无法应对数据Update的情况（更新数据会导致Cube的失效，需要重建整个Cube）。面对每天甚至每两个小时这样固定周期的增量数据，Kylin使用了一种增量Cubing技术来进行快速响应。</p>
+<p>Apache Kylin的Cube可以根据时间段划分成多个Segment。在Cube第一次Build完成之后会有一个Segment，在每次增量Build后会产生一个新的Segment。增量Cubing依赖已有的CubeSegments和增量的原始数据。增量Cubing的步骤和新建 Cube的步骤类似，Segment之间以时间段进行区分。</p>
+<p>增量Cubing所需要面对的原始数据量更小，因此增量Cubing的速度是非常快的。然而随着CubeSegments的数目增加，一定程度上会影响到查询的进行，所以在Segments数目到一定数量后可能需要进行CubeSegments的合并操作，实际上MergeCube是合成了一个新的大的CubeSegment来替代，Merge操作是一个异步的在线操作，不会对前端的查询业务产生影响。</p>
+<p>合并操作步骤如下：</p>
+<ol>
+<li>遍历指定的Cube Segment</li>
+<li>合并维度字典目录和维度表快照</li>
+<li>利用MapReduce合并他们的 N-Dimension cuboid</li>
+<li>将cuboid转换成HFile，生成新的HTable，替代原有的多个HTable</li>
+</ol>
+<h4 id="Apache-Kylin对传统MOLAP的改进"><a href="#Apache-Kylin对传统MOLAP的改进" class="headerlink" title="Apache Kylin对传统MOLAP的改进"></a>Apache Kylin对传统MOLAP的改进</h4><p>计算Cube的存储代价以及计算代价都是比较大的， 传统OLAP的维度爆炸的问题Kylin也一样会遇到。 Kylin提供给用户一些优化措施，在一定程度上能降低维度爆炸的问题：</p>
+<p><strong>Cube 优化</strong>：</p>
+<pre><code>* Hierachy Dimension
+* Derived Dimension
+* Aggregation Group
+</code></pre><p>Hierachy Dimension， 一系列具有层次关系的Dimension组成一个Hierachy， 比如年、月、日组成了一个Hierachy， 在Cube中，如果不设置Hierarchy， 会有 年、月、日、年月、年日、月日 6个cuboid， 但是设置了Hierarchy之后Cuboid增加了一个约束，希望低Level的Dimension一定要伴随高Level的Dimension 一起出现。设置了Hierachy Dimension 能使得需要计算的维度组合减少一半。</p>
+<p>Derived Dimension, 如果在某张维度表上有多个维度，那么可以将其设置为Derived Dimension， 在Kylin内部会将其统一用维度表的主键来替换，以此来达到降低维度组合的数目，当然在一定程度上Derived Dimension 会降低查询效率，在查询时，Kylin使用维度表主键进行聚合后，再通过主键和真正维度列的映射关系做一次转换，在Kylin内部再对结果集做一次聚合后返回给用户</p>
+<p>Aggregation Group， 这是一个将维度进行分组，以求达到降低维度组合数目的手段。不同分组的维度之间组成的Cuboid数量会大大降低，维度组合从2的（k+m+n）次幂至多能降低到 2的k次幂加2的m次幂加2的n次幂。Group的优化措施与查询SQL紧密依赖，可以说是为了查询的定制优化。 如果查询的维度是夸Group的，那么Kylin需要以较大的代价从N－Cuboid中聚合得到所需要的查询结果，这需要Cube构建人员在建模时仔细地斟酌。</p>
+<p><strong>数据压缩</strong>：<br>Apache Kylin针对维度字典以及维度表快照采用了特殊的压缩算法，对于Hbase中的聚合计算数据利用了Hadoop的LZO或者是Snappy，从而保证存储在Hbase以及内存中的数据尽可能的小。其中维度字典以及维度表快照的压缩考虑到DataCube中会出现非常多的重复的维度成员值，最直接的处理方式就是利用数据字典的方式将维度值映射成ID， Kylin中采用了Trie树的方式对维度值进行编码</p>
+<p><strong>distinct count聚合查询优化</strong>：<br>Apache Kylin 采用了HypeLogLog的方式来计算DistinctCount。好处是速度快，缺点是结果是一个近似值，会有一定的误差。在非计费等通常的场景下DistinctCount的统计误差应用普遍可以接受。</p>
+<p>具体的算法可见<a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf" target="_blank" rel="noopener">论文</a></p>
+<h4 id="Apache-kylin-与-RTOLAP"><a href="#Apache-kylin-与-RTOLAP" class="headerlink" title="Apache kylin 与 RTOLAP"></a>Apache kylin 与 RTOLAP</h4><p>ApacheKylin 可以说是与市面上流行的Presto、SparkSQL、Impala等直接在原始数据上查询的系统（暂且归于RTOLAP）走了一条完全不同的道路。前者在如何快速求得预计算结果，以及优化查询解析使得更多的查询能用上预计算结果方面在优化。后续Kylin的版本会改进预计算引擎，优化预计算速度，使得Kylin可以变成一个近似实时的分析引擎。而像Presto，SparkSQL等是着重于优化查询数据的过程环节，像一些其它的数据仓库一样，使用列存、压缩、并行查询等技术，优化查询。这种方案的好处就在于扩展性强、能适配更广泛的查询。但是在查询速度上，可以说Apache Kylin 要比ROLAP 至少快上一个数量级，所以对与查询响应时间要求较高的应用，ApacheKylin是最好的选择。</p>
+<h3 id="Apache-kylin的架构及核心组件"><a href="#Apache-kylin的架构及核心组件" class="headerlink" title="Apache kylin的架构及核心组件"></a>Apache kylin的架构及核心组件</h3><p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a> 架构如下：</p>
+<p><img src="http://ot801bf4v.bkt.clouddn.com/bbd5a6023d74cf1a7530db2698c9993f_b.png" alt=""></p>
+<p>核心组件：</p>
+<ul>
+<li>数据立方体构建引擎（Cube Build Engine）：当前底层数据计算引擎支持<a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html" target="_blank" rel="noopener">MapReduce</a>1、<a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html" target="_blank" rel="noopener">MapReduce</a>2、<a href="http://spark.apache.org" target="_blank" rel="noopener">Spark</a>等。</li>
+<li>Rest Server：当前kylin采用的<a href="(http://kylin.apache.org/docs/tutorial/odbc.html">ODBC</a>, <a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>,<a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">RESTful API</a>接口提供web服务。</li>
+<li>查询引擎（Query Engine）：<a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">REST</a> Server接收查询请求后，解析sql语句，生成执行计划，然后转发查询请求到<a href="http://hbase.apache.org" target="_blank" rel="noopener">Hbase</a>中，最后将结构返回给 <a href="http://kylin.apache.org/docs/howto/howto_build_cube_with_restapi.html" target="_blank" rel="noopener">REST</a> Server。</li>
+</ul>
+<h4 id="Apache-kylin-SQL查询的实现"><a href="#Apache-kylin-SQL查询的实现" class="headerlink" title="Apache kylin SQL查询的实现"></a>Apache kylin SQL查询的实现</h4><p>ANSI SQL查询是Apache Kylin 非常明显的优势。Kylin的SQL语法解析依赖于另一个开源数据管理框架 ApacheCalcite， Calcite即之前的Optiq，是一个没有存储模块的数据库，即不管理数据存储、不包含数据处理的算法，不包含元信息的存储。因此它非常适合来做一个应用到存储引擎之间的中间层。在Calcite的基础之上只要为存储引擎写一个专用的适配器（Adapter）即可形成一个功能丰富的支持DML甚至DDL的“类数据库”。</p>
+<p>Kylin完成了一个定制的Adapter，在Calcite完成SQL解析，形成语法树（AST）之后，由Kylin定义语法树各个节点的执行规则来进行查询。Calcite在遍历语法树节点后生成一个Kylin描述查询模型的Digest， Kylin会为此Digest去判断是否有匹配的Cube。如果有与查询匹配的Cube，即选择一个查询代价最小的Cube进行查询（KylinCube的查询代价计算目前是一个开放接口，可以根据维度数目，可以根据数据量大小来计算Cost）</p>
+<p>Kylin目前的多维数据存储引擎是HBase， Kylin利用了HBase的Coprocessor机制在HBase的RegionServer完成部分聚合以及全部过滤操作，在HbaseScan时提前进行计算，利用HBase多个Region Server的计算能力加速Kylin的SQL查询。目前Kylin仍然有部分查询语法不支持，特别是过滤器Where部分的约束较多、对SQL有一定的要求，但是如果有针对性的对Coprocessor部分进行改造相信SQL兼容度可以有大幅的提升。</p>
+<h2 id="Apache-kylin配置"><a href="#Apache-kylin配置" class="headerlink" title="Apache kylin配置"></a>Apache kylin配置</h2><p>在<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的日常运维中，通常根据日常运行产生的日志调整相关配置参数，从而达到性能的提升和运行的稳定性，<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>官网并没有给出这些配置的相关说明和解释，下面介绍一下<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的配置。<br>在${KYLIN_HOME}/conf 下一共4个配置文件：</p>
+<blockquote>
+<pre><code>kylin_hive_conf.xml
+
+kylin_job_conf_inmem.xml
+
+kylin_job_conf.xml
+
+kylin.properties
+</code></pre></blockquote>
+<p>kylin_hive_conf.xml是kylin提交任务到<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>的配置文件，kylin_job_conf_inmem.xml、kylin_job_conf.xml是 kylin提交任务到<a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">yarn</a>中的配置文件，用户可根据自己的情况酌情修改，下面介绍一下kylin.properties的重要配置项：</p>
+<p>kylin服务器的运行模式，有all、job、query</p>
+<blockquote>
+<pre><code>kylin.server.mode=all
+</code></pre></blockquote>
+<p>kylin实例服务器列表，注意：不包括以job模式运行的服务器实例</p>
+<blockquote>
+<pre><code>kylin.rest.servers=hostname1:7070,hostname2:7070,hostname3:7070
+</code></pre></blockquote>
+<p>kylin<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>配置</p>
+<blockquote>
+<pre><code>kylin.metadata.url=kylin_metadata@hbase
+</code></pre></blockquote>
+<p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a> job的重试次数，注意：这个job指<a href="(https://en.wikipedia.org/wiki/OLAP_cube">cube</a>) build、fresh时生成的job,而不是每一个step 的mapreduce job。</p>
+<blockquote>
+<pre><code>kylin.job.retry=0
+</code></pre></blockquote>
+<p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>提交作业到<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>中时，每个reduce的最大输入，该参数用来确定mapreduce的reduce个数，</p>
+<blockquote>
+<pre><code>kylin.job.mapreduce.default.reduce.input.mb=500.
+</code></pre></blockquote>
+<p>参见以下代码：</p>
+<blockquote>
+<pre><code>public double getDefaultHadoopJobReducerInputMB() {
+return Double.parseDouble(getOptional(&quot;kylin.job.mapreduce.default.reduce.input.mb&quot;, &quot;500&quot;));}
+</code></pre></blockquote>
+<p>And</p>
+<blockquote>
+<pre><code>protected void setReduceTaskNum(Job job, KylinConfig config, String cubeName, int level) throws ClassNotFoundException, IOException, InterruptedException, JobException {
+Configuration jobConf = job.getConfiguration();
+KylinConfig kylinConfig = KylinConfig.getInstanceFromEnv();
+CubeDesc cubeDesc = CubeManager.getInstance(config).getCube(cubeName).getDescriptor();
+kylinConfig = cubeDesc.getConfig();
+double perReduceInputMB = kylinConfig.getDefaultHadoopJobReducerInputMB();
+double reduceCountRatio = kylinConfig.getDefaultHadoopJobReducerCountRatio();
+// total map input MB
+double totalMapInputMB = this.getTotalMapInputMB();
+// output / input ratio
+int preLevelCuboids, thisLevelCuboids;
+if (level == 0) { // base cuboid
+preLevelCuboids = thisLevelCuboids = 1;
+} else { // n-cuboid
+int[] allLevelCount = CuboidCLI.calculateAllLevelCount(cubeDesc);
+preLevelCuboids = allLevelCount[level - 1];
+thisLevelCuboids = allLevelCount[level];
+}
+// total reduce input MB
+double totalReduceInputMB = totalMapInputMB * thisLevelCuboids / preLevelCuboids;
+// number of reduce tasks
+int numReduceTasks = (int) Math.round(totalReduceInputMB / perReduceInputMB * reduceCountRatio);
+// adjust reducer number for cube which has DISTINCT_COUNT measures for better performance
+if (cubeDesc.hasMemoryHungryMeasures()) {numReduceTasks = numReduceTasks * 4;}
+// at least 1 reducer
+numReduceTasks = Math.max(1, numReduceTasks);
+// no more than 5000 reducer by default
+numReduceTasks = Math.min(kylinConfig.getHadoopJobMaxReducerNumber(), numReduceTasks);
+jobConf.setInt(MAPRED_REDUCE_TASKS, numReduceTasks);
+logger.info(&quot;Having total map input MB &quot; + Math.round(totalMapInputMB));logger.info(&quot;Having level &quot; + level + &quot;, pre-level cuboids &quot; + preLevelCuboids + &quot;, this level cuboids &quot; + thisLevelCuboids);logger.info(&quot;Having per reduce MB &quot; + perReduceInputMB + &quot;, reduce count ratio &quot; + reduceCountRatio);logger.info(&quot;Setting &quot; + MAPRED_REDUCE_TASKS + &quot;=&quot; + numReduceTasks);}
+</code></pre></blockquote>
+<p>用户可根据自己的数据量大小，性能要求及<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群中的mapred-site.xml配置，酌情修改该项。</p>
+<blockquote>
+<pre><code>kylin.job.run.as.remote.cmd=false
+</code></pre></blockquote>
+<p>该项配置表示，是否以ssh命令方式，向<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>、<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>、<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>等发起CLI命令。一般将<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>部署在<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群的客户机上，所以该值为false。假如<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>服务不部署在<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>的客户机上，则该值为true;这样<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>访问<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群，需要给出以下配置项的值：</p>
+<blockquote>
+<pre><code> # Only necessary when kylin.job.run.as.remote.cmd=true
+kylin.job.remote.cli.hostname=
+
+ # Only necessary when kylin.job.run.as.remote.cmd=true
+kylin.job.remote.cli.username=
+
+ # Only necessary when kylin.job.run.as.remote.cmd=true
+kylin.job.remote.cli.password=
+</code></pre></blockquote>
+<p>以下配置项是<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>并发执行job的最大值：</p>
+<blockquote>
+<pre><code>kylin.job.concurrent.max.limit=10
+</code></pre></blockquote>
+<p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>检查提交<a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">yarn</a>中的mapreduce任务状态的时间间隔：</p>
+<blockquote>
+<pre><code>kylin.job.yarn.app.rest.check.interval.seconds=10
+</code></pre></blockquote>
+<p>代码如下：</p>
+<blockquote>
+<pre><code>while (!isDiscarded()) {
+  JobStepStatusEnum newStatus = statusChecker.checkStatus();
+    if (status == JobStepStatusEnum.KILLED) {
+      executableManager.updateJobOutput(getId(), ExecutableState.ERROR, Collections.&lt;String, StringemptyMap(), &quot;killed by admin&quot;);
+    return new ExecuteResult(ExecuteResult.State.FAILED, &quot;killed by admin&quot;);
+    }
+    if (status == JobStepStatusEnum.WAITING &amp;&amp; (newStatus == JobStepStatusEnum.FINISHED || newStatus == JobStepStatusEnum.ERROR || newStatus == JobStepStatusEnum.RUNNING)) {
+     final long waitTime = System.currentTimeMillis() - getStartTime();
+     setMapReduceWaitTime(waitTime);
+    }
+    status = newStatus;
+    executableManager.addJobInfo(getId(), hadoopCmdOutput.getInfo());
+    if (status.isComplete()) {
+     final Map&lt;String, Stringinfo = hadoopCmdOutput.getInfo();
+     readCounters(hadoopCmdOutput, info);
+     executableManager.addJobInfo(getId(), info);
+      if (status == JobStepStatusEnum.FINISHED) {
+       return new ExecuteResult(ExecuteResult.State.SUCCEED, output.toString());
+      }
+      else {
+      return new ExecuteResult(ExecuteResult.State.FAILED, output.toString());
+      }
+    }
+Thread.sleep(context.getConfig().getYarnStatusCheckIntervalSeconds() * 1000);
+}
+</code></pre></blockquote>
+<p>以下配置项是<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a> build <a href="(https://en.wikipedia.org/wiki/OLAP_cube">cube</a>)时的第一步建立<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>中间表所在的数据库：</p>
+<blockquote>
+<pre><code>kylin.job.hive.database.for.intermediatetable=default
+</code></pre></blockquote>
+<p>以下是kylin build <a href="(https://en.wikipedia.org/wiki/OLAP_cube">cube</a>)时在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中建表后，存储数据的压缩算法：</p>
+<blockquote>
+<pre><code>kylin.hbase.default.compression.codec=snappy
+</code></pre></blockquote>
+<p>注意，设值时，先要检验<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>所指向的<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>支不支持该压缩算法，检验命令如下：</p>
+<blockquote>
+<pre><code>hadoop checknative -a
+</code></pre></blockquote>
+<h2 id="Apache-Kylin元数据管理"><a href="#Apache-Kylin元数据管理" class="headerlink" title="Apache Kylin元数据管理"></a>Apache Kylin元数据管理</h2><h3 id="Apache-kylin元数据的存储"><a href="#Apache-kylin元数据的存储" class="headerlink" title="Apache kylin元数据的存储"></a>Apache kylin元数据的存储</h3><p>Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>包括 立方体描述（cube description），立方体实例（cube instances）项目（project）、作业（job）、表(table)、字典(dictionary),参见： Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a> 核心概念。在<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>集群中至关重要，假如<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>丢失，<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>集群将无法工作。</p>
+<p>在<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a> 的设计中，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储的类图如下</p>
+<p><img src="http://ot801bf4v.bkt.clouddn.com/658496f85b8d625e72326710e86b0ec4_b.png" alt=""></p>
+<p>可见<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>提供了两种方式存储<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>，一般而言，集群模式的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>都选择在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中存储。在${KYLIN_HOME}/conf/kylin.properties中，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>的默认配置如下：</p>
+<blockquote>
+<pre><code>kylin.metadata.url=kylin_metadata@hbase
+</code></pre></blockquote>
+<p>kylin_metadata@hbase表示，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中的kylin_metadata表中。HBaseResourceStore#HBaseResourceStore的参考代码如下：</p>
+<blockquote>
+<pre><code>public HBaseResourceStore(KylinConfig kylinConfig) throws IOException {
+    super(kylinConfig);
+
+    String metadataUrl = kylinConfig.getMetadataUrl();
+    // split TABLE@HBASE_URL
+    int cut = metadataUrl.indexOf(&apos;@&apos;);
+    tableNameBase = cut &lt; 0 ? DEFAULT_TABLE_NAME : metadataUrl.substring(0, cut);
+    hbaseUrl = cut &lt; 0 ? metadataUrl : metadataUrl.substring(cut + 1);
+
+    createHTableIfNeeded(getAllInOneTableName());
+}
+</code></pre></blockquote>
+<p>如若存储<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a><a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>在本地文件系统中，需将kylin.metadata.url 指向本地文件系统的一个绝对路径, 如：可在${KYLIN_HOME}/conf/kylin.properties中配置如下：</p>
+<blockquote>
+<pre><code>kylin.metadata.url=/home/${username}/${kylin_home}/kylin_metada
+</code></pre></blockquote>
+<p>注意，一定要是绝对路径，否则会出现错误。</p>
+<p>当选择<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中时，并非所有的数据都在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中，当待存储的记录（通常是key-value pairs）的value大于一个最大值kvSizeLimit时，数据将被保存在HDFS中，默认路径为：/kylin/kylin_metadata/，相关配置项在${KYLIN_HOME}/conf/kylin.properties中，如下：</p>
+<blockquote>
+<pre><code>kylin.hdfs.working.dir=/kylin
+kylin.metadata.url=kylin_metadata@hbase
+</code></pre></blockquote>
+<p>HBaseResourceStore#buildPut的参考代码如下：</p>
+<pre><code>private Put buildPut(String resPath, long ts, byte[] row, byte[] content, HTableInterface table) throws IOException {
+    int kvSizeLimit = this.kylinConfig.getHBaseKeyValueSize();
+    if (content.length kvSizeLimit) {
+        writeLargeCellToHdfs(resPath, content, table);
+        content = BytesUtil.EMPTY_BYTE_ARRAY;
+    }
+
+    Put put = new Put(row);
+    put.add(B_FAMILY, B_COLUMN, content);
+    put.add(B_FAMILY, B_COLUMN_TS, Bytes.toBytes(ts));
+
+    return put;
+}
+</code></pre><p>kvSizeLimit 的获取代码如下：</p>
+<blockquote>
+<pre><code>public int getHBaseKeyValueSize() {
+    return Integer.parseInt(this.getOptional(&quot;kylin.hbase.client.keyvalue.maxsize&quot;, &quot;10485760&quot;));
+}
+</code></pre></blockquote>
+<p>默认值为10M，可在在${KYLIN_HOME}/conf/kylin.properties中配置：</p>
+<blockquote>
+<pre><code>kylin.hbase.client.keyvalue.maxsize=10485760
+</code></pre></blockquote>
+<p>注意，该值的大小十分重要，因为<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>为了提高整体性能将<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>缓存在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>内存中，如下图<br><img src="http://ot801bf4v.bkt.clouddn.com/256ebd1d306843ca0bd2305c01ce1eb4_r.png" alt=""></p>
+<h2 id="Apache-kylin元数据的运维"><a href="#Apache-kylin元数据的运维" class="headerlink" title="Apache kylin元数据的运维"></a>Apache kylin元数据的运维</h2><p>当前<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>只提供了<a href="http://baike.baidu.com/item/%E5%86%B7%E5%A4%87%E4%BB%BD" target="_blank" rel="noopener">冷备份</a>的方式。</p>
+<p>可利用crontab 在${KYLIN_HOME}下，每天定时执行./bin/metastore.sh backup命令，kylin会将<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>信息保存如下目录：</p>
+<blockquote>
+<pre><code>${KYLIN_HOME}/meta_backups/meta_year_month_day_hour_minute_second
+</code></pre></blockquote>
+<p>当kylin<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>损坏或不一致，可采用如下命令恢复：</p>
+<blockquote>
+<pre><code>cd ${KYLIN_HOME}
+sh ./bin/metastore.sh reset
+sh ./bin/metastore.sh restore ./meta_backups/meta_xxxx_xx_xx_xx_xx_xx
+</code></pre></blockquote>
+<h2 id="Apache-kylin-Slow-Query-SQL改造"><a href="#Apache-kylin-Slow-Query-SQL改造" class="headerlink" title="Apache kylin-Slow Query SQL改造"></a>Apache kylin-Slow Query SQL改造</h2><h3 id="慢查询（Slow-Query-SQL）定性"><a href="#慢查询（Slow-Query-SQL）定性" class="headerlink" title="慢查询（Slow Query SQL）定性"></a>慢查询（Slow Query SQL）定性</h3><p>在Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>中，一旦<a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">cube</a>）经过build、refresh或merge后，将对外提供基于<a href="http://kylin.apache.org/docs/tutorial/odbc.html" target="_blank" rel="noopener">ODBC</a>、<a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>、RESTful API等接口的亚秒级OLAP功能；尽管如此，在生产环境中，我们仍然需要记录执行结果很慢的sql语句，并发出告警，以便分析、优化。<br>在kylin的query engine 端，有一个后台线程BadQueryDetector不断去发现前端请求的错误的sql语句，当然包括slow query sql,核心代码如下：</p>
+<blockquote>
+<pre><code>public void run() {
+    while (true) {
+        try {
+            Thread.sleep(detectionInterval);
+        } catch (InterruptedException e) {
+            // stop detection and exit
+            return;
+        }
+
+        try {
+            detectBadQuery();
+        } catch (Exception ex) {
+            logger.error(&quot;&quot;, ex);
+        }
+    }
+}
+</code></pre></blockquote>
+<p>BadQueryDetector#detectBadQuery 代码如下：</p>
+<blockquote>
+<pre><code>private void detectBadQuery() {
+    long now = System.currentTimeMillis();
+    ArrayList&lt;Entryentries = new ArrayList&lt;Entry&gt;(runningQueries.values());
+    Collections.sort(entries);
+
+    // report if query running long
+    for (Entry e : entries) {
+        float runningSec = (float) (now - e.startTime) / 1000;
+        if (runningSec &gt;= alertRunningSec) {
+            notify(&quot;Slow&quot;, runningSec, e.startTime, e.sqlRequest.getProject(), e.sqlRequest.getSql(), e.thread);
+            dumpStackTrace(e.thread);
+        } else {
+            break; // entries are sorted by startTime
+        }
+    }
+
+    // report if low memory
+    if (getSystemAvailMB() &lt; alertMB) {
+        logger.info(&quot;System free memory less than &quot; + alertMB + &quot; MB. &quot; + entries.size() + &quot; queries running.&quot;);
+    }
+}
+</code></pre></blockquote>
+<p>即当sql的执行时间大于 alertRunningSec,kylin将其定性为 slow query sql,alertRunningSec的获取如下：</p>
+<blockquote>
+<pre><code>public BadQueryDetector() {
+    super(&quot;BadQueryDetector&quot;);
+    this.setDaemon(true);
+    this.kylinConfig = KylinConfig.getInstanceFromEnv();
+    this.detectionInterval = kylinConfig.getBadQueryDefaultDetectIntervalSeconds() * 1000;
+    this.alertMB = 100;
+    this.alertRunningSec = kylinConfig.getBadQueryDefaultAlertingSeconds();
+
+    initNotifiers();
+}
+</code></pre></blockquote>
+<p>以及</p>
+<blockquote>
+<pre><code>public int getBadQueryDefaultAlertingSeconds() {
+    return Integer.parseInt(getOptional(&quot;kylin.query.badquery.alerting.seconds&quot;, &quot;90&quot;));
+}
+</code></pre></blockquote>
+<p>可见当sql的响应时间超过90秒，kylin才会将其视为slow query sql, 显然，对于一个提供实时查询的OLAP系统，这个指标的设置是不合理的。在${KYLIN_HOME}/conf/kylin.properties中修改如下：</p>
+<blockquote>
+<pre><code>kylin.query.badquery.alerting.seconds=3
+</code></pre></blockquote>
+<h3 id="告警改造"><a href="#告警改造" class="headerlink" title="告警改造"></a>告警改造</h3><p>当前 slow query sql的发现及输出采用观察者模式,用户可以通过实现接口 Notifier 自定义观察者,然后注册给BadQueryDetector。</p>
+<blockquote>
+<pre><code>public interface Notifier {
+    void badQueryFound(String adj, float runningSec, long startTime, String project, String sql, Thread t);
+}
+</code></pre></blockquote>
+<p>以及</p>
+<blockquote>
+<pre><code>public void registerNotifier(Notifier notifier) {
+    notifiers.add(notifier);
+}
+</code></pre></blockquote>
+<p>当前BadQueryDetector有两个内置观察者，LoggerNotifier和PersistenceNotifier，其中LoggerNotifier将slow query sql 记录到日志；PersistenceNotifier将记录至<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>（一般是<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>）。</p>
+<p>出于运维需要，我们可以自定义观察者，将slow qeury sql发送到业务负责人的邮箱或者手机。如：</p>
+<blockquote>
+<pre><code>public class  EmailNotifier  implements Notifier  {
+    void badQueryFound(String adj, float runningSec, long startTime, String project, String sql, Thread t){
+
+              //send a email;
+     }
+}
+</code></pre></blockquote>
+<h3 id="slow-query-sql-在元数据中的位置"><a href="#slow-query-sql-在元数据中的位置" class="headerlink" title="slow query sql 在元数据中的位置"></a>slow query sql 在元数据中的位置</h3><p>当<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>配置采用默认配置时，即：</p>
+<blockquote>
+<pre><code>kylin.metadata.url=kylin_metadata@hbase
+</code></pre></blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>在以下位置：</p>
+<blockquote>
+<pre><code>1)表 : kylin_metadata
+
+2)rowKey : /bad_query/${project_name}.json // 用UTF-8 编码
+
+3) column: f:c  // content: slow sql的具体内容,需先用UTF-8解码，然后用 JsonSerializer 反序列化
+
+   column: f:t  //timestamp  : 更新该条记录的 时间戳
+</code></pre></blockquote>
+<h2 id="Kylin-on-Docker"><a href="#Kylin-on-Docker" class="headerlink" title="Kylin on Docker"></a>Kylin on Docker</h2><p>This repository trackes the code and files for building docker images with Apache Kylin.</p>
+<p>此部分描述在 docker中运行Kylin的代码和过程</p>
+<h3 id="How-to-make-it"><a href="#How-to-make-it" class="headerlink" title="How to make it"></a>How to make it</h3><p>The main idea is building Hadoop/HBase/Hive clients and Kylin binary package into one image; User can pull this image, and then just add client configuration files like core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and kylin.properties to the effective paths to make a new image (has verified), or upload these files during starting up (not verified yet);</p>
+<p>主要的思路是打包Hadoop/HBase/Hive的客户端以及Kylin的二进制包进一个镜像，用户可以拉取这个镜像并且增加客户端配置文件（例如core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and kylin.properties）进有效路径创建一个新镜像。</p>
+<p>Before start, you need do some preparations:<br>开始之前，需要做如下准备</p>
+<ul>
+<li>check the Hadoop versions, and make sure the client libs in the image are compitable with the cluster;</li>
+<li>检查 hadoop 版本，确保镜像中的客户端包与集群兼容。</li>
+<li>prepare a kylin.properties file for this deployment;</li>
+<li>为部署准备一个kylin.properties 文件</li>
+<li>ensure the Hadoop security constraint will not block Docker’s adoption; you may need run additional component in the container if kerberos is enabled.</li>
+<li>确保 hadoop 安全组建不会阻止docker的适配。如果需要使用kerberos，有可能需要运行额外组件。</li>
+</ul>
+<h3 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h3><p>Below is a sample of building and running a docker image for Hortonworks HDP 2.2 cluster.<br>下面是一个在Hortonworks HDP 2.2 集群上构建和运行一个docker镜像的例子。</p>
+<ol>
+<li><p>Collect the client configuration files Get the *-site.xml files from a working Hadoop client node, to a local folder say “~/hadoop-conf/“;</p>
+</li>
+<li><p>Prepare kylin.properties</p>
+</li>
+</ol>
+<p>The kylin.properties file is the main configuration file for Kylin; you need prepare such a file and put it to the “~/hadoop-conf/“ folder, together with other conf files; suggest to double check the parameters in it; e.g, the “kylin.metadata.url” points to the right metadata table, “kylin.hdfs.working.dir” is an existing HDFS folder and you have permission to write, etc.</p>
+<ol>
+<li>Clone this repository, checkout the correct branch;<blockquote>
+<pre><code>git clone https://github.com/Kyligence/kylin-docker
+cd kylin-docker
+git checkout kylin152-hdp22
+</code></pre></blockquote>
+</li>
+</ol>
+<ol>
+<li>Copy the client configuration files to “kylin-docker/conf” folder, overwriting those template files;<blockquote>
+<pre><code>cp -rf ~/hadoop-conf/* conf/
+</code></pre></blockquote>
+</li>
+</ol>
+<ol>
+<li>Build docker image, which may take a while, just take a cup of tea;<blockquote>
+<pre><code>docker build -t kyligence/kylin:152 .
+</code></pre></blockquote>
+</li>
+</ol>
+<p>After the build finished, should be able to see the image with “docker images” commmand;</p>
+<blockquote>
+<pre><code>[root@ip-10-0-0-38 ~]# docker images
+REPOSITORY  TAG IMAGE IDCREATED VIRTUAL SIZE
+kyligence/kylin 152 7ece32097fa3About an hour ago   3.043 GB
+</code></pre></blockquote>
+<ol>
+<li>Now you can run a contianer with the bootstrap command (in which will start Kylin server). The “-bash” argument is telling to keep in bash so you can continue to run bash commands; If don’t need, you can use the “-d” argument:<blockquote>
+<pre><code>[root@ip-10-0-0-38 ~]# docker run -i -t -p 7070:7070 kyligence/kylin:152 /etc/bootstrap.sh -bash
+Generating SSH1 RSA host key:  [  OK  ]
+Starting sshd: [  OK  ]
+KYLIN_HOME is set to /usr/local/kylin/bin/../
+kylin.security.profile is set to ldap
+16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.optimize.mapjoin.mapreduce does not exist
+16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.heapsize does not exist
+16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.server2.enable.impersonation does not exist
+16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.auto.convert.sortmerge.join.noconditionaltask does not exist
+Logging initialized using configuration in file:/etc/hive/conf/hive-log4j.properties
+HCAT_HOME not found, try to find hcatalog path from hadoop home
+A new Kylin instance is started by , stop it using &quot;kylin.sh stop&quot;
+Please visit http://&lt;ip&gt;:7070/kylin
+You can check the log at /usr/local/kylin/bin/..//logs/kylin.log
+</code></pre></blockquote>
+</li>
+</ol>
+<ol>
+<li><p>After a minute, you can open web browser with address <a href="http://host:7070/kylin" target="_blank" rel="noopener">http://host:7070/kylin</a> , here the “host” is the hostname or IP address of the hosting machine which runs Docker; Its 7070 port will redirect to the contianer’s 7070 port as we specified in the “docker run” command; You can change to other port as you like.</p>
+</li>
+<li><p>Now you can use Kylin as usually: import Hive tables, design cubes, build, query, etc.</p>
+</li>
+</ol>
+<h2 id="Kylin-接口"><a href="#Kylin-接口" class="headerlink" title="Kylin 接口"></a>Kylin 接口</h2><h3 id="ODBC接口"><a href="#ODBC接口" class="headerlink" title="ODBC接口"></a>ODBC接口</h3><blockquote>
+<p>We provide Kylin ODBC driver to enable data access from ODBC-compatible client applications.</p>
+<p>Both 32-bit version or 64-bit version driver are available.</p>
+<p>Tested Operation System: Windows 7, Windows Server 2008 R2</p>
+<p>Tested Application: Tableau 8.0.4, Tableau 8.1.3 and Tableau 9.1</p>
+</blockquote>
+<h4 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h4><ol>
+<li>Microsoft Visual C++ 2012 Redistributable<ul>
+<li>For 32 bit Windows or 32 bit Tableau Desktop: Download: 32bit version</li>
+<li>For 64 bit Windows or 64 bit Tableau Desktop: Download: 64bit version</li>
+</ul>
+</li>
+<li>ODBC driver internally gets results from a REST server, make sure you have access to one</li>
+</ol>
+<h4 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h4><ol>
+<li>Uninstall existing Kylin ODBC first, if you already installled it before</li>
+<li>Download ODBC Driver from download.<ul>
+<li>For 32 bit Tableau Desktop: Please install KylinODBCDriver (x86).exe</li>
+<li>For 64 bit Tableau Desktop: Please install KylinODBCDriver (x64).exe</li>
+</ul>
+</li>
+<li>Both drivers already be installed on Tableau Server, you properly should be able to publish to there without issues</li>
+</ol>
+<h4 id="DSN-configuration"><a href="#DSN-configuration" class="headerlink" title="DSN configuration"></a>DSN configuration</h4><p>Open ODBCAD to configure DSN.<br>For 32 bit driver, please use the 32bit version in C:\Windows\SysWOW64\odbcad32.exe<br>For 64 bit driver, please use the default “Data Sources (ODBC)” in Control Panel/Administrator Tools</p>
+<h3 id="JDBC接口"><a href="#JDBC接口" class="headerlink" title="JDBC接口"></a>JDBC接口</h3><h4 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h4><p>Build on kylin authentication restful service. Supported parameters:</p>
+<blockquote>
+<pre><code>1. user : username
+2. password : password
+3. ssl: true/false. Default be false; If true, all the services call will use https.
+</code></pre></blockquote>
+<h4 id="Connection-URL-format"><a href="#Connection-URL-format" class="headerlink" title="Connection URL format:"></a>Connection URL format:</h4><blockquote>
+<pre><code>jdbc:kylin://&lt;hostname&gt;:&lt;port&gt;/&lt;kylin_project_name&gt;
+</code></pre><ul>
+<li>If “ssl” = true, the “port” should be Kylin server’s HTTPS port;</li>
+<li>If “port” is not specified, the driver will use default port: HTTP 80, HTTPS 443;</li>
+<li>The “kylin_project_name” must be specified and user need ensure it exists in Kylin server;</li>
+</ul>
+</blockquote>
+<p> Query with Statement</p>
+<blockquote>
+<p>Driver driver = (Driver) Class.forName(“org.apache.kylin.jdbc.Driver”).newInstance();</p>
+<p>Properties info = new Properties();</p>
+<p>info.put(“user”, “ADMIN”);</p>
+<p>info.put(“password”, “KYLIN”);</p>
+<p>Connection conn = driver.connect(“jdbc:kylin://localhost:7070/kylin_project_name”, info);</p>
+<p>Statement state = conn.createStatement();</p>
+<p>ResultSet resultSet = state.executeQuery(“select * from test_table”);</p>
+<p>while (resultSet.next()) {</p>
+<p>assertEquals(“foo”, resultSet.getString(1));</p>
+<p>assertEquals(“bar”, resultSet.getString(2));</p>
+<p>assertEquals(“tool”, resultSet.getString(3));</p>
+<p>}</p>
+</blockquote>
+<p> Query with PreparedStatement</p>
+<p>Supported prepared statement parameters:</p>
+<ul>
+<li>setString</li>
+<li>setInt</li>
+<li>setShort</li>
+<li>setLong</li>
+<li>setFloat</li>
+<li>setDouble</li>
+<li>setBoolean</li>
+<li>setByte</li>
+<li>setDate</li>
+<li>setTime</li>
+<li>setTimestamp<blockquote>
+<pre><code>Driver driver = (Driver) Class.forName(&quot;org.apache.kylin.jdbc.Driver&quot;).newInstance();
+Properties info = new Properties();
+info.put(&quot;user&quot;, &quot;ADMIN&quot;);
+info.put(&quot;password&quot;, &quot;KYLIN&quot;);
+Connection conn = driver.connect(&quot;jdbc:kylin://localhost:7070/kylin_project_name&quot;, info);
+PreparedStatement state = conn.prepareStatement(&quot;select * from test_table where id=?&quot;);
+state.setInt(1, 10);
+ResultSet resultSet = state.executeQuery();
+
+while (resultSet.next()) {
+assertEquals(&quot;foo&quot;, resultSet.getString(1));
+assertEquals(&quot;bar&quot;, resultSet.getString(2));
+assertEquals(&quot;tool&quot;, resultSet.getString(3));
+}
+</code></pre></blockquote>
+</li>
+</ul>
+<p>Get query result set metadata</p>
+<p>Kylin jdbc driver supports metadata list methods:<br>List catalog, schema, table and column with sql pattern filters(such as %).</p>
+<blockquote>
+<p>Driver driver = (Driver) Class.forName(“org.apache.kylin.jdbc.Driver”).newInstance();</p>
+<p>Properties info = new Properties();</p>
+<p>info.put(“user”, “ADMIN”);</p>
+<p>info.put(“password”, “KYLIN”);</p>
+<p>Connection conn = driver.connect(“jdbc:kylin://localhost:7070/kylin_project_name”, info);</p>
+<p>Statement state = conn.createStatement();</p>
+<p>ResultSet resultSet = state.executeQuery(“select * from test_table”);</p>
+<p>ResultSet tables = conn.getMetaData().getTables(null, null, “dummy”, null);</p>
+<p>while (tables.next()) {</p>
+<p>for (int i = 0; i &lt; 10; i++) {</p>
+<p>assertEquals(“dummy”, tables.getString(i + 1));</p>
+<p>}</p>
+<p>}</p>
+<p>###RESTful 接口</p>
+<h4 id="Build-Cube-with-RESTful-API"><a href="#Build-Cube-with-RESTful-API" class="headerlink" title="Build Cube with RESTful API"></a>Build Cube with RESTful API</h4><h5 id="Authentication-1"><a href="#Authentication-1" class="headerlink" title="Authentication"></a>Authentication</h5></blockquote>
+<ul>
+<li>Currently, Kylin uses basic authentication.</li>
+<li>Add Authorization header to first request for authentication</li>
+<li>Or you can do a specific request by POST <a href="http://localhost:7070/kylin/api/user/authentication" target="_blank" rel="noopener">http://localhost:7070/kylin/api/user/authentication</a></li>
+<li>Once authenticated, client can go subsequent requests with cookies.<blockquote>
+<p>POST <a href="http://localhost:7070/kylin/api/user/authentication" target="_blank" rel="noopener">http://localhost:7070/kylin/api/user/authentication</a></p>
+<p>Authorization:Basic xxxxJD124xxxGFxxxSDF<br>Content-Type: application/json;charset=UTF-8</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="Get-details-of-cube"><a href="#Get-details-of-cube" class="headerlink" title="Get details of cube."></a>Get details of cube.</h5><ul>
+<li>GET <a href="http://localhost:7070/kylin/api/cubes?cubeName={cube_name}&amp;limit=15&amp;offset=0" target="_blank" rel="noopener">http://localhost:7070/kylin/api/cubes?cubeName={cube_name}&amp;limit=15&amp;offset=0</a></li>
+<li><p>Client can find cube segment date ranges in returned cube detail.</p>
+<blockquote>
+<pre><code>GET http://localhost:7070/kylin/api/cubes?cubeName=test_kylin_cube_with_slr&amp;limit=15&amp;offset=0
+
+Authorization:Basic xxxxJD124xxxGFxxxSDF
+Content-Type: application/json;charset=UTF-8
+</code></pre><h5 id="Then-submit-a-build-job-of-the-cube"><a href="#Then-submit-a-build-job-of-the-cube" class="headerlink" title="Then submit a build job of the cube."></a>Then submit a build job of the cube.</h5></blockquote>
+</li>
+<li><p>PUT <a href="http://localhost:7070/kylin/api/cubes/{cube_name}/rebuild" target="_blank" rel="noopener">http://localhost:7070/kylin/api/cubes/{cube_name}/rebuild</a></p>
+</li>
+<li>For put request body detail please refer to Build Cube API.<ul>
+<li>startTime and endTime should be utc timestamp.</li>
+<li>buildType can be BUILD ,MERGE or REFRESH. BUILD is for building a new segment, REFRESH for refreshing an existing segment. MERGE is for merging multiple existing segments into one bigger segment.</li>
+</ul>
+</li>
+<li>This method will return a new created job instance, whose uuid is the unique id of job to track job status.<blockquote>
+<p>PUT <a href="http://localhost:7070/kylin/api/cubes/test_kylin_cube_with_slr/rebuild" target="_blank" rel="noopener">http://localhost:7070/kylin/api/cubes/test_kylin_cube_with_slr/rebuild</a></p>
+<p>Authorization:Basic xxxxJD124xxxGFxxxSDF<br>Content-Type: application/json;charset=UTF-8</p>
+<p>{<br>“startTime”: 0,<br>“endTime”: 1388563200000,<br>“buildType”: “BUILD”<br>}</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="Track-job-status"><a href="#Track-job-status" class="headerlink" title="Track job status."></a>Track job status.</h5><ul>
+<li>GET <a href="http://localhost:7070/kylin/api/jobs/{job_uuid}" target="_blank" rel="noopener">http://localhost:7070/kylin/api/jobs/{job_uuid}</a></li>
+<li><p>Returned job_status represents current status of job.</p>
+<h5 id="If-the-job-got-errors-you-can-resume-it"><a href="#If-the-job-got-errors-you-can-resume-it" class="headerlink" title="If the job got errors, you can resume it."></a>If the job got errors, you can resume it.</h5></li>
+<li><p>PUT <a href="http://localhost:7070/kylin/api/jobs/{job_uuid}/resume" target="_blank" rel="noopener">http://localhost:7070/kylin/api/jobs/{job_uuid}/resume</a></p>
+</li>
+</ul>
+<h4 id="Use-RESTful-API-in-Javascript"><a href="#Use-RESTful-API-in-Javascript" class="headerlink" title="Use RESTful API in Javascript"></a>Use RESTful API in Javascript</h4><p>Kylin security is based on basic access authorization, if you want to use API in your javascript, you need to add authorization info in http headers.</p>
+<h5 id="Example-on-Query-API"><a href="#Example-on-Query-API" class="headerlink" title="Example on Query API."></a>Example on Query API.</h5><blockquote>
+<pre><code>$.ajaxSetup({
+  headers: { &apos;Authorization&apos;: &quot;Basic eWFu**********X***ZA==&quot;, &apos;Content-Type&apos;: &apos;application/json;charset=utf-8&apos; } // use your own authorization code here
+});
+var request = $.ajax({
+   url: &quot;http://hostname/kylin/api/query&quot;,
+   type: &quot;POST&quot;,
+   data: &apos;{&quot;sql&quot;:&quot;select count(*) from SUMMARY;&quot;,&quot;offset&quot;:0,&quot;limit&quot;:50000,&quot;acceptPartial&quot;:true,&quot;project&quot;:&quot;test&quot;}&apos;,
+   dataType: &quot;json&quot;
+});
+request.done(function( msg ) {
+   alert(msg);
+});
+request.fail(function( jqXHR, textStatus ) {
+   alert( &quot;Request failed: &quot; + textStatus );
+  });
+</code></pre></blockquote>
+<h5 id="Keypoints"><a href="#Keypoints" class="headerlink" title="Keypoints"></a>Keypoints</h5><ul>
+<li>add basic access authorization info in http headers.</li>
+<li>use right ajax type and data synax.<h5 id="Basic-access-authorization"><a href="#Basic-access-authorization" class="headerlink" title="Basic access authorization"></a>Basic access authorization</h5></li>
+<li>For what is basic access authorization, refer to <a href="http://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank" rel="noopener">Wikipedia Page</a>.</li>
+<li>How to generate your authorization code (download and import “jquery.base64.js” from <a href="https://github.com/yckart/jquery.base64.js" target="_blank" rel="noopener">https://github.com/yckart/jquery.base64.js</a>).</li>
+</ul>
+<blockquote>
+<pre><code>var authorizationCode = $.base64(&apos;encode&apos;, &apos;NT_USERNAME&apos; + &quot;:&quot; + &apos;NT_PASSWORD&apos;);
+
+$.ajaxSetup({
+   headers: {
+&apos;Authorization&apos;: &quot;Basic &quot; + authorizationCode,
+&apos;Content-Type&apos;: &apos;application/json;charset=utf-8&apos;
+   }
+});
+</code></pre></blockquote>
+<h4 id="Use-RESTful-API"><a href="#Use-RESTful-API" class="headerlink" title="Use RESTful API"></a>Use RESTful API</h4><h5 id="Authentication-2"><a href="#Authentication-2" class="headerlink" title="Authentication"></a>Authentication</h5><blockquote>
+<pre><code>POST /user/authentication
+</code></pre></blockquote>
+<h6 id="Request-Header"><a href="#Request-Header" class="headerlink" title="Request Header"></a>Request Header</h6><p>Authorization data encoded by basic auth is needed in the header, such as:<br>Authorization:Basic {data}</p>
+<h6 id="Response-Body"><a href="#Response-Body" class="headerlink" title="Response Body"></a>Response Body</h6><ul>
+<li>userDetails - Defined authorities and status of current user.</li>
+</ul>
+<h6 id="Response-Sample"><a href="#Response-Sample" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<p>{<br>   “userDetails”:{<br>  “password”:null,<br>  “username”:”sample”,<br>  “authorities”:[<br> {<br>“authority”:”ROLE_ANALYST”<br> },<br> {<br>“authority”:”ROLE_MODELER”<br> }<br>  ],<br>  “accountNonExpired”:true,<br>  “accountNonLocked”:true,<br>  “credentialsNonExpired”:true,<br>  “enabled”:true<br>   }<br>}<br>Example with curl:</p>
+<pre><code>curl -c /path/to/cookiefile.txt -X POST -H &quot;Authorization: Basic XXXXXXXXX&quot; -H &apos;Content-Type: application/json&apos; http://&lt;host&gt;:&lt;port&gt;/kylin/api/user/authentication
+</code></pre></blockquote>
+<p>If login successfully, the JSESSIONID will be saved into the cookie file; In the subsequent http requests, attach the cookie, for example:</p>
+<blockquote>
+<pre><code>curl -b /path/to/cookiefile.txt -X PUT -H &apos;Content-Type: application/json&apos; -d &apos;{&quot;startTime&quot;:&apos;1423526400000&apos;, &quot;endTime&quot;:&apos;1423526400&apos;, &quot;buildType&quot;:&quot;BUILD&quot;}&apos; http://&lt;host&gt;:&lt;port&gt;/kylin/api/cubes/your_cube/rebuild
+</code></pre></blockquote>
+<h5 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h5><blockquote>
+<pre><code>POST /query
+</code></pre></blockquote>
+<h6 id="Request-Body"><a href="#Request-Body" class="headerlink" title="Request Body"></a>Request Body</h6><ul>
+<li>sql - required string The text of sql statement.</li>
+<li>offset - optional int Query offset. If offset is set in sql, curIndex will be ignored.</li>
+<li>limit - optional int Query limit. If limit is set in sql, perPage will be ignored.</li>
+<li>acceptPartial - optional bool Whether accept a partial result or not, default be “false”. Set to “false” for production use.</li>
+<li>project - optional string Project to perform query. Default value is ‘DEFAULT’.<h6 id="Request-Sample"><a href="#Request-Sample" class="headerlink" title="Request Sample"></a>Request Sample</h6></li>
+</ul>
+<blockquote>
+<pre><code>{
+   &quot;sql&quot;:&quot;select * from TEST_KYLIN_FACT&quot;,
+   &quot;offset&quot;:0,
+   &quot;limit&quot;:50000,
+   &quot;acceptPartial&quot;:false,
+   &quot;project&quot;:&quot;DEFAULT&quot;
+}
+</code></pre><h6 id="Response-Body-1"><a href="#Response-Body-1" class="headerlink" title="Response Body"></a>Response Body</h6></blockquote>
+<ul>
+<li>columnMetas - Column metadata information of result set.</li>
+<li>results - Data set of result.</li>
+<li>cube - Cube used for this query.</li>
+<li>affectedRowCount - Count of affected row by this sql statement.</li>
+<li>isException - Whether this response is an exception.</li>
+<li>ExceptionMessage - Message content of the exception.</li>
+<li>Duration - Time cost of this query</li>
+<li>Partial - Whether the response is a partial result or not. Decided by acceptPartial of request.</li>
+</ul>
+<h6 id="Response-Sample-1"><a href="#Response-Sample-1" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+   &quot;columnMetas&quot;:[
+  {
+ &quot;isNullable&quot;:1,
+ &quot;displaySize&quot;:0,
+ &quot;label&quot;:&quot;CAL_DT&quot;,
+ &quot;name&quot;:&quot;CAL_DT&quot;,
+ &quot;schemaName&quot;:null,
+ &quot;catelogName&quot;:null,
+ &quot;tableName&quot;:null,
+ &quot;precision&quot;:0,
+ &quot;scale&quot;:0,
+ &quot;columnType&quot;:91,
+ &quot;columnTypeName&quot;:&quot;DATE&quot;,
+ &quot;readOnly&quot;:true,
+ &quot;writable&quot;:false,
+ &quot;caseSensitive&quot;:true,
+ &quot;searchable&quot;:false,
+ &quot;currency&quot;:false,
+ &quot;signed&quot;:true,
+ &quot;autoIncrement&quot;:false,
+ &quot;definitelyWritable&quot;:false
+  },
+  {
+ &quot;isNullable&quot;:1,
+ &quot;displaySize&quot;:10,
+ &quot;label&quot;:&quot;LEAF_CATEG_ID&quot;,
+ &quot;name&quot;:&quot;LEAF_CATEG_ID&quot;,
+ &quot;schemaName&quot;:null,
+ &quot;catelogName&quot;:null,
+ &quot;tableName&quot;:null,
+ &quot;precision&quot;:10,
+ &quot;scale&quot;:0,
+ &quot;columnType&quot;:4,
+ &quot;columnTypeName&quot;:&quot;INTEGER&quot;,
+ &quot;readOnly&quot;:true,
+ &quot;writable&quot;:false,
+ &quot;caseSensitive&quot;:true,
+ &quot;searchable&quot;:false,
+ &quot;currency&quot;:false,
+ &quot;signed&quot;:true,
+ &quot;autoIncrement&quot;:false,
+ &quot;definitelyWritable&quot;:false
+  }
+   ],
+   &quot;results&quot;:[
+  [
+ &quot;2013-08-07&quot;,
+ &quot;32996&quot;,
+ &quot;15&quot;,
+ &quot;15&quot;,
+ &quot;Auction&quot;,
+ &quot;10000000&quot;,
+ &quot;49.048952730908745&quot;,
+ &quot;49.048952730908745&quot;,
+ &quot;49.048952730908745&quot;,
+ &quot;1&quot;
+  ],
+  [
+ &quot;2013-08-07&quot;,
+ &quot;43398&quot;,
+ &quot;0&quot;,
+ &quot;14&quot;,
+ &quot;ABIN&quot;,
+ &quot;10000633&quot;,
+ &quot;85.78317064220418&quot;,
+ &quot;85.78317064220418&quot;,
+ &quot;85.78317064220418&quot;,
+ &quot;1&quot;
+  ]
+   ],
+   &quot;cube&quot;:&quot;test_kylin_cube_with_slr_desc&quot;,
+   &quot;affectedRowCount&quot;:0,
+   &quot;isException&quot;:false,
+   &quot;exceptionMessage&quot;:null,
+   &quot;duration&quot;:3451,
+   &quot;partial&quot;:false
+}
+</code></pre></blockquote>
+<h5 id="List-queryable-tables"><a href="#List-queryable-tables" class="headerlink" title="List queryable tables"></a>List queryable tables</h5><blockquote>
+<pre><code>GET /tables_and_columns
+</code></pre></blockquote>
+<h6 id="Request-Parameters"><a href="#Request-Parameters" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>project - required string The project to load tables</li>
+</ul>
+<h6 id="Response-Sample-2"><a href="#Response-Sample-2" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>[
+   {
+  &quot;columns&quot;:[
+ {
+&quot;table_NAME&quot;:&quot;TEST_CAL_DT&quot;,
+&quot;table_SCHEM&quot;:&quot;EDW&quot;,
+&quot;column_NAME&quot;:&quot;CAL_DT&quot;,
+&quot;data_TYPE&quot;:91,
+&quot;nullable&quot;:1,
+&quot;column_SIZE&quot;:-1,
+&quot;buffer_LENGTH&quot;:-1,
+&quot;decimal_DIGITS&quot;:0,
+&quot;num_PREC_RADIX&quot;:10,
+&quot;column_DEF&quot;:null,
+&quot;sql_DATA_TYPE&quot;:-1,
+&quot;sql_DATETIME_SUB&quot;:-1,
+&quot;char_OCTET_LENGTH&quot;:-1,
+&quot;ordinal_POSITION&quot;:1,
+&quot;is_NULLABLE&quot;:&quot;YES&quot;,
+&quot;scope_CATLOG&quot;:null,
+&quot;scope_SCHEMA&quot;:null,
+&quot;scope_TABLE&quot;:null,
+&quot;source_DATA_TYPE&quot;:-1,
+&quot;iS_AUTOINCREMENT&quot;:null,
+&quot;table_CAT&quot;:&quot;defaultCatalog&quot;,
+&quot;remarks&quot;:null,
+&quot;type_NAME&quot;:&quot;DATE&quot;
+ },
+ {
+&quot;table_NAME&quot;:&quot;TEST_CAL_DT&quot;,
+&quot;table_SCHEM&quot;:&quot;EDW&quot;,
+&quot;column_NAME&quot;:&quot;WEEK_BEG_DT&quot;,
+&quot;data_TYPE&quot;:91,
+&quot;nullable&quot;:1,
+&quot;column_SIZE&quot;:-1,
+&quot;buffer_LENGTH&quot;:-1,
+&quot;decimal_DIGITS&quot;:0,
+&quot;num_PREC_RADIX&quot;:10,
+&quot;column_DEF&quot;:null,
+&quot;sql_DATA_TYPE&quot;:-1,
+&quot;sql_DATETIME_SUB&quot;:-1,
+&quot;char_OCTET_LENGTH&quot;:-1,
+&quot;ordinal_POSITION&quot;:2,
+&quot;is_NULLABLE&quot;:&quot;YES&quot;,
+&quot;scope_CATLOG&quot;:null,
+&quot;scope_SCHEMA&quot;:null,
+&quot;scope_TABLE&quot;:null,
+&quot;source_DATA_TYPE&quot;:-1,
+&quot;iS_AUTOINCREMENT&quot;:null,
+&quot;table_CAT&quot;:&quot;defaultCatalog&quot;,
+&quot;remarks&quot;:null,
+&quot;type_NAME&quot;:&quot;DATE&quot;
+ }
+  ],
+  &quot;table_NAME&quot;:&quot;TEST_CAL_DT&quot;,
+  &quot;table_SCHEM&quot;:&quot;EDW&quot;,
+  &quot;ref_GENERATION&quot;:null,
+  &quot;self_REFERENCING_COL_NAME&quot;:null,
+  &quot;type_SCHEM&quot;:null,
+  &quot;table_TYPE&quot;:&quot;TABLE&quot;,
+  &quot;table_CAT&quot;:&quot;defaultCatalog&quot;,
+  &quot;remarks&quot;:null,
+  &quot;type_CAT&quot;:null,
+  &quot;type_NAME&quot;:null
+   }
+]
+</code></pre></blockquote>
+<h5 id="List-cubes"><a href="#List-cubes" class="headerlink" title="List cubes"></a>List cubes</h5><blockquote>
+<pre><code>GET /cubes
+</code></pre></blockquote>
+<h6 id="Request-Parameters-1"><a href="#Request-Parameters-1" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>offset - required int Offset used by pagination</li>
+<li>limit - required int Cubes per page.</li>
+<li>cubeName - optional string Keyword for cube names. To find cubes whose name contains this keyword.</li>
+<li>projectName - optional string Project name.</li>
+</ul>
+<h6 id="Response-Sample-3"><a href="#Response-Sample-3" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>[
+   {
+  &quot;uuid&quot;:&quot;1eaca32a-a33e-4b69-83dd-0bb8b1f8c53b&quot;,
+  &quot;last_modified&quot;:1407831634847,
+  &quot;name&quot;:&quot;test_kylin_cube_with_slr_empty&quot;,
+  &quot;owner&quot;:null,
+  &quot;version&quot;:null,
+  &quot;descriptor&quot;:&quot;test_kylin_cube_with_slr_desc&quot;,
+  &quot;cost&quot;:50,
+  &quot;status&quot;:&quot;DISABLED&quot;,
+  &quot;segments&quot;:[
+  ],
+  &quot;create_time&quot;:null,
+  &quot;source_records_count&quot;:0,
+  &quot;source_records_size&quot;:0,
+  &quot;size_kb&quot;:0
+   }
+]
+</code></pre></blockquote>
+<h5 id="Get-cube"><a href="#Get-cube" class="headerlink" title="Get cube"></a>Get cube</h5><blockquote>
+<pre><code>GET /cubes/{cubeName}
+</code></pre></blockquote>
+<h6 id="Path-Variable"><a href="#Path-Variable" class="headerlink" title="Path Variable"></a>Path Variable</h6><ul>
+<li>cubeName - required string Cube name to find.<blockquote>
+<pre><code>Get cube descriptor
+GET /cube_desc/{cubeName}
+Get descriptor for specified cube instance.
+</code></pre></blockquote>
+</li>
+</ul>
+<h6 id="Path-Variable-1"><a href="#Path-Variable-1" class="headerlink" title="Path Variable"></a>Path Variable</h6><ul>
+<li>cubeName - required string Cube name.</li>
+</ul>
+<h6 id="Response-Sample-4"><a href="#Response-Sample-4" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>[
+{
+&quot;uuid&quot;: &quot;a24ca905-1fc6-4f67-985c-38fa5aeafd92&quot;,
+&quot;name&quot;: &quot;test_kylin_cube_with_slr_desc&quot;,
+&quot;description&quot;: null,
+&quot;dimensions&quot;: [
+{
+&quot;id&quot;: 0,
+&quot;name&quot;: &quot;CAL_DT&quot;,
+&quot;table&quot;: &quot;EDW.TEST_CAL_DT&quot;,
+&quot;column&quot;: null,
+&quot;derived&quot;: [
+&quot;WEEK_BEG_DT&quot;
+],
+&quot;hierarchy&quot;: false
+},
+{
+&quot;id&quot;: 1,
+&quot;name&quot;: &quot;CATEGORY&quot;,
+&quot;table&quot;: &quot;DEFAULT.TEST_CATEGORY_GROUPINGS&quot;,
+&quot;column&quot;: null,
+&quot;derived&quot;: [
+&quot;USER_DEFINED_FIELD1&quot;,
+&quot;USER_DEFINED_FIELD3&quot;,
+&quot;UPD_DATE&quot;,
+&quot;UPD_USER&quot;
+],
+&quot;hierarchy&quot;: false
+},
+{
+&quot;id&quot;: 2,
+&quot;name&quot;: &quot;CATEGORY_HIERARCHY&quot;,
+&quot;table&quot;: &quot;DEFAULT.TEST_CATEGORY_GROUPINGS&quot;,
+&quot;column&quot;: [
+&quot;META_CATEG_NAME&quot;,
+&quot;CATEG_LVL2_NAME&quot;,
+&quot;CATEG_LVL3_NAME&quot;
+],
+&quot;derived&quot;: null,
+&quot;hierarchy&quot;: true
+},
+{
+&quot;id&quot;: 3,
+&quot;name&quot;: &quot;LSTG_FORMAT_NAME&quot;,
+&quot;table&quot;: &quot;DEFAULT.TEST_KYLIN_FACT&quot;,
+&quot;column&quot;: [
+&quot;LSTG_FORMAT_NAME&quot;
+],
+&quot;derived&quot;: null,
+&quot;hierarchy&quot;: false
+},
+{
+&quot;id&quot;: 4,
+&quot;name&quot;: &quot;SITE_ID&quot;,
+&quot;table&quot;: &quot;EDW.TEST_SITES&quot;,
+&quot;column&quot;: null,
+&quot;derived&quot;: [
+&quot;SITE_NAME&quot;,
+&quot;CRE_USER&quot;
+],
+&quot;hierarchy&quot;: false
+},
+{
+&quot;id&quot;: 5,
+&quot;name&quot;: &quot;SELLER_TYPE_CD&quot;,
+&quot;table&quot;: &quot;EDW.TEST_SELLER_TYPE_DIM&quot;,
+&quot;column&quot;: null,
+&quot;derived&quot;: [
+&quot;SELLER_TYPE_DESC&quot;
+],
+&quot;hierarchy&quot;: false
+},
+{
+&quot;id&quot;: 6,
+&quot;name&quot;: &quot;SELLER_ID&quot;,
+&quot;table&quot;: &quot;DEFAULT.TEST_KYLIN_FACT&quot;,
+&quot;column&quot;: [
+&quot;SELLER_ID&quot;
+],
+&quot;derived&quot;: null,
+&quot;hierarchy&quot;: false
+}
+],
+&quot;measures&quot;: [
+{
+&quot;id&quot;: 1,
+&quot;name&quot;: &quot;GMV_SUM&quot;,
+&quot;function&quot;: {
+&quot;expression&quot;: &quot;SUM&quot;,
+&quot;parameter&quot;: {
+&quot;type&quot;: &quot;column&quot;,
+&quot;value&quot;: &quot;PRICE&quot;,
+&quot;next_parameter&quot;: null
+},
+&quot;returntype&quot;: &quot;decimal(19,4)&quot;
+},
+&quot;dependent_measure_ref&quot;: null
+},
+{
+&quot;id&quot;: 2,
+&quot;name&quot;: &quot;GMV_MIN&quot;,
+&quot;function&quot;: {
+&quot;expression&quot;: &quot;MIN&quot;,
+&quot;parameter&quot;: {
+&quot;type&quot;: &quot;column&quot;,
+&quot;value&quot;: &quot;PRICE&quot;,
+&quot;next_parameter&quot;: null
+},
+&quot;returntype&quot;: &quot;decimal(19,4)&quot;
+},
+&quot;dependent_measure_ref&quot;: null
+},
+{
+&quot;id&quot;: 3,
+&quot;name&quot;: &quot;GMV_MAX&quot;,
+&quot;function&quot;: {
+&quot;expression&quot;: &quot;MAX&quot;,
+&quot;parameter&quot;: {
+&quot;type&quot;: &quot;column&quot;,
+&quot;value&quot;: &quot;PRICE&quot;,
+&quot;next_parameter&quot;: null
+},
+&quot;returntype&quot;: &quot;decimal(19,4)&quot;
+},
+&quot;dependent_measure_ref&quot;: null
+},
+{
+&quot;id&quot;: 4,
+&quot;name&quot;: &quot;TRANS_CNT&quot;,
+&quot;function&quot;: {
+&quot;expression&quot;: &quot;COUNT&quot;,
+&quot;parameter&quot;: {
+&quot;type&quot;: &quot;constant&quot;,
+&quot;value&quot;: &quot;1&quot;,
+&quot;next_parameter&quot;: null
+},
+&quot;returntype&quot;: &quot;bigint&quot;
+},
+&quot;dependent_measure_ref&quot;: null
+},
+{
+&quot;id&quot;: 5,
+&quot;name&quot;: &quot;ITEM_COUNT_SUM&quot;,
+&quot;function&quot;: {
+&quot;expression&quot;: &quot;SUM&quot;,
+&quot;parameter&quot;: {
+&quot;type&quot;: &quot;column&quot;,
+&quot;value&quot;: &quot;ITEM_COUNT&quot;,
+&quot;next_parameter&quot;: null
+},
+&quot;returntype&quot;: &quot;bigint&quot;
+},
+&quot;dependent_measure_ref&quot;: null
+}
+],
+&quot;rowkey&quot;: {
+&quot;rowkey_columns&quot;: [
+{
+&quot;column&quot;: &quot;SELLER_ID&quot;,
+&quot;length&quot;: 18,
+&quot;dictionary&quot;: null,
+&quot;mandatory&quot;: true
+},
+{
+&quot;column&quot;: &quot;CAL_DT&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;LEAF_CATEG_ID&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;META_CATEG_NAME&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;CATEG_LVL2_NAME&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;CATEG_LVL3_NAME&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;LSTG_FORMAT_NAME&quot;,
+&quot;length&quot;: 12,
+&quot;dictionary&quot;: null,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;LSTG_SITE_ID&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+},
+{
+&quot;column&quot;: &quot;SLR_SEGMENT_CD&quot;,
+&quot;length&quot;: 0,
+&quot;dictionary&quot;: &quot;true&quot;,
+&quot;mandatory&quot;: false
+}
+],
+&quot;aggregation_groups&quot;: [
+[
+&quot;LEAF_CATEG_ID&quot;,
+&quot;META_CATEG_NAME&quot;,
+&quot;CATEG_LVL2_NAME&quot;,
+&quot;CATEG_LVL3_NAME&quot;,
+&quot;CAL_DT&quot;
+]
+]
+},
+&quot;signature&quot;: &quot;lsLAl2jL62ZApmOLZqWU3g==&quot;,
+&quot;last_modified&quot;: 1445850327000,
+&quot;model_name&quot;: &quot;test_kylin_with_slr_model_desc&quot;,
+&quot;null_string&quot;: null,
+&quot;hbase_mapping&quot;: {
+&quot;column_family&quot;: [
+{
+&quot;name&quot;: &quot;F1&quot;,
+&quot;columns&quot;: [
+{
+&quot;qualifier&quot;: &quot;M&quot;,
+&quot;measure_refs&quot;: [
+&quot;GMV_SUM&quot;,
+&quot;GMV_MIN&quot;,
+&quot;GMV_MAX&quot;,
+&quot;TRANS_CNT&quot;,
+&quot;ITEM_COUNT_SUM&quot;
+]
+}
+]
+}
+]
+},
+&quot;notify_list&quot;: null,
+&quot;auto_merge_time_ranges&quot;: null,
+&quot;retention_range&quot;: 0
+}
+]
+</code></pre></blockquote>
+<h5 id="Get-data-model"><a href="#Get-data-model" class="headerlink" title="Get data model"></a>Get data model</h5><blockquote>
+<pre><code>GET /model/{modelName}
+</code></pre></blockquote>
+<h6 id="Path-Variable-2"><a href="#Path-Variable-2" class="headerlink" title="Path Variable"></a>Path Variable</h6><ul>
+<li>modelName - required string Data model name, by default it should be the same with cube name.</li>
+</ul>
+<h6 id="Response-Sample-5"><a href="#Response-Sample-5" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+&quot;uuid&quot;: &quot;ff527b94-f860-44c3-8452-93b17774c647&quot;,
+&quot;name&quot;: &quot;test_kylin_with_slr_model_desc&quot;,
+&quot;lookups&quot;: [
+{
+&quot;table&quot;: &quot;EDW.TEST_CAL_DT&quot;,
+&quot;join&quot;: {
+&quot;type&quot;: &quot;inner&quot;,
+&quot;primary_key&quot;: [
+&quot;CAL_DT&quot;
+],
+&quot;foreign_key&quot;: [
+&quot;CAL_DT&quot;
+]
+}
+},
+{
+&quot;table&quot;: &quot;DEFAULT.TEST_CATEGORY_GROUPINGS&quot;,
+&quot;join&quot;: {
+&quot;type&quot;: &quot;inner&quot;,
+&quot;primary_key&quot;: [
+&quot;LEAF_CATEG_ID&quot;,
+&quot;SITE_ID&quot;
+],
+&quot;foreign_key&quot;: [
+&quot;LEAF_CATEG_ID&quot;,
+&quot;LSTG_SITE_ID&quot;
+]
+}
+}
+],
+&quot;capacity&quot;: &quot;MEDIUM&quot;,
+&quot;last_modified&quot;: 1442372116000,
+&quot;fact_table&quot;: &quot;DEFAULT.TEST_KYLIN_FACT&quot;,
+&quot;filter_condition&quot;: null,
+&quot;partition_desc&quot;: {
+&quot;partition_date_column&quot;: &quot;DEFAULT.TEST_KYLIN_FACT.CAL_DT&quot;,
+&quot;partition_date_start&quot;: 0,
+&quot;partition_date_format&quot;: &quot;yyyy-MM-dd&quot;,
+&quot;partition_type&quot;: &quot;APPEND&quot;,
+&quot;partition_condition_builder&quot;: &quot;org.apache.kylin.metadata.model.PartitionDesc$DefaultPartitionConditionBuilder&quot;
+}
+}
+</code></pre></blockquote>
+<h5 id="Build-cube"><a href="#Build-cube" class="headerlink" title="Build cube"></a>Build cube</h5><blockquote>
+<pre><code>PUT /cubes/{cubeName}/rebuild
+</code></pre></blockquote>
+<h6 id="Path-Variable-3"><a href="#Path-Variable-3" class="headerlink" title="Path Variable"></a>Path Variable</h6><ul>
+<li>cubeName - required string Cube name.</li>
+</ul>
+<h6 id="Request-Body-1"><a href="#Request-Body-1" class="headerlink" title="Request Body"></a>Request Body</h6><ul>
+<li>startTime - required long Start timestamp of data to build, e.g. 1388563200000 for 2014-1-1</li>
+<li>endTime - required long End timestamp of data to build</li>
+<li>buildType - required string Supported build type: ‘BUILD’, ‘MERGE’, ‘REFRESH’</li>
+</ul>
+<h6 id="Response-Sample-6"><a href="#Response-Sample-6" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+   &quot;uuid&quot;:&quot;c143e0e4-ac5f-434d-acf3-46b0d15e3dc6&quot;,
+   &quot;last_modified&quot;:1407908916705,
+   &quot;name&quot;:&quot;test_kylin_cube_with_slr_empty - 19700101000000_20140731160000 - BUILD - PDT 2014-08-12 22:48:36&quot;,
+   &quot;type&quot;:&quot;BUILD&quot;,
+   &quot;duration&quot;:0,
+   &quot;related_cube&quot;:&quot;test_kylin_cube_with_slr_empty&quot;,
+   &quot;related_segment&quot;:&quot;19700101000000_20140731160000&quot;,
+   &quot;exec_start_time&quot;:0,
+   &quot;exec_end_time&quot;:0,
+   &quot;mr_waiting&quot;:0,
+   &quot;steps&quot;:[
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Create Intermediate Flat Hive Table&quot;,
+ &quot;sequence_id&quot;:0,
+ &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\\177&apos;\nSTORED AS SEQUENCEFILE\nLOCATION &apos;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&apos;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET hive.auto.convert.join.noconditionaltask = true;\nSET hive.auto.convert.join.noconditionaltask.size = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &apos;2014-07-31 16:00:00&apos;)\n;\n\&quot;&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;SHELL_CMD_HADOOP&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:false
+  },
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Extract Fact Table Distinct Columns&quot;,
+ &quot;sequence_id&quot;:1,
+ &quot;exec_cmd&quot;:&quot; -conf C:/kylin/Kylin/server/src/main/resources/hadoop_job_conf_medium.xml -cubename test_kylin_cube_with_slr_empty -input /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6 -output /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/test_kylin_cube_with_slr_empty/fact_distinct_columns -jobname Kylin_Fact_Distinct_Columns_test_kylin_cube_with_slr_empty_Step_1&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;JAVA_CMD_HADOOP_FACTDISTINCT&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:true
+  },
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Load HFile to HBase Table&quot;,
+ &quot;sequence_id&quot;:12,
+ &quot;exec_cmd&quot;:&quot; -input /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/test_kylin_cube_with_slr_empty/hfile/ -htablename KYLIN-CUBE-TEST_KYLIN_CUBE_WITH_SLR_EMPTY-19700101000000_20140731160000_11BB4326-5975-4358-804C-70D53642E03A -cubename test_kylin_cube_with_slr_empty&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;JAVA_CMD_HADOOP_NO_MR_BULKLOAD&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:false
+  }
+   ],
+   &quot;job_status&quot;:&quot;PENDING&quot;,
+   &quot;progress&quot;:0.0
+}
+</code></pre></blockquote>
+<h5 id="Enable-Cube"><a href="#Enable-Cube" class="headerlink" title="Enable Cube"></a>Enable Cube</h5><blockquote>
+<pre><code>PUT /cubes/{cubeName}/enable
+</code></pre></blockquote>
+<h6 id="Path-variable"><a href="#Path-variable" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>cubeName - required string Cube name.</li>
+</ul>
+<h6 id="Response-Sample-7"><a href="#Response-Sample-7" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+   &quot;uuid&quot;:&quot;1eaca32a-a33e-4b69-83dd-0bb8b1f8c53b&quot;,
+   &quot;last_modified&quot;:1407909046305,
+   &quot;name&quot;:&quot;test_kylin_cube_with_slr_ready&quot;,
+   &quot;owner&quot;:null,
+   &quot;version&quot;:null,
+   &quot;descriptor&quot;:&quot;test_kylin_cube_with_slr_desc&quot;,
+   &quot;cost&quot;:50,
+   &quot;status&quot;:&quot;ACTIVE&quot;,
+   &quot;segments&quot;:[
+  {
+ &quot;name&quot;:&quot;19700101000000_20140531160000&quot;,
+ &quot;storage_location_identifier&quot;:&quot;KYLIN-CUBE-TEST_KYLIN_CUBE_WITH_SLR_READY-19700101000000_20140531160000_BF043D2D-9A4A-45E9-AA59-5A17D3F34A50&quot;,
+ &quot;date_range_start&quot;:0,
+ &quot;date_range_end&quot;:1401552000000,
+ &quot;status&quot;:&quot;READY&quot;,
+ &quot;size_kb&quot;:4758,
+ &quot;source_records&quot;:6000,
+ &quot;source_records_size&quot;:620356,
+ &quot;last_build_time&quot;:1407832663227,
+ &quot;last_build_job_id&quot;:&quot;2c7a2b63-b052-4a51-8b09-0c24b5792cda&quot;,
+ &quot;binary_signature&quot;:null,
+ &quot;dictionaries&quot;:{
+&quot;TEST_CATEGORY_GROUPINGS/CATEG_LVL2_NAME&quot;:&quot;/dict/TEST_CATEGORY_GROUPINGS/CATEG_LVL2_NAME/16d8185c-ee6b-4f8c-a919-756d9809f937.dict&quot;,
+&quot;TEST_KYLIN_FACT/LSTG_SITE_ID&quot;:&quot;/dict/TEST_SITES/SITE_ID/0bec6bb3-1b0d-469c-8289-b8c4ca5d5001.dict&quot;,
+&quot;TEST_KYLIN_FACT/SLR_SEGMENT_CD&quot;:&quot;/dict/TEST_SELLER_TYPE_DIM/SELLER_TYPE_CD/0c5d77ec-316b-47e0-ba9a-0616be890ad6.dict&quot;,
+&quot;TEST_KYLIN_FACT/CAL_DT&quot;:&quot;/dict/PREDEFINED/date(yyyy-mm-dd)/64ac4f82-f2af-476e-85b9-f0805001014e.dict&quot;,
+&quot;TEST_CATEGORY_GROUPINGS/CATEG_LVL3_NAME&quot;:&quot;/dict/TEST_CATEGORY_GROUPINGS/CATEG_LVL3_NAME/270fbfb0-281c-4602-8413-2970a7439c47.dict&quot;,
+&quot;TEST_KYLIN_FACT/LEAF_CATEG_ID&quot;:&quot;/dict/TEST_CATEGORY_GROUPINGS/LEAF_CATEG_ID/2602386c-debb-4968-8d2f-b52b8215e385.dict&quot;,
+&quot;TEST_CATEGORY_GROUPINGS/META_CATEG_NAME&quot;:&quot;/dict/TEST_CATEGORY_GROUPINGS/META_CATEG_NAME/0410d2c4-4686-40bc-ba14-170042a2de94.dict&quot;
+ },
+ &quot;snapshots&quot;:{
+&quot;TEST_CAL_DT&quot;:&quot;/table_snapshot/TEST_CAL_DT.csv/8f7cfc8a-020d-4019-b419-3c6deb0ffaa0.snapshot&quot;,
+&quot;TEST_SELLER_TYPE_DIM&quot;:&quot;/table_snapshot/TEST_SELLER_TYPE_DIM.csv/c60fd05e-ac94-4016-9255-96521b273b81.snapshot&quot;,
+&quot;TEST_CATEGORY_GROUPINGS&quot;:&quot;/table_snapshot/TEST_CATEGORY_GROUPINGS.csv/363f4a59-b725-4459-826d-3188bde6a971.snapshot&quot;,
+&quot;TEST_SITES&quot;:&quot;/table_snapshot/TEST_SITES.csv/78e0aecc-3ec6-4406-b86e-bac4b10ea63b.snapshot&quot;
+ }
+  }
+   ],
+   &quot;create_time&quot;:null,
+   &quot;source_records_count&quot;:6000,
+   &quot;source_records_size&quot;:0,
+   &quot;size_kb&quot;:4758
+}
+</code></pre></blockquote>
+<h5 id="Disable-Cube"><a href="#Disable-Cube" class="headerlink" title="Disable Cube"></a>Disable Cube</h5><blockquote>
+<pre><code>PUT /cubes/{cubeName}/disable
+</code></pre></blockquote>
+<h6 id="Path-variable-1"><a href="#Path-variable-1" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>cubeName - required string Cube name.<br>######Response Sample</li>
+</ul>
+<p>(Same as “Enable Cube”)</p>
+<h5 id="Purge-Cube"><a href="#Purge-Cube" class="headerlink" title="Purge Cube"></a>Purge Cube</h5><blockquote>
+<pre><code>PUT /cubes/{cubeName}/Purge
+</code></pre></blockquote>
+<h6 id="Path-variable-2"><a href="#Path-variable-2" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>cubeName - required string Cube name.<br>######Response Sample</li>
+</ul>
+<p>(Same as “Enable Cube”)</p>
+<h5 id="Resume-Job"><a href="#Resume-Job" class="headerlink" title="Resume Job"></a>Resume Job</h5><blockquote>
+<pre><code>PUT /jobs/{jobId}/resume
+</code></pre></blockquote>
+<h6 id="Path-variable-3"><a href="#Path-variable-3" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>jobId - required string Job id.</li>
+</ul>
+<h6 id="Response-Sample-8"><a href="#Response-Sample-8" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+   &quot;uuid&quot;:&quot;c143e0e4-ac5f-434d-acf3-46b0d15e3dc6&quot;,
+   &quot;last_modified&quot;:1407908916705,
+   &quot;name&quot;:&quot;test_kylin_cube_with_slr_empty - 19700101000000_20140731160000 - BUILD - PDT 2014-08-12 22:48:36&quot;,
+   &quot;type&quot;:&quot;BUILD&quot;,
+   &quot;duration&quot;:0,
+   &quot;related_cube&quot;:&quot;test_kylin_cube_with_slr_empty&quot;,
+   &quot;related_segment&quot;:&quot;19700101000000_20140731160000&quot;,
+   &quot;exec_start_time&quot;:0,
+   &quot;exec_end_time&quot;:0,
+   &quot;mr_waiting&quot;:0,
+   &quot;steps&quot;:[
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Create Intermediate Flat Hive Table&quot;,
+ &quot;sequence_id&quot;:0,
+ &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\\177&apos;\nSTORED AS SEQUENCEFILE\nLOCATION &apos;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&apos;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET hive.auto.convert.join.noconditionaltask = true;\nSET hive.auto.convert.join.noconditionaltask.size = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &apos;2014-07-31 16:00:00&apos;)\n;\n\&quot;&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;SHELL_CMD_HADOOP&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:false
+  },
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Extract Fact Table Distinct Columns&quot;,
+ &quot;sequence_id&quot;:1,
+ &quot;exec_cmd&quot;:&quot; -conf C:/kylin/Kylin/server/src/main/resources/hadoop_job_conf_medium.xml -cubename test_kylin_cube_with_slr_empty -input /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6 -output /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/test_kylin_cube_with_slr_empty/fact_distinct_columns -jobname Kylin_Fact_Distinct_Columns_test_kylin_cube_with_slr_empty_Step_1&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;JAVA_CMD_HADOOP_FACTDISTINCT&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:true
+  },
+  {
+ &quot;interruptCmd&quot;:null,
+ &quot;name&quot;:&quot;Load HFile to HBase Table&quot;,
+ &quot;sequence_id&quot;:12,
+ &quot;exec_cmd&quot;:&quot; -input /tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/test_kylin_cube_with_slr_empty/hfile/ -htablename KYLIN-CUBE-TEST_KYLIN_CUBE_WITH_SLR_EMPTY-19700101000000_20140731160000_11BB4326-5975-4358-804C-70D53642E03A -cubename test_kylin_cube_with_slr_empty&quot;,
+ &quot;interrupt_cmd&quot;:null,
+ &quot;exec_start_time&quot;:0,
+ &quot;exec_end_time&quot;:0,
+ &quot;exec_wait_time&quot;:0,
+ &quot;step_status&quot;:&quot;PENDING&quot;,
+ &quot;cmd_type&quot;:&quot;JAVA_CMD_HADOOP_NO_MR_BULKLOAD&quot;,
+ &quot;info&quot;:null,
+ &quot;run_async&quot;:false
+  }
+   ],
+   &quot;job_status&quot;:&quot;PENDING&quot;,
+   &quot;progress&quot;:0.0
+}
+</code></pre></blockquote>
+<h5 id="Discard-Job"><a href="#Discard-Job" class="headerlink" title="Discard Job"></a>Discard Job</h5><blockquote>
+<pre><code>PUT /jobs/{jobId}/cancel
+</code></pre></blockquote>
+<h6 id="Path-variable-4"><a href="#Path-variable-4" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>jobId - required string Job id.</li>
+</ul>
+<h6 id="Response-Sample-9"><a href="#Response-Sample-9" class="headerlink" title="Response Sample"></a>Response Sample</h6><p>(Same as “Resume job”)</p>
+<h5 id="Get-Job-Status"><a href="#Get-Job-Status" class="headerlink" title="Get Job Status"></a>Get Job Status</h5><blockquote>
+<pre><code>GET /jobs/{jobId}
+</code></pre></blockquote>
+<h6 id="Path-variable-5"><a href="#Path-variable-5" class="headerlink" title="Path variable"></a>Path variable</h6><ul>
+<li>jobId - required string Job id.<h6 id="Response-Sample-10"><a href="#Response-Sample-10" class="headerlink" title="Response Sample"></a>Response Sample</h6></li>
+</ul>
+<p>(Same as “Resume Job”)</p>
+<h5 id="Get-job-step-output"><a href="#Get-job-step-output" class="headerlink" title="Get job step output"></a>Get job step output</h5><blockquote>
+<pre><code>GET /jobs/{jobId}/steps/{stepId}/output
+</code></pre></blockquote>
+<h6 id="Path-Variable-4"><a href="#Path-Variable-4" class="headerlink" title="Path Variable"></a>Path Variable</h6><ul>
+<li>jobId - required string Job id.</li>
+<li>stepId - required string Step id; the step id is composed by jobId with step sequence id; for example, the jobId is “fb479e54-837f-49a2-b457-651fc50be110”, its 3rd step id is “fb479e54-837f-49a2-b457-651fc50be110-3”,<h6 id="Response-Sample-11"><a href="#Response-Sample-11" class="headerlink" title="Response Sample"></a>Response Sample</h6></li>
+</ul>
+<blockquote>
+<pre><code>{
+   &quot;cmd_output&quot;:&quot;log string&quot;
+}
+</code></pre></blockquote>
+<h5 id="Get-Hive-Table"><a href="#Get-Hive-Table" class="headerlink" title="Get Hive Table"></a>Get Hive Table</h5><blockquote>
+<pre><code>GET /tables/{tableName}
+</code></pre></blockquote>
+<h6 id="Request-Parameters-2"><a href="#Request-Parameters-2" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>tableName - required string table name to find.</li>
+</ul>
+<h6 id="Response-Sample-12"><a href="#Response-Sample-12" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+uuid: &quot;69cc92c0-fc42-4bb9-893f-bd1141c91dbe&quot;,
+name: &quot;SAMPLE_07&quot;,
+columns: [{
+id: &quot;1&quot;,
+name: &quot;CODE&quot;,
+datatype: &quot;string&quot;
+}, {
+id: &quot;2&quot;,
+name: &quot;DESCRIPTION&quot;,
+datatype: &quot;string&quot;
+}, {
+id: &quot;3&quot;,
+name: &quot;TOTAL_EMP&quot;,
+datatype: &quot;int&quot;
+}, {
+id: &quot;4&quot;,
+name: &quot;SALARY&quot;,
+datatype: &quot;int&quot;
+}],
+database: &quot;DEFAULT&quot;,
+last_modified: 1419330476755
+}
+</code></pre></blockquote>
+<h5 id="Get-Hive-Table-Extend-Info"><a href="#Get-Hive-Table-Extend-Info" class="headerlink" title="Get Hive Table (Extend Info)"></a>Get Hive Table (Extend Info)</h5><blockquote>
+<pre><code>GET /tables/{tableName}/exd-map
+</code></pre></blockquote>
+<h6 id="Request-Parameters-3"><a href="#Request-Parameters-3" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>tableName - optional string table name to find.</li>
+</ul>
+<h6 id="Response-Sample-13"><a href="#Response-Sample-13" class="headerlink" title="Response Sample"></a>Response Sample</h6><blockquote>
+<pre><code>{
+&quot;minFileSize&quot;: &quot;46055&quot;,
+&quot;totalNumberFiles&quot;: &quot;1&quot;,
+&quot;location&quot;: &quot;hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_07&quot;,
+&quot;lastAccessTime&quot;: &quot;1418374103365&quot;,
+&quot;lastUpdateTime&quot;: &quot;1398176493340&quot;,
+&quot;columns&quot;: &quot;struct columns { string code, string description, i32 total_emp, i32 salary}&quot;,
+&quot;partitionColumns&quot;: &quot;&quot;,
+&quot;EXD_STATUS&quot;: &quot;true&quot;,
+&quot;maxFileSize&quot;: &quot;46055&quot;,
+&quot;inputformat&quot;: &quot;org.apache.hadoop.mapred.TextInputFormat&quot;,
+&quot;partitioned&quot;: &quot;false&quot;,
+&quot;tableName&quot;: &quot;sample_07&quot;,
+&quot;owner&quot;: &quot;hue&quot;,
+&quot;totalFileSize&quot;: &quot;46055&quot;,
+&quot;outputformat&quot;: &quot;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&quot;
+}
+</code></pre></blockquote>
+<h5 id="Get-Hive-Tables"><a href="#Get-Hive-Tables" class="headerlink" title="Get Hive Tables"></a>Get Hive Tables</h5><blockquote>
+<pre><code>GET /tables
+</code></pre></blockquote>
+<h6 id="Request-Parameters-4"><a href="#Request-Parameters-4" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>project- required string will list all tables in the project.</li>
+<li>ext- optional boolean set true to get extend info of table.<h6 id="Response-Sample-14"><a href="#Response-Sample-14" class="headerlink" title="Response Sample"></a>Response Sample</h6></li>
+</ul>
+<blockquote>
+<pre><code>[
+ {
+uuid: &quot;53856c96-fe4d-459e-a9dc-c339b1bc3310&quot;,
+name: &quot;SAMPLE_08&quot;,
+columns: [{
+id: &quot;1&quot;,
+name: &quot;CODE&quot;,
+datatype: &quot;string&quot;
+}, {
+id: &quot;2&quot;,
+name: &quot;DESCRIPTION&quot;,
+datatype: &quot;string&quot;
+}, {
+id: &quot;3&quot;,
+name: &quot;TOTAL_EMP&quot;,
+datatype: &quot;int&quot;
+}, {
+id: &quot;4&quot;,
+name: &quot;SALARY&quot;,
+datatype: &quot;int&quot;
+}],
+database: &quot;DEFAULT&quot;,
+cardinality: {},
+last_modified: 0,
+exd: {
+minFileSize: &quot;46069&quot;,
+totalNumberFiles: &quot;1&quot;,
+location: &quot;hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_08&quot;,
+lastAccessTime: &quot;1398176495945&quot;,
+lastUpdateTime: &quot;1398176495981&quot;,
+columns: &quot;struct columns { string code, string description, i32 total_emp, i32 salary}&quot;,
+partitionColumns: &quot;&quot;,
+EXD_STATUS: &quot;true&quot;,
+maxFileSize: &quot;46069&quot;,
+inputformat: &quot;org.apache.hadoop.mapred.TextInputFormat&quot;,
+partitioned: &quot;false&quot;,
+tableName: &quot;sample_08&quot;,
+owner: &quot;hue&quot;,
+totalFileSize: &quot;46069&quot;,
+outputformat: &quot;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&quot;
+}
+  }
+]
+</code></pre></blockquote>
+<h5 id="Load-Hive-Tables"><a href="#Load-Hive-Tables" class="headerlink" title="Load Hive Tables"></a>Load Hive Tables</h5><blockquote>
+<pre><code>POST /tables/{tables}/{project}
+</code></pre></blockquote>
+<h6 id="Request-Parameters-5"><a href="#Request-Parameters-5" class="headerlink" title="Request Parameters"></a>Request Parameters</h6><ul>
+<li>tables - required string table names you want to load from hive, separated with comma.</li>
+<li>project - required String the project which the tables will be loaded into.<h6 id="Response-Sample-15"><a href="#Response-Sample-15" class="headerlink" title="Response Sample"></a>Response Sample</h6></li>
+</ul>
+<blockquote>
+<pre><code>{
+&quot;result.loaded&quot;: [&quot;DEFAULT.SAMPLE_07&quot;],
+&quot;result.unloaded&quot;: [&quot;sapmle_08&quot;]
+}
+</code></pre></blockquote>
+<h5 id="Wipe-cache"><a href="#Wipe-cache" class="headerlink" title="Wipe cache"></a>Wipe cache</h5><blockquote>
+<pre><code>PUT /cache/{type}/{name}/{action}
+</code></pre></blockquote>
+<h5 id="Path-variable-6"><a href="#Path-variable-6" class="headerlink" title="Path variable"></a>Path variable</h5><ul>
+<li>type - required string ‘METADATA’ or ‘CUBE’</li>
+<li>name - required string Cache key, e.g the cube name.</li>
+<li>action - required string ‘create’, ‘update’ or ‘drop’</li>
+</ul>
+<h3 id="Web-Interface"><a href="#Web-Interface" class="headerlink" title="Web Interface"></a>Web Interface</h3><blockquote>
+<pre><code>Supported Browsers
+Windows: Google Chrome, FireFox
+Mac: Google Chrome, FireFox, Safari
+</code></pre></blockquote>
+<h4 id="Access-amp-Login"><a href="#Access-amp-Login" class="headerlink" title="Access &amp; Login"></a>Access &amp; Login</h4><p>Host to access: <a href="http://your_sandbox_ip:7070" target="_blank" rel="noopener">http://your_sandbox_ip:7070</a><br>Login with username/password: ADMIN/KYLI<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/1%20login.png" alt=""></p>
+<h4 id="Available-Hive-Tables-in-Kylin"><a href="#Available-Hive-Tables-in-Kylin" class="headerlink" title="Available Hive Tables in Kylin"></a>Available Hive Tables in Kylin</h4><p>Although Kylin will using SQL as query interface and leverage Hive metadata, kylin will not enable user to query all hive tables since it’s a pre-build OLAP (MOLAP) system so far. To enable Table in Kylin, it will be easy to using “Sync” function to sync up tables from Hive.<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/2%20tables.png" alt=""></p>
+<h4 id="Kylin-OLAP-Cube"><a href="#Kylin-OLAP-Cube" class="headerlink" title="Kylin OLAP Cube"></a>Kylin OLAP Cube</h4><p>Kylin’s OLAP Cubes are pre-calculation datasets from Star Schema Hive tables, Here’s the web management interface for user to explorer, manage all cubes.Go to Cubes Menu, it will list all cubes available in system:<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/3%20cubes.png" alt=""></p>
+<p>To explore more detail about the Cube</p>
+<ul>
+<li><p>Form View:</p>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/4%20form-view.png" alt=""></p>
+</li>
+<li><p>SQL View (Hive Query to read data to generate the cube):<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/5%20sql-view.png" alt=""></p>
+</li>
+<li><p>Visualization (Showing the Star Schema behind of this cube):</p>
+</li>
+</ul>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/6%20visualization.png" alt=""></p>
+<ul>
+<li>Access (Grant user/role privileges, Grant operation only open to Admin in beta):</li>
+</ul>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/7%20access.png" alt=""></p>
+<h4 id="Write-and-Execute-SQL-on-web"><a href="#Write-and-Execute-SQL-on-web" class="headerlink" title="Write and Execute SQL on web"></a>Write and Execute SQL on web</h4><p>Kylin’s web offer a simple query tool for user to run SQL to explorer existing cube, verify result and explorer the result set using #5’s Pivot analysis and visualization</p>
+<p>Query Limit</p>
+<blockquote>
+<ol>
+<li>Only SELECT query be supported</li>
+<li>To avoid huge network traffic from server to client, the scan range’s threshold be set to 1,000,000 in beta.</li>
+<li>SQL can’t found data from cube will not redirect to Hive in beta</li>
+</ol>
+</blockquote>
+<ul>
+<li><p>Go to “Query” menu:</p>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/8%20query.png" alt=""></p>
+</li>
+<li><p>Source Tables:</p>
+</li>
+</ul>
+<p>Browser current available Tables (same structure and metadata as Hive):<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/9%20query-table.png" alt=""></p>
+<ul>
+<li>New Query:</li>
+</ul>
+<p>You can write and execute your query and explorer the result. One query for you reference:<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/10%20query-result.png" alt=""></p>
+<ul>
+<li>Saved Query:</li>
+</ul>
+<p>Associate with user account, you can get saved query from different browsers even machines.<br>Click “Save” in Result area, it will popup for name and description to save current query:</p>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/11%20save-query.png" alt=""></p>
+<p>Click “Saved Queries” to browser all your saved queries, you could direct resubmit it to run or remove it:</p>
+<p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/11%20save-query-2.png" alt=""></p>
+<ul>
+<li>Query History:</li>
+</ul>
+<p>Only keep the current user’s query history in current bowser, it will require cookie enabled and will lost if you clean up bowser’s cache.Click “Query History” tab, you could directly resubmit any of them to execute again.</p>
+<h4 id="Pivot-Analysis-and-Visualization"><a href="#Pivot-Analysis-and-Visualization" class="headerlink" title="Pivot Analysis and Visualization"></a>Pivot Analysis and Visualization</h4><p>There’s one simple pivot and visualization analysis tool in Kylin’s web for user to explore their query result:</p>
+<ul>
+<li><p>General Information:</p>
+<p>When the query execute success, it will present a success indictor and also a cube’s name which be hit.<br>Also it will present how long this query be executed in backend engine (not cover network traffic from Kylin server to browser):<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/12%20general.png" alt=""></p>
+</li>
+<li><p>Query Result:</p>
+</li>
+</ul>
+<p>It’s easy to order on one column.<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/13%20results.png" alt=""></p>
+<ul>
+<li>Export to CSV File</li>
+</ul>
+<p>Click “Export” button to save current result as CSV file.</p>
+<ul>
+<li>Pivot Table:</li>
+</ul>
+<p>Drag and Drop one or more columns into the header, the result will grouping by such column’s value:<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/14%20drag.png" alt=""></p>
+<ul>
+<li>Visualization:</li>
+</ul>
+<p>Also, the result set will be easy to show with different charts in “Visualization”:</p>
+<p>note: line chart only available when there’s at least one dimension with real “Date” data type of column from Hive Table.</p>
+<p>Bar Chart:<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/15%20bar-chart.png" alt=""></p>
+<p>Pie Chart:<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/16%20pie-chart.png" alt=""></p>
+<p>Line Chart<br><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/17%20line-chart.png" alt=""></p>
+<h2 id="kylin-Client-Tool-Tutorial"><a href="#kylin-Client-Tool-Tutorial" class="headerlink" title="kylin Client Tool Tutorial"></a>kylin Client Tool Tutorial</h2><blockquote>
+<p>Kylin-client-tool is a tool coded with python, completely based on Kylin’s restful apis.<br>With it, users can easily create Kylin Cubes, timely build cubes, summit/schedule/check/cancel/resume jobs.</p>
+</blockquote>
+<h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><ol>
+<li><p>Make sure python2.6/2.7 installed</p>
+</li>
+<li><p>Two python packages apscheduler and requests are needed, run setup.sh to install. For mac users, please runsetup-mac.sh. Or you can install them with setuptools.</p>
+</li>
+</ol>
+<h3 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h3><p>Modify settings/settings.py to set,</p>
+<blockquote>
+<pre><code>KYLIN_USER Kylin’s username
+
+KYLIN_PASSWORD Kylin’s password
+
+KYLIN_REST_HOST Kylin’s address
+
+KYLIN_REST_PORT Kylin’s port
+
+KYLIN_JOB_MAX_COCURRENT Max concurrent jobs for cube building
+
+KYLIN_JOB_MAX_RETRY Max failover time after job failed
+</code></pre></blockquote>
+<h3 id="About-command-lines"><a href="#About-command-lines" class="headerlink" title="About command lines"></a>About command lines</h3><p>This tool is used by command lines, please run python kylin_client_tool.py －h to check for details.</p>
+<h3 id="Cube’s-creation"><a href="#Cube’s-creation" class="headerlink" title="Cube’s creation"></a>Cube’s creation</h3><p>This tool has its own cube definition method, the format is as below,</p>
+<blockquote>
+<pre><code>cube name|fact table name|dimension1,type of dimension1;dimension2,type of dimension2...|measure1,expression of measure1,type of measure1...|settings|filter|
+
+settings has options below,
+
+no_dictionary Set dimensions not generate dictionaries in “Rowkeys” and their lengths
+
+mandatory_dimension Set mandatory dimensions in “Rowkeys”
+
+aggregation_group Set aggregation group
+
+partition_date_column Set partition date column
+
+partition_date_start Set partition start date
+
+Cases can be found in file cube_def.csv, it does not support cube creation with lookup table
+
+Use -c to create, use -F to specify cube definition file, for instance
+
+python kylin_client_tool.py -c -F cube_def.csv
+</code></pre></blockquote>
+<h3 id="Build-cube-1"><a href="#Build-cube-1" class="headerlink" title="Build cube"></a>Build cube</h3><h4 id="Build-cube-with-cube-definition-file"><a href="#Build-cube-with-cube-definition-file" class="headerlink" title="Build cube with cube definition file"></a>Build cube with cube definition file</h4><p>Use -b to build, use -F to specify the cube definition file, if “partition date column” specified, use -T to specify the end date(year-month-day), if not specified, it will take current time as end date, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -T 2016-03-01
+</code></pre></blockquote>
+<h4 id="Build-cube-with-file-of-cube-names"><a href="#Build-cube-with-file-of-cube-names" class="headerlink" title="Build cube with file of cube names"></a>Build cube with file of cube names</h4><p>Use -f to specify the file of cube names, each line of the file has one cube name, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -b -f cube_names.csv -T 2016-03-01
+</code></pre></blockquote>
+<h4 id="Build-cube-with-cube-names"><a href="#Build-cube-with-cube-names" class="headerlink" title="Build cube with cube names"></a>Build cube with cube names</h4><p>Use -C to specify cube names, split with commas, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -b -C client_tool_test1,client_tool_test2 -T 2016-03-01
+</code></pre></blockquote>
+<h3 id="Job-management"><a href="#Job-management" class="headerlink" title="Job management"></a>Job management</h3><h4 id="Check-jobs’-statuses"><a href="#Check-jobs’-statuses" class="headerlink" title="Check jobs’ statuses"></a>Check jobs’ statuses</h4><p>Use -s to check, use -f to specify file of cube names, use -C to specify cube names, if not specified, it will check all cubes’ statuses. Use -S to specify jobs’ statuses, R for Running, E for Error, F for Finished, D for Discarded, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -s -C kylin_sales_cube -f cube_names.csv -S F
+</code></pre></blockquote>
+<h4 id="Resume-jobs"><a href="#Resume-jobs" class="headerlink" title="Resume jobs"></a>Resume jobs</h4><p>Use -r to resume jobs, use -f to specify file of cube names, use -C to specify cube names, if not specified, it will reuse all jobs with error status, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -r -C kylin_sales_cube -f cube_names.csv
+</code></pre></blockquote>
+<h4 id="Cancel-jobs"><a href="#Cancel-jobs" class="headerlink" title="Cancel jobs"></a>Cancel jobs</h4><p>Use -k to cancel jobs, use -f to specify file with cube names, use -C to specify cube names, if not specified, it will cancel all jobs with running or error statuses, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -k -C kylin_sales_cube -f cube_names.csv
+</code></pre></blockquote>
+<h3 id="Schedule-cubes-building"><a href="#Schedule-cubes-building" class="headerlink" title="Schedule cubes building"></a>Schedule cubes building</h3><h3 id="Build-cube-at-set-intervals"><a href="#Build-cube-at-set-intervals" class="headerlink" title="Build cube at set intervals"></a>Build cube at set intervals</h3><p>On the basis of command of cube building, use -B i to specify the mode of build cube at set intervals, use -O to specify how many hours, for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -B i -O 1
+</code></pre></blockquote>
+<p>Build cube at given time</p>
+<p>Use -B t to specify the mode of build cube at given time, use -O to specify the build time, split with commas,for instance,</p>
+<blockquote>
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -T 2016-03-04 -B t -O 2016,3,1,0,0,0
+</code></pre></blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Apache/" rel="tag"># Apache</a>
+          
+            <a href="/tags/Big-data/" rel="tag"># Big data</a>
+          
+            <a href="/tags/CUBE/" rel="tag"># CUBE</a>
+          
+            <a href="/tags/OLAP/" rel="tag"># OLAP</a>
+          
+            <a href="/tags/HADOOP/" rel="tag"># HADOOP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/14/处理hexo与mathjax兼容问题/" rel="next" title="处理hexo与mathjax兼容问题">
+                <i class="fa fa-chevron-left"></i> 处理hexo与mathjax兼容问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/08/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eason Du</p>
+              <p class="site-description motion-element" itemprop="description">即使天空暗淡，阳光也会照耀圣西罗。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kylin"><span class="nav-number">1.</span> <span class="nav-text">Kylin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OLAP简介"><span class="nav-number">2.</span> <span class="nav-text">OLAP简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OLAP的历史与基本概念"><span class="nav-number">2.1.</span> <span class="nav-text">OLAP的历史与基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROLAP和MOLAP"><span class="nav-number">2.2.</span> <span class="nav-text">ROLAP和MOLAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大数据时代OLAP的挑战"><span class="nav-number">2.3.</span> <span class="nav-text">大数据时代OLAP的挑战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-kylin介绍"><span class="nav-number">2.4.</span> <span class="nav-text">Apache kylin介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin是什么。"><span class="nav-number">2.4.1.</span> <span class="nav-text">Apache kylin是什么。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么引入kylin。"><span class="nav-number">2.4.2.</span> <span class="nav-text">为什么引入kylin。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin-生态系统"><span class="nav-number">2.4.3.</span> <span class="nav-text">Apache kylin 生态系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-kylin内部解剖"><span class="nav-number">2.5.</span> <span class="nav-text">Apache kylin内部解剖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin的核心概念"><span class="nav-number">2.5.1.</span> <span class="nav-text">Apache kylin的核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin的工作机制"><span class="nav-number">2.5.2.</span> <span class="nav-text">Apache kylin的工作机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache-Kylin对传统MOLAP的改进"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">Apache Kylin对传统MOLAP的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache-kylin-与-RTOLAP"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">Apache kylin 与 RTOLAP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin的架构及核心组件"><span class="nav-number">2.5.3.</span> <span class="nav-text">Apache kylin的架构及核心组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache-kylin-SQL查询的实现"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">Apache kylin SQL查询的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-kylin配置"><span class="nav-number">2.6.</span> <span class="nav-text">Apache kylin配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-Kylin元数据管理"><span class="nav-number">2.7.</span> <span class="nav-text">Apache Kylin元数据管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-kylin元数据的存储"><span class="nav-number">2.7.1.</span> <span class="nav-text">Apache kylin元数据的存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-kylin元数据的运维"><span class="nav-number">2.8.</span> <span class="nav-text">Apache kylin元数据的运维</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-kylin-Slow-Query-SQL改造"><span class="nav-number">2.9.</span> <span class="nav-text">Apache kylin-Slow Query SQL改造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#慢查询（Slow-Query-SQL）定性"><span class="nav-number">2.9.1.</span> <span class="nav-text">慢查询（Slow Query SQL）定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#告警改造"><span class="nav-number">2.9.2.</span> <span class="nav-text">告警改造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slow-query-sql-在元数据中的位置"><span class="nav-number">2.9.3.</span> <span class="nav-text">slow query sql 在元数据中的位置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kylin-on-Docker"><span class="nav-number">2.10.</span> <span class="nav-text">Kylin on Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-make-it"><span class="nav-number">2.10.1.</span> <span class="nav-text">How to make it</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Steps"><span class="nav-number">2.10.2.</span> <span class="nav-text">Steps</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kylin-接口"><span class="nav-number">2.11.</span> <span class="nav-text">Kylin 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ODBC接口"><span class="nav-number">2.11.1.</span> <span class="nav-text">ODBC接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Prerequisites"><span class="nav-number">2.11.1.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Installation"><span class="nav-number">2.11.1.2.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DSN-configuration"><span class="nav-number">2.11.1.3.</span> <span class="nav-text">DSN configuration</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDBC接口"><span class="nav-number">2.11.2.</span> <span class="nav-text">JDBC接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Authentication"><span class="nav-number">2.11.2.1.</span> <span class="nav-text">Authentication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connection-URL-format"><span class="nav-number">2.11.2.2.</span> <span class="nav-text">Connection URL format:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-Cube-with-RESTful-API"><span class="nav-number">2.11.2.3.</span> <span class="nav-text">Build Cube with RESTful API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Authentication-1"><span class="nav-number">2.11.2.3.1.</span> <span class="nav-text">Authentication</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-details-of-cube"><span class="nav-number">2.11.2.3.2.</span> <span class="nav-text">Get details of cube.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Then-submit-a-build-job-of-the-cube"><span class="nav-number">2.11.2.3.3.</span> <span class="nav-text">Then submit a build job of the cube.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Track-job-status"><span class="nav-number">2.11.2.3.4.</span> <span class="nav-text">Track job status.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#If-the-job-got-errors-you-can-resume-it"><span class="nav-number">2.11.2.3.5.</span> <span class="nav-text">If the job got errors, you can resume it.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Use-RESTful-API-in-Javascript"><span class="nav-number">2.11.2.4.</span> <span class="nav-text">Use RESTful API in Javascript</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Example-on-Query-API"><span class="nav-number">2.11.2.4.1.</span> <span class="nav-text">Example on Query API.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Keypoints"><span class="nav-number">2.11.2.4.2.</span> <span class="nav-text">Keypoints</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Basic-access-authorization"><span class="nav-number">2.11.2.4.3.</span> <span class="nav-text">Basic access authorization</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Use-RESTful-API"><span class="nav-number">2.11.2.5.</span> <span class="nav-text">Use RESTful API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Authentication-2"><span class="nav-number">2.11.2.5.1.</span> <span class="nav-text">Authentication</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Header"><span class="nav-number">2.11.2.5.1.1.</span> <span class="nav-text">Request Header</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Body"><span class="nav-number">2.11.2.5.1.2.</span> <span class="nav-text">Response Body</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample"><span class="nav-number">2.11.2.5.1.3.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Query"><span class="nav-number">2.11.2.5.2.</span> <span class="nav-text">Query</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Body"><span class="nav-number">2.11.2.5.2.1.</span> <span class="nav-text">Request Body</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Sample"><span class="nav-number">2.11.2.5.2.2.</span> <span class="nav-text">Request Sample</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Body-1"><span class="nav-number">2.11.2.5.2.3.</span> <span class="nav-text">Response Body</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-1"><span class="nav-number">2.11.2.5.2.4.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List-queryable-tables"><span class="nav-number">2.11.2.5.3.</span> <span class="nav-text">List queryable tables</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters"><span class="nav-number">2.11.2.5.3.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-2"><span class="nav-number">2.11.2.5.3.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List-cubes"><span class="nav-number">2.11.2.5.4.</span> <span class="nav-text">List cubes</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters-1"><span class="nav-number">2.11.2.5.4.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-3"><span class="nav-number">2.11.2.5.4.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-cube"><span class="nav-number">2.11.2.5.5.</span> <span class="nav-text">Get cube</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-Variable"><span class="nav-number">2.11.2.5.5.1.</span> <span class="nav-text">Path Variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-Variable-1"><span class="nav-number">2.11.2.5.5.2.</span> <span class="nav-text">Path Variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-4"><span class="nav-number">2.11.2.5.5.3.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-data-model"><span class="nav-number">2.11.2.5.6.</span> <span class="nav-text">Get data model</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-Variable-2"><span class="nav-number">2.11.2.5.6.1.</span> <span class="nav-text">Path Variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-5"><span class="nav-number">2.11.2.5.6.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Build-cube"><span class="nav-number">2.11.2.5.7.</span> <span class="nav-text">Build cube</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-Variable-3"><span class="nav-number">2.11.2.5.7.1.</span> <span class="nav-text">Path Variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Body-1"><span class="nav-number">2.11.2.5.7.2.</span> <span class="nav-text">Request Body</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-6"><span class="nav-number">2.11.2.5.7.3.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Enable-Cube"><span class="nav-number">2.11.2.5.8.</span> <span class="nav-text">Enable Cube</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable"><span class="nav-number">2.11.2.5.8.1.</span> <span class="nav-text">Path variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-7"><span class="nav-number">2.11.2.5.8.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Disable-Cube"><span class="nav-number">2.11.2.5.9.</span> <span class="nav-text">Disable Cube</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable-1"><span class="nav-number">2.11.2.5.9.1.</span> <span class="nav-text">Path variable</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Purge-Cube"><span class="nav-number">2.11.2.5.10.</span> <span class="nav-text">Purge Cube</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable-2"><span class="nav-number">2.11.2.5.10.1.</span> <span class="nav-text">Path variable</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Resume-Job"><span class="nav-number">2.11.2.5.11.</span> <span class="nav-text">Resume Job</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable-3"><span class="nav-number">2.11.2.5.11.1.</span> <span class="nav-text">Path variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-8"><span class="nav-number">2.11.2.5.11.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Discard-Job"><span class="nav-number">2.11.2.5.12.</span> <span class="nav-text">Discard Job</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable-4"><span class="nav-number">2.11.2.5.12.1.</span> <span class="nav-text">Path variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-9"><span class="nav-number">2.11.2.5.12.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-Job-Status"><span class="nav-number">2.11.2.5.13.</span> <span class="nav-text">Get Job Status</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-variable-5"><span class="nav-number">2.11.2.5.13.1.</span> <span class="nav-text">Path variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-10"><span class="nav-number">2.11.2.5.13.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-job-step-output"><span class="nav-number">2.11.2.5.14.</span> <span class="nav-text">Get job step output</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Path-Variable-4"><span class="nav-number">2.11.2.5.14.1.</span> <span class="nav-text">Path Variable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-11"><span class="nav-number">2.11.2.5.14.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-Hive-Table"><span class="nav-number">2.11.2.5.15.</span> <span class="nav-text">Get Hive Table</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters-2"><span class="nav-number">2.11.2.5.15.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-12"><span class="nav-number">2.11.2.5.15.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-Hive-Table-Extend-Info"><span class="nav-number">2.11.2.5.16.</span> <span class="nav-text">Get Hive Table (Extend Info)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters-3"><span class="nav-number">2.11.2.5.16.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-13"><span class="nav-number">2.11.2.5.16.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Get-Hive-Tables"><span class="nav-number">2.11.2.5.17.</span> <span class="nav-text">Get Hive Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters-4"><span class="nav-number">2.11.2.5.17.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-14"><span class="nav-number">2.11.2.5.17.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Load-Hive-Tables"><span class="nav-number">2.11.2.5.18.</span> <span class="nav-text">Load Hive Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Request-Parameters-5"><span class="nav-number">2.11.2.5.18.1.</span> <span class="nav-text">Request Parameters</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Response-Sample-15"><span class="nav-number">2.11.2.5.18.2.</span> <span class="nav-text">Response Sample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Wipe-cache"><span class="nav-number">2.11.2.5.19.</span> <span class="nav-text">Wipe cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Path-variable-6"><span class="nav-number">2.11.2.5.20.</span> <span class="nav-text">Path variable</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Interface"><span class="nav-number">2.11.3.</span> <span class="nav-text">Web Interface</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Access-amp-Login"><span class="nav-number">2.11.3.1.</span> <span class="nav-text">Access &amp; Login</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Available-Hive-Tables-in-Kylin"><span class="nav-number">2.11.3.2.</span> <span class="nav-text">Available Hive Tables in Kylin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Kylin-OLAP-Cube"><span class="nav-number">2.11.3.3.</span> <span class="nav-text">Kylin OLAP Cube</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Write-and-Execute-SQL-on-web"><span class="nav-number">2.11.3.4.</span> <span class="nav-text">Write and Execute SQL on web</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pivot-Analysis-and-Visualization"><span class="nav-number">2.11.3.5.</span> <span class="nav-text">Pivot Analysis and Visualization</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kylin-Client-Tool-Tutorial"><span class="nav-number">2.12.</span> <span class="nav-text">kylin Client Tool Tutorial</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install"><span class="nav-number">2.12.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Settings"><span class="nav-number">2.12.2.</span> <span class="nav-text">Settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#About-command-lines"><span class="nav-number">2.12.3.</span> <span class="nav-text">About command lines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cube’s-creation"><span class="nav-number">2.12.4.</span> <span class="nav-text">Cube’s creation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Build-cube-1"><span class="nav-number">2.12.5.</span> <span class="nav-text">Build cube</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-cube-with-cube-definition-file"><span class="nav-number">2.12.5.1.</span> <span class="nav-text">Build cube with cube definition file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-cube-with-file-of-cube-names"><span class="nav-number">2.12.5.2.</span> <span class="nav-text">Build cube with file of cube names</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-cube-with-cube-names"><span class="nav-number">2.12.5.3.</span> <span class="nav-text">Build cube with cube names</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-management"><span class="nav-number">2.12.6.</span> <span class="nav-text">Job management</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-jobs’-statuses"><span class="nav-number">2.12.6.1.</span> <span class="nav-text">Check jobs’ statuses</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Resume-jobs"><span class="nav-number">2.12.6.2.</span> <span class="nav-text">Resume jobs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cancel-jobs"><span class="nav-number">2.12.6.3.</span> <span class="nav-text">Cancel jobs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schedule-cubes-building"><span class="nav-number">2.12.7.</span> <span class="nav-text">Schedule cubes building</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Build-cube-at-set-intervals"><span class="nav-number">2.12.8.</span> <span class="nav-text">Build cube at set intervals</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eason Du</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
