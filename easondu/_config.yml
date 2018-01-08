@@ -93,6 +93,15 @@ math:
     js: custom_js_source # not used
     config:
       # KaTeX config
+autolinker:
+    enable: true
+    newWindow: true
+    urls: true
+    email: true
+    tel: false
+    twitter: false
+    hashtag: instagram
+    className: 'test'
 # math:
   # engine: 'mathjax' # or 'katex'
   # mathjax:
