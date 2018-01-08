@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,Markdown,nodejs,git," />
+  <meta name="keywords" content="Markdown,Hexo,nodejs,git," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="搭建hexo即使扒了很多大佬的搭建教程，还是踩了很多坑，所以打算记录下来自己的搭建过程。本文主要介绍win7下hexo3.3.7搭建，并发布到GitHub上。并且实现页面源文件与发布页面分离。">
-<meta name="keywords" content="Hexo,Markdown,nodejs,git">
+<meta name="keywords" content="Markdown,Hexo,nodejs,git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用hexo+github搭建个人博客">
 <meta property="og:url" content="http://yoursite.com/2017/07/12/用hexo-github搭建个人博客/index.html">
@@ -344,7 +344,7 @@
 </li>
 <li><p>创建两个分支：master 与 hexo；</p>
 </li>
-<li><p>设置hexo为默认分支（setting—branch—default branch）；</p>
+<li><p>设置hexo为默认分支（setting—-branch—-default branch）；</p>
 </li>
 <li><p>使用</p>
 </li>
@@ -420,7 +420,7 @@
 <p>  npm install</p>
 <p>  npm install hexo-deployer-git</p>
 </blockquote>
-<p>  （记得，不需要hexo init这条指令）<br>—-EOF—-</p>
+<p>  （记得，不需要hexo init这条指令）<br>——EOF——</p>
 
       
     </div>
@@ -438,9 +438,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
-          
             <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
           
             <a href="/tags/nodejs/" rel="tag"># nodejs</a>
           
@@ -744,7 +744,24 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
 
