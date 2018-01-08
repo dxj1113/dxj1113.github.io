@@ -102,9 +102,9 @@ categories: 技术
 在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理。
 
 1. 依次执行
-> git add .、
+> git add .
 
-> git commit -m "..."、
+> git commit -m "..."
 
 > git push origin hexo
 
