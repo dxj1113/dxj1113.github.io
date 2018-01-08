@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer2.png">
-<meta property="og:updated_time" content="2018-01-08T12:53:09.699Z">
+<meta property="og:updated_time" content="2018-01-08T12:56:34.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="处理hexo与mathjax兼容问题">
 <meta name="twitter:description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
@@ -328,7 +328,7 @@
         <p>写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * <a href="#%E5%B0%8F%E7%BB%93">Jump to the end to see sulution</a> 。</p>
  <a id="more"></a>
 <h1 id="问题重现"><a class="markdownIt-Anchor" href="#问题重现"></a> 问题重现</h1>
-<p>先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：</p>
+<p>先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：aaa</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">c^2
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8641079999999999em;"></span><span class="strut bottom" style="height:0.8641079999999999em;vertical-align:0em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">c</span><span class="vlist"><span style="top:-0.413em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathrm">2</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$R_&<a href="https://instagram.com/explore/tags/123" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#123</a>;m \times n&<a href="https://instagram.com/explore/tags/125" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#125</a>; = U_&<a href="https://instagram.com/explore/tags/123" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#123</a>;m \times m&<a href="https://instagram.com/explore/tags/125" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#125</a>; S_&<a href="https://instagram.com/explore/tags/123" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#123</a>;m \times n&<a href="https://instagram.com/explore/tags/125" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#125</a>; V_&<a href="https://instagram.com/explore/tags/123" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#123</a>;n \times n&<a href="https://instagram.com/explore/tags/125" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#125</a>;&apos;$$</span><br></pre></td></tr></table></figure>
