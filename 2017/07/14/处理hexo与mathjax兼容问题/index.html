@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer2.png">
-<meta property="og:updated_time" content="2018-01-08T12:56:34.876Z">
+<meta property="og:updated_time" content="2018-01-09T01:26:44.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="处理hexo与mathjax兼容问题">
 <meta name="twitter:description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
@@ -697,7 +697,7 @@ minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
@@ -750,6 +750,26 @@ minw,b12‖w‖2s.t.yi(wTϕ(x)+b)≥1,i=1,2,...,m(9)
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
