@@ -454,16 +454,16 @@ kylin_job_conf_inmem.xml
 
 kylin_job_conf.xml
 
-<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>
+kylin.properties
 </code></pre></blockquote>
-<p>kylin_hive_conf.xml是kylin提交任务到<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>的配置文件，kylin_job_conf_inmem.xml、kylin_job_conf.xml是 kylin提交任务到<a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">yarn</a>中的配置文件，用户可根据自己的情况酌情修改，<a href="http://下面介绍一下kylin.properties的重要配置项" class="test test-url" target="_blank" rel="noopener noreferrer">下面介绍一下kylin.properties的重要配置项</a>：</p>
+<p>kylin_hive_conf.xml是kylin提交任务到<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>的配置文件，kylin_job_conf_inmem.xml、kylin_job_conf.xml是 kylin提交任务到<a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">yarn</a>中的配置文件，用户可根据自己的情况酌情修改，下面介绍一下kylin.properties的重要配置项：</p>
 <p>kylin服务器的运行模式，有all、job、query</p>
 <blockquote>
 <pre><code>kylin.server.mode=all
 </code></pre></blockquote>
 <p>kylin实例服务器列表，注意：不包括以job模式运行的服务器实例</p>
 <blockquote>
-<pre><code><a href="http://kylin.rest.servers" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.rest.servers</a>=hostname1:7070,hostname2:7070,hostname3:7070
+<pre><code>kylin.rest.servers=hostname1:7070,hostname2:7070,hostname3:7070
 </code></pre></blockquote>
 <p>kylin<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>配置</p>
 <blockquote>
@@ -513,21 +513,21 @@ numReduceTasks = Math.max(1, numReduceTasks);
 // no more than 5000 reducer by default
 numReduceTasks = Math.min(kylinConfig.getHadoopJobMaxReducerNumber(), numReduceTasks);
 jobConf.setInt(MAPRED_REDUCE_TASKS, numReduceTasks);
-<a href="http://logger.info" class="test test-url" target="_blank" rel="noopener noreferrer">logger.info</a>(&quot;Having total map input MB &quot; + Math.round(totalMapInputMB));<a href="http://logger.info" class="test test-url" target="_blank" rel="noopener noreferrer">logger.info</a>(&quot;Having level &quot; + level + &quot;, pre-level cuboids &quot; + preLevelCuboids + &quot;, this level cuboids &quot; + thisLevelCuboids);<a href="http://logger.info" class="test test-url" target="_blank" rel="noopener noreferrer">logger.info</a>(&quot;Having per reduce MB &quot; + perReduceInputMB + &quot;, reduce count ratio &quot; + reduceCountRatio);<a href="http://logger.info" class="test test-url" target="_blank" rel="noopener noreferrer">logger.info</a>(&quot;Setting &quot; + MAPRED_REDUCE_TASKS + &quot;=&quot; + numReduceTasks);}
+logger.info(&quot;Having total map input MB &quot; + Math.round(totalMapInputMB));logger.info(&quot;Having level &quot; + level + &quot;, pre-level cuboids &quot; + preLevelCuboids + &quot;, this level cuboids &quot; + thisLevelCuboids);logger.info(&quot;Having per reduce MB &quot; + perReduceInputMB + &quot;, reduce count ratio &quot; + reduceCountRatio);logger.info(&quot;Setting &quot; + MAPRED_REDUCE_TASKS + &quot;=&quot; + numReduceTasks);}
 </code></pre></blockquote>
 <p>用户可根据自己的数据量大小，性能要求及<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群中的mapred-site.xml配置，酌情修改该项。</p>
 <blockquote>
-<pre><code><a href="http://kylin.job.run.as.remote.cmd" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.job.run.as.remote.cmd</a>=false
+<pre><code>kylin.job.run.as.remote.cmd=false
 </code></pre></blockquote>
 <p>该项配置表示，是否以ssh命令方式，向<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>、<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>、<a href="http://hive.apache.org" target="_blank" rel="noopener">hive</a>等发起CLI命令。一般将<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>部署在<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群的客户机上，所以该值为false。假如<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>服务不部署在<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>的客户机上，则该值为true;这样<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>访问<a href="http://hadoop.apache.org" target="_blank" rel="noopener">hadoop</a>集群，需要给出以下配置项的值：</p>
 <blockquote>
-<pre><code> # Only necessary when <a href="http://kylin.job.run.as.remote.cmd" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.job.run.as.remote.cmd</a>=true
+<pre><code> # Only necessary when kylin.job.run.as.remote.cmd=true
 kylin.job.remote.cli.hostname=
 
- # Only necessary when <a href="http://kylin.job.run.as.remote.cmd" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.job.run.as.remote.cmd</a>=true
+ # Only necessary when kylin.job.run.as.remote.cmd=true
 kylin.job.remote.cli.username=
 
- # Only necessary when <a href="http://kylin.job.run.as.remote.cmd" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.job.run.as.remote.cmd</a>=true
+ # Only necessary when kylin.job.run.as.remote.cmd=true
 kylin.job.remote.cli.password=
 </code></pre></blockquote>
 <p>以下配置项是<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>并发执行job的最大值：</p>
@@ -536,7 +536,7 @@ kylin.job.remote.cli.password=
 </code></pre></blockquote>
 <p><a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>检查提交<a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">yarn</a>中的mapreduce任务状态的时间间隔：</p>
 <blockquote>
-<pre><code><a href="http://kylin.job.yarn.app.rest.check.interval.seconds" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.job.yarn.app.rest.check.interval.seconds</a>=10
+<pre><code>kylin.job.yarn.app.rest.check.interval.seconds=10
 </code></pre></blockquote>
 <p>代码如下：</p>
 <blockquote>
@@ -581,7 +581,7 @@ Thread.sleep(context.getConfig().getYarnStatusCheckIntervalSeconds() * 1000);
 <h2 id="Apache-Kylin元数据管理"><a href="#Apache-Kylin元数据管理" class="headerlink" title="Apache Kylin元数据管理"></a>Apache Kylin元数据管理</h2><h3 id="Apache-kylin元数据的存储"><a href="#Apache-kylin元数据的存储" class="headerlink" title="Apache kylin元数据的存储"></a>Apache kylin元数据的存储</h3><p>Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>包括 立方体描述（cube description），立方体实例（cube instances）项目（project）、作业（job）、表(table)、字典(dictionary),参见： Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a> 核心概念。在<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>集群中至关重要，假如<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>丢失，<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>集群将无法工作。</p>
 <p>在<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a> 的设计中，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储的类图如下</p>
 <p><img src="http://ot801bf4v.bkt.clouddn.com/658496f85b8d625e72326710e86b0ec4_b.png" alt=""></p>
-<p>可见<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>提供了两种方式存储<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>，一般而言，集群模式的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>都选择在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中存储。在${KYLIN_HOME}/conf/<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>中，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>的默认配置如下：</p>
+<p>可见<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>提供了两种方式存储<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>，一般而言，集群模式的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>都选择在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中存储。在${KYLIN_HOME}/conf/kylin.properties中，<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>的默认配置如下：</p>
 <blockquote>
 <pre><code>kylin.metadata.url=kylin_metadata@hbase
 </code></pre></blockquote>
@@ -599,12 +599,12 @@ Thread.sleep(context.getConfig().getYarnStatusCheckIntervalSeconds() * 1000);
     createHTableIfNeeded(getAllInOneTableName());
 }
 </code></pre></blockquote>
-<p>如若存储<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a><a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>在本地文件系统中，需将kylin.metadata.url 指向本地文件系统的一个绝对路径, 如：可在${KYLIN_HOME}/conf/<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>中配置如下：</p>
+<p>如若存储<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a><a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>在本地文件系统中，需将kylin.metadata.url 指向本地文件系统的一个绝对路径, 如：可在${KYLIN_HOME}/conf/kylin.properties中配置如下：</p>
 <blockquote>
 <pre><code>kylin.metadata.url=/home/${username}/${kylin_home}/kylin_metada
 </code></pre></blockquote>
 <p>注意，一定要是绝对路径，否则会出现错误。</p>
-<p>当选择<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中时，并非所有的数据都在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中，当待存储的记录（通常是key-value pairs）的value大于一个最大值kvSizeLimit时，数据将被保存在HDFS中，默认路径为：/kylin/kylin_metadata/，相关配置项在${KYLIN_HOME}/conf/<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>中，如下：</p>
+<p>当选择<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>存储在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中时，并非所有的数据都在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中，当待存储的记录（通常是key-value pairs）的value大于一个最大值kvSizeLimit时，数据将被保存在HDFS中，默认路径为：/kylin/kylin_metadata/，相关配置项在${KYLIN_HOME}/conf/kylin.properties中，如下：</p>
 <blockquote>
 <pre><code>kylin.hdfs.working.dir=/kylin
 kylin.metadata.url=kylin_metadata@hbase
@@ -629,21 +629,21 @@ kylin.metadata.url=kylin_metadata@hbase
     return Integer.parseInt(this.getOptional(&quot;kylin.hbase.client.keyvalue.maxsize&quot;, &quot;10485760&quot;));
 }
 </code></pre></blockquote>
-<p>默认值为10M，可在在${KYLIN_HOME}/conf/<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>中配置：</p>
+<p>默认值为10M，可在在${KYLIN_HOME}/conf/kylin.properties中配置：</p>
 <blockquote>
 <pre><code>kylin.hbase.client.keyvalue.maxsize=10485760
 </code></pre></blockquote>
 <p>注意，该值的大小十分重要，因为<a href="http://kylin.apache.org" target="_blank" rel="noopener">kylin</a>为了提高整体性能将<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>中的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>缓存在<a href="http://hbase.apache.org" target="_blank" rel="noopener">hbase</a>内存中，如下图<br><img src="http://ot801bf4v.bkt.clouddn.com/256ebd1d306843ca0bd2305c01ce1eb4_r.png" alt=""></p>
 <h2 id="Apache-kylin元数据的运维"><a href="#Apache-kylin元数据的运维" class="headerlink" title="Apache kylin元数据的运维"></a>Apache kylin元数据的运维</h2><p>当前<a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>的<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>只提供了<a href="http://baike.baidu.com/item/%E5%86%B7%E5%A4%87%E4%BB%BD" target="_blank" rel="noopener">冷备份</a>的方式。</p>
-<p>可利用crontab 在${KYLIN_HOME}下，每天定时执行./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel="noopener noreferrer">metastore.sh</a> backup命令，kylin会将<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>信息保存如下目录：</p>
+<p>可利用crontab 在${KYLIN_HOME}下，每天定时执行./bin/metastore.sh backup命令，kylin会将<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>信息保存如下目录：</p>
 <blockquote>
 <pre><code>${KYLIN_HOME}/meta_backups/meta_year_month_day_hour_minute_second
 </code></pre></blockquote>
 <p>当kylin<a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener">元数据</a>损坏或不一致，可采用如下命令恢复：</p>
 <blockquote>
 <pre><code>cd ${KYLIN_HOME}
-sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel="noopener noreferrer">metastore.sh</a> reset
-sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel="noopener noreferrer">metastore.sh</a> restore ./meta_backups/meta_xxxx_xx_xx_xx_xx_xx
+sh ./bin/metastore.sh reset
+sh ./bin/metastore.sh restore ./meta_backups/meta_xxxx_xx_xx_xx_xx_xx
 </code></pre></blockquote>
 <h2 id="Apache-kylin-Slow-Query-SQL改造"><a href="#Apache-kylin-Slow-Query-SQL改造" class="headerlink" title="Apache kylin-Slow Query SQL改造"></a>Apache kylin-Slow Query SQL改造</h2><h3 id="慢查询（Slow-Query-SQL）定性"><a href="#慢查询（Slow-Query-SQL）定性" class="headerlink" title="慢查询（Slow Query SQL）定性"></a>慢查询（Slow Query SQL）定性</h3><p>在Apache <a href="http://kylin.apache.org" target="_blank" rel="noopener">Apache kylin</a>中，一旦<a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">cube</a>）经过build、refresh或merge后，将对外提供基于<a href="http://kylin.apache.org/docs/tutorial/odbc.html" target="_blank" rel="noopener">ODBC</a>、<a href="http://kylin.apache.org/docs/howto/howto_jdbc.html" target="_blank" rel="noopener">JDBC</a>、RESTful API等接口的亚秒级OLAP功能；尽管如此，在生产环境中，我们仍然需要记录执行结果很慢的sql语句，并发出告警，以便分析、优化。<br>在kylin的query engine 端，有一个后台线程BadQueryDetector不断去发现前端请求的错误的sql语句，当然包括slow query sql,核心代码如下：</p>
 <blockquote>
@@ -684,7 +684,7 @@ sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel
 
     // report if low memory
     if (getSystemAvailMB() &lt; alertMB) {
-        <a href="http://logger.info" class="test test-url" target="_blank" rel="noopener noreferrer">logger.info</a>(&quot;System free memory less than &quot; + alertMB + &quot; MB. &quot; + entries.size() + &quot; queries running.&quot;);
+        logger.info(&quot;System free memory less than &quot; + alertMB + &quot; MB. &quot; + entries.size() + &quot; queries running.&quot;);
     }
 }
 </code></pre></blockquote>
@@ -707,7 +707,7 @@ sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel
     return Integer.parseInt(getOptional(&quot;kylin.query.badquery.alerting.seconds&quot;, &quot;90&quot;));
 }
 </code></pre></blockquote>
-<p>可见当sql的响应时间超过90秒，kylin才会将其视为slow query sql, 显然，对于一个提供实时查询的OLAP系统，这个指标的设置是不合理的。在${KYLIN_HOME}/conf/<a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>中修改如下：</p>
+<p>可见当sql的响应时间超过90秒，kylin才会将其视为slow query sql, 显然，对于一个提供实时查询的OLAP系统，这个指标的设置是不合理的。在${KYLIN_HOME}/conf/kylin.properties中修改如下：</p>
 <blockquote>
 <pre><code>kylin.query.badquery.alerting.seconds=3
 </code></pre></blockquote>
@@ -749,14 +749,14 @@ sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel
 </code></pre></blockquote>
 <h2 id="Kylin-on-Docker"><a href="#Kylin-on-Docker" class="headerlink" title="Kylin on Docker"></a>Kylin on Docker</h2><p>This repository trackes the code and files for building docker images with Apache Kylin.</p>
 <p>此部分描述在 docker中运行Kylin的代码和过程</p>
-<h3 id="How-to-make-it"><a href="#How-to-make-it" class="headerlink" title="How to make it"></a>How to make it</h3><p>The main idea is building Hadoop/HBase/Hive clients and Kylin binary package into one image; User can pull this image, and then just add client configuration files like core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and <a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a> to the effective paths to make a new image (has verified), or upload these files during starting up (not verified yet);</p>
-<p>主要的思路是打包Hadoop/HBase/Hive的客户端以及Kylin的二进制包进一个镜像，用户可以拉取这个镜像并且增加客户端配置文件（例如core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and <a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a>）进有效路径创建一个新镜像。</p>
+<h3 id="How-to-make-it"><a href="#How-to-make-it" class="headerlink" title="How to make it"></a>How to make it</h3><p>The main idea is building Hadoop/HBase/Hive clients and Kylin binary package into one image; User can pull this image, and then just add client configuration files like core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and kylin.properties to the effective paths to make a new image (has verified), or upload these files during starting up (not verified yet);</p>
+<p>主要的思路是打包Hadoop/HBase/Hive的客户端以及Kylin的二进制包进一个镜像，用户可以拉取这个镜像并且增加客户端配置文件（例如core-site.xml, hdfs-site.xml, yarn-site.xml, hbase-site.xml, hive-site.xml and kylin.properties）进有效路径创建一个新镜像。</p>
 <p>Before start, you need do some preparations:<br>开始之前，需要做如下准备</p>
 <ul>
 <li>check the Hadoop versions, and make sure the client libs in the image are compitable with the cluster;</li>
 <li>检查 hadoop 版本，确保镜像中的客户端包与集群兼容。</li>
-<li>prepare a <a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a> file for this deployment;</li>
-<li><a href="http://为部署准备一个kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">为部署准备一个kylin.properties</a> 文件</li>
+<li>prepare a kylin.properties file for this deployment;</li>
+<li>为部署准备一个kylin.properties 文件</li>
 <li>ensure the Hadoop security constraint will not block Docker’s adoption; you may need run additional component in the container if kerberos is enabled.</li>
 <li>确保 hadoop 安全组建不会阻止docker的适配。如果需要使用kerberos，有可能需要运行额外组件。</li>
 </ul>
@@ -764,13 +764,13 @@ sh ./bin/<a href="http://metastore.sh" class="test test-url" target="_blank" rel
 <ol>
 <li><p>Collect the client configuration files Get the *-site.xml files from a working Hadoop client node, to a local folder say “~/hadoop-conf/“;</p>
 </li>
-<li><p>Prepare <a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a></p>
+<li><p>Prepare kylin.properties</p>
 </li>
 </ol>
-<p>The <a href="http://kylin.properties" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.properties</a> file is the main configuration file for Kylin; you need prepare such a file and put it to the “~/hadoop-conf/“ folder, together with other conf files; suggest to double check the parameters in it; e.g, the “kylin.metadata.url” points to the right metadata table, “kylin.hdfs.working.dir” is an existing HDFS folder and you have permission to write, etc.</p>
+<p>The kylin.properties file is the main configuration file for Kylin; you need prepare such a file and put it to the “~/hadoop-conf/“ folder, together with other conf files; suggest to double check the parameters in it; e.g, the “kylin.metadata.url” points to the right metadata table, “kylin.hdfs.working.dir” is an existing HDFS folder and you have permission to write, etc.</p>
 <ol>
 <li>Clone this repository, checkout the correct branch;<blockquote>
-<pre><code>git clone <a href="https://github.com/Kyligence/kylin-docker" class="test test-url" target="_blank" rel="noopener noreferrer">https://github.com/Kyligence/kylin-docker</a>
+<pre><code>git clone https://github.com/Kyligence/kylin-docker
 cd kylin-docker
 git checkout kylin152-hdp22
 </code></pre></blockquote>
@@ -796,18 +796,18 @@ kyligence/kylin 152 7ece32097fa3About an hour ago   3.043 GB
 </code></pre></blockquote>
 <ol>
 <li>Now you can run a contianer with the bootstrap command (in which will start Kylin server). The “-bash” argument is telling to keep in bash so you can continue to run bash commands; If don’t need, you can use the “-d” argument:<blockquote>
-<pre><code>[root@ip-10-0-0-38 ~]# docker run -i -t -p 7070:7070 kyligence/kylin:152 /etc/<a href="http://bootstrap.sh" class="test test-url" target="_blank" rel="noopener noreferrer">bootstrap.sh</a> -bash
+<pre><code>[root@ip-10-0-0-38 ~]# docker run -i -t -p 7070:7070 kyligence/kylin:152 /etc/bootstrap.sh -bash
 Generating SSH1 RSA host key:  [  OK  ]
 Starting sshd: [  OK  ]
 KYLIN_HOME is set to /usr/local/kylin/bin/../
-<a href="http://kylin.security.profile" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.security.profile</a> is set to ldap
+kylin.security.profile is set to ldap
 16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.optimize.mapjoin.mapreduce does not exist
 16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.heapsize does not exist
 16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.server2.enable.impersonation does not exist
-16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name <a href="http://hive.auto.convert.sortmerge.join.noconditionaltask" class="test test-url" target="_blank" rel="noopener noreferrer">hive.auto.convert.sortmerge.join.noconditionaltask</a> does not exist
-Logging initialized using configuration in file:/etc/hive/conf/<a href="http://hive-log4j.properties" class="test test-url" target="_blank" rel="noopener noreferrer">hive-log4j.properties</a>
+16/06/30 04:50:31 WARN conf.HiveConf: HiveConf of name hive.auto.convert.sortmerge.join.noconditionaltask does not exist
+Logging initialized using configuration in file:/etc/hive/conf/hive-log4j.properties
 HCAT_HOME not found, try to find hcatalog path from hadoop home
-A new Kylin instance is started by , stop it using &quot;<a href="http://kylin.sh" class="test test-url" target="_blank" rel="noopener noreferrer">kylin.sh</a> stop&quot;
+A new Kylin instance is started by , stop it using &quot;kylin.sh stop&quot;
 Please visit http://&lt;ip&gt;:7070/kylin
 You can check the log at /usr/local/kylin/bin/..//logs/kylin.log
 </code></pre></blockquote>
@@ -863,7 +863,7 @@ You can check the log at /usr/local/kylin/bin/..//logs/kylin.log
 <p>Properties info = new Properties();</p>
 <p>info.put(“user”, “ADMIN”);</p>
 <p>info.put(“password”, “KYLIN”);</p>
-<p>Connection conn = driver.connect(“jdbc:<a href="kylin://localhost:7070/kylin_project_name" class="test test-url" target="_blank" rel="noopener noreferrer">kylin://localhost:7070/kylin_project_name</a>”, info);</p>
+<p>Connection conn = driver.connect(“jdbc:kylin://localhost:7070/kylin_project_name”, info);</p>
 <p>Statement state = conn.createStatement();</p>
 <p>ResultSet resultSet = state.executeQuery(“select * from test_table”);</p>
 <p>while (resultSet.next()) {</p>
@@ -890,7 +890,7 @@ You can check the log at /usr/local/kylin/bin/..//logs/kylin.log
 Properties info = new Properties();
 info.put(&quot;user&quot;, &quot;ADMIN&quot;);
 info.put(&quot;password&quot;, &quot;KYLIN&quot;);
-Connection conn = driver.connect(&quot;jdbc:<a href="kylin://localhost:7070/kylin_project_name" class="test test-url" target="_blank" rel="noopener noreferrer">kylin://localhost:7070/kylin_project_name</a>&quot;, info);
+Connection conn = driver.connect(&quot;jdbc:kylin://localhost:7070/kylin_project_name&quot;, info);
 PreparedStatement state = conn.prepareStatement(&quot;select * from test_table where id=?&quot;);
 state.setInt(1, 10);
 ResultSet resultSet = state.executeQuery();
@@ -910,7 +910,7 @@ assertEquals(&quot;tool&quot;, resultSet.getString(3));
 <p>Properties info = new Properties();</p>
 <p>info.put(“user”, “ADMIN”);</p>
 <p>info.put(“password”, “KYLIN”);</p>
-<p>Connection conn = driver.connect(“jdbc:<a href="kylin://localhost:7070/kylin_project_name" class="test test-url" target="_blank" rel="noopener noreferrer">kylin://localhost:7070/kylin_project_name</a>”, info);</p>
+<p>Connection conn = driver.connect(“jdbc:kylin://localhost:7070/kylin_project_name”, info);</p>
 <p>Statement state = conn.createStatement();</p>
 <p>ResultSet resultSet = state.executeQuery(“select * from test_table”);</p>
 <p>ResultSet tables = conn.getMetaData().getTables(null, null, “dummy”, null);</p>
@@ -934,7 +934,7 @@ assertEquals(&quot;tool&quot;, resultSet.getString(3));
 <li>GET <a href="http://localhost:7070/kylin/api/cubes?cubeName={cube_name}&amp;limit=15&amp;offset=0" target="_blank" rel="noopener">http://localhost:7070/kylin/api/cubes?cubeName={cube_name}&amp;limit=15&amp;offset=0</a></li>
 <li><p>Client can find cube segment date ranges in returned cube detail.</p>
 <blockquote>
-<pre><code>GET <a href="http://localhost:7070/kylin/api/cubes?cubeName=test_kylin_cube_with_slr&limit=15&offset=0" class="test test-url" target="_blank" rel="noopener noreferrer">http://localhost:7070/kylin/api/cubes?cubeName=test_kylin_cube_with_slr&amp;limit=15&amp;offset=0</a>
+<pre><code>GET http://localhost:7070/kylin/api/cubes?cubeName=test_kylin_cube_with_slr&amp;limit=15&amp;offset=0
 
 Authorization:Basic xxxxJD124xxxGFxxxSDF
 Content-Type: application/json;charset=UTF-8
@@ -967,7 +967,7 @@ Content-Type: application/json;charset=UTF-8
   headers: { &#39;Authorization&#39;: &quot;Basic eWFu**********X***ZA==&quot;, &#39;Content-Type&#39;: &#39;application/json;charset=utf-8&#39; } // use your own authorization code here
 });
 var request = $.ajax({
-   url: &quot;<a href="http://hostname/kylin/api/query" class="test test-url" target="_blank" rel="noopener noreferrer">http://hostname/kylin/api/query</a>&quot;,
+   url: &quot;http://hostname/kylin/api/query&quot;,
    type: &quot;POST&quot;,
    data: &#39;{&quot;sql&quot;:&quot;select count(*) from SUMMARY;&quot;,&quot;offset&quot;:0,&quot;limit&quot;:50000,&quot;acceptPartial&quot;:true,&quot;project&quot;:&quot;test&quot;}&#39;,
    dataType: &quot;json&quot;
@@ -975,7 +975,7 @@ var request = $.ajax({
 request.done(function( msg ) {
    alert(msg);
 });
-<a href="http://request.fail" class="test test-url" target="_blank" rel="noopener noreferrer">request.fail</a>(function( jqXHR, textStatus ) {
+request.fail(function( jqXHR, textStatus ) {
    alert( &quot;Request failed: &quot; + textStatus );
   });
 </code></pre></blockquote>
@@ -1567,7 +1567,7 @@ Get descriptor for specified cube instance.
  &quot;interruptCmd&quot;:null,
  &quot;name&quot;:&quot;Create Intermediate Flat Hive Table&quot;,
  &quot;sequence_id&quot;:0,
- &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\\177&#39;\nSTORED AS SEQUENCEFILE\nLOCATION &#39;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&#39;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET <a href="http://hive.auto.convert.join.noconditionaltask" class="test test-url" target="_blank" rel="noopener noreferrer">hive.auto.convert.join.noconditionaltask</a> = true;\nSET <a href="http://hive.auto.convert.join.noconditionaltask.size" class="test test-url" target="_blank" rel="noopener noreferrer">hive.auto.convert.join.noconditionaltask.size</a> = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &#39;2014-07-31 16:00:00&#39;)\n;\n\&quot;&quot;,
+ &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\\177&#39;\nSTORED AS SEQUENCEFILE\nLOCATION &#39;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&#39;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET hive.auto.convert.join.noconditionaltask = true;\nSET hive.auto.convert.join.noconditionaltask.size = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &#39;2014-07-31 16:00:00&#39;)\n;\n\&quot;&quot;,
  &quot;interrupt_cmd&quot;:null,
  &quot;exec_start_time&quot;:0,
  &quot;exec_end_time&quot;:0,
@@ -1699,7 +1699,7 @@ Get descriptor for specified cube instance.
  &quot;interruptCmd&quot;:null,
  &quot;name&quot;:&quot;Create Intermediate Flat Hive Table&quot;,
  &quot;sequence_id&quot;:0,
- &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\\177&#39;\nSTORED AS SEQUENCEFILE\nLOCATION &#39;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&#39;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET <a href="http://hive.auto.convert.join.noconditionaltask" class="test test-url" target="_blank" rel="noopener noreferrer">hive.auto.convert.join.noconditionaltask</a> = true;\nSET <a href="http://hive.auto.convert.join.noconditionaltask.size" class="test test-url" target="_blank" rel="noopener noreferrer">hive.auto.convert.join.noconditionaltask.size</a> = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &#39;2014-07-31 16:00:00&#39;)\n;\n\&quot;&quot;,
+ &quot;exec_cmd&quot;:&quot;hive -e \&quot;DROP TABLE IF EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6;\nCREATE EXTERNAL TABLE IF NOT EXISTS kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\n(\nCAL_DT date\n,LEAF_CATEG_ID int\n,LSTG_SITE_ID int\n,META_CATEG_NAME string\n,CATEG_LVL2_NAME string\n,CATEG_LVL3_NAME string\n,LSTG_FORMAT_NAME string\n,SLR_SEGMENT_CD smallint\n,SELLER_ID bigint\n,PRICE decimal\n)\nROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;\\177&#39;\nSTORED AS SEQUENCEFILE\nLOCATION &#39;/tmp/kylin-c143e0e4-ac5f-434d-acf3-46b0d15e3dc6/kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6&#39;;\nSET mapreduce.job.split.metainfo.maxsize=-1;\nSET mapred.compress.map.output=true;\nSET mapred.map.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compress=true;\nSET mapred.output.compression.codec=com.hadoop.compression.lzo.LzoCodec;\nSET mapred.output.compression.type=BLOCK;\nSET mapreduce.job.max.split.locations=2000;\nSET hive.exec.compress.output=true;\nSET hive.auto.convert.join.noconditionaltask = true;\nSET hive.auto.convert.join.noconditionaltask.size = 300000000;\nINSERT OVERWRITE TABLE kylin_intermediate_test_kylin_cube_with_slr_desc_19700101000000_20140731160000_c143e0e4_ac5f_434d_acf3_46b0d15e3dc6\nSELECT\nTEST_KYLIN_FACT.CAL_DT\n,TEST_KYLIN_FACT.LEAF_CATEG_ID\n,TEST_KYLIN_FACT.LSTG_SITE_ID\n,TEST_CATEGORY_GROUPINGS.META_CATEG_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL2_NAME\n,TEST_CATEGORY_GROUPINGS.CATEG_LVL3_NAME\n,TEST_KYLIN_FACT.LSTG_FORMAT_NAME\n,TEST_KYLIN_FACT.SLR_SEGMENT_CD\n,TEST_KYLIN_FACT.SELLER_ID\n,TEST_KYLIN_FACT.PRICE\nFROM TEST_KYLIN_FACT\nINNER JOIN TEST_CAL_DT\nON TEST_KYLIN_FACT.CAL_DT = TEST_CAL_DT.CAL_DT\nINNER JOIN TEST_CATEGORY_GROUPINGS\nON TEST_KYLIN_FACT.LEAF_CATEG_ID = TEST_CATEGORY_GROUPINGS.LEAF_CATEG_ID AND TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_CATEGORY_GROUPINGS.SITE_ID\nINNER JOIN TEST_SITES\nON TEST_KYLIN_FACT.LSTG_SITE_ID = TEST_SITES.SITE_ID\nINNER JOIN TEST_SELLER_TYPE_DIM\nON TEST_KYLIN_FACT.SLR_SEGMENT_CD = TEST_SELLER_TYPE_DIM.SELLER_TYPE_CD\nWHERE (test_kylin_fact.cal_dt &lt; &#39;2014-07-31 16:00:00&#39;)\n;\n\&quot;&quot;,
  &quot;interrupt_cmd&quot;:null,
  &quot;exec_start_time&quot;:0,
  &quot;exec_end_time&quot;:0,
@@ -1809,7 +1809,7 @@ last_modified: 1419330476755
 <pre><code>{
 &quot;minFileSize&quot;: &quot;46055&quot;,
 &quot;totalNumberFiles&quot;: &quot;1&quot;,
-&quot;location&quot;: &quot;<a href="hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_07" class="test test-url" target="_blank" rel="noopener noreferrer">hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_07</a>&quot;,
+&quot;location&quot;: &quot;hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_07&quot;,
 &quot;lastAccessTime&quot;: &quot;1418374103365&quot;,
 &quot;lastUpdateTime&quot;: &quot;1398176493340&quot;,
 &quot;columns&quot;: &quot;struct columns { string code, string description, i32 total_emp, i32 salary}&quot;,
@@ -1821,7 +1821,7 @@ last_modified: 1419330476755
 &quot;tableName&quot;: &quot;sample_07&quot;,
 &quot;owner&quot;: &quot;hue&quot;,
 &quot;totalFileSize&quot;: &quot;46055&quot;,
-&quot;outputformat&quot;: &quot;<a href="http://org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat" class="test test-url" target="_blank" rel="noopener noreferrer">org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat</a>&quot;
+&quot;outputformat&quot;: &quot;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&quot;
 }
 </code></pre></blockquote>
 <h5 id="Get-Hive-Tables"><a href="#Get-Hive-Tables" class="headerlink" title="Get Hive Tables"></a>Get Hive Tables</h5><blockquote>
@@ -1859,7 +1859,7 @@ last_modified: 0,
 exd: {
 minFileSize: &quot;46069&quot;,
 totalNumberFiles: &quot;1&quot;,
-location: &quot;<a href="hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_08" class="test test-url" target="_blank" rel="noopener noreferrer">hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_08</a>&quot;,
+location: &quot;hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/sample_08&quot;,
 lastAccessTime: &quot;1398176495945&quot;,
 lastUpdateTime: &quot;1398176495981&quot;,
 columns: &quot;struct columns { string code, string description, i32 total_emp, i32 salary}&quot;,
@@ -1871,7 +1871,7 @@ partitioned: &quot;false&quot;,
 tableName: &quot;sample_08&quot;,
 owner: &quot;hue&quot;,
 totalFileSize: &quot;46069&quot;,
-outputformat: &quot;<a href="http://org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat" class="test test-url" target="_blank" rel="noopener noreferrer">org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat</a>&quot;
+outputformat: &quot;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&quot;
 }
   }
 ]
@@ -1920,7 +1920,7 @@ Mac: Google Chrome, FireFox, Safari
 <li>Access (Grant user/role privileges, Grant operation only open to Admin in beta):</li>
 </ul>
 <p><img src="http://kylin.apache.org/images/Kylin-Web-Tutorial/7%20access.png" alt=""></p>
-<h4 id="Write-and-Execute-SQL-on-web"><a href="#Write-and-Execute-SQL-on-web" class="headerlink" title="Write and Execute SQL on web"></a>Write and Execute SQL on web</h4><p>Kylin’s web offer a simple query tool for user to run SQL to explorer existing cube, verify result and explorer the result set using <a href="https://instagram.com/explore/tags/5" class="test test-hashtag" target="_blank" rel="noopener noreferrer">#5</a>’s Pivot analysis and visualization</p>
+<h4 id="Write-and-Execute-SQL-on-web"><a href="#Write-and-Execute-SQL-on-web" class="headerlink" title="Write and Execute SQL on web"></a>Write and Execute SQL on web</h4><p>Kylin’s web offer a simple query tool for user to run SQL to explorer existing cube, verify result and explorer the result set using #5’s Pivot analysis and visualization</p>
 <p>Query Limit</p>
 <blockquote>
 <ol>
@@ -1951,7 +1951,7 @@ Mac: Google Chrome, FireFox, Safari
 <ul>
 <li>Query History:</li>
 </ul>
-<p>Only keep the current user’s query history in current bowser, it will require cookie enabled and will lost if you clean up bowser’s <a href="http://cache.Click" class="test test-url" target="_blank" rel="noopener noreferrer">cache.Click</a> “Query History” tab, you could directly resubmit any of them to execute again.</p>
+<p>Only keep the current user’s query history in current bowser, it will require cookie enabled and will lost if you clean up bowser’s cache.Click “Query History” tab, you could directly resubmit any of them to execute again.</p>
 <h4 id="Pivot-Analysis-and-Visualization"><a href="#Pivot-Analysis-and-Visualization" class="headerlink" title="Pivot Analysis and Visualization"></a>Pivot Analysis and Visualization</h4><p>There’s one simple pivot and visualization analysis tool in Kylin’s web for user to explore their query result:</p>
 <ul>
 <li><p>General Information:</p>
@@ -1983,10 +1983,10 @@ Mac: Google Chrome, FireFox, Safari
 <h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><ol>
 <li><p>Make sure python2.6/2.7 installed</p>
 </li>
-<li><p>Two python packages apscheduler and requests are needed, run <a href="http://setup.sh" class="test test-url" target="_blank" rel="noopener noreferrer">setup.sh</a> to install. For mac users, please <a href="http://runsetup-mac.sh" class="test test-url" target="_blank" rel="noopener noreferrer">runsetup-mac.sh</a>. Or you can install them with setuptools.</p>
+<li><p>Two python packages apscheduler and requests are needed, run setup.sh to install. For mac users, please runsetup-mac.sh. Or you can install them with setuptools.</p>
 </li>
 </ol>
-<h3 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h3><p>Modify settings/<a href="http://settings.py" class="test test-url" target="_blank" rel="noopener noreferrer">settings.py</a> to set,</p>
+<h3 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h3><p>Modify settings/settings.py to set,</p>
 <blockquote>
 <pre><code>KYLIN_USER Kylin’s username
 
@@ -2000,7 +2000,7 @@ KYLIN_JOB_MAX_COCURRENT Max concurrent jobs for cube building
 
 KYLIN_JOB_MAX_RETRY Max failover time after job failed
 </code></pre></blockquote>
-<h3 id="About-command-lines"><a href="#About-command-lines" class="headerlink" title="About command lines"></a>About command lines</h3><p>This tool is used by command lines, please run python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> －h to check for details.</p>
+<h3 id="About-command-lines"><a href="#About-command-lines" class="headerlink" title="About command lines"></a>About command lines</h3><p>This tool is used by command lines, please run python kylin_client_tool.py －h to check for details.</p>
 <h3 id="Cube’s-creation"><a href="#Cube’s-creation" class="headerlink" title="Cube’s creation"></a>Cube’s creation</h3><p>This tool has its own cube definition method, the format is as below,</p>
 <blockquote>
 <pre><code>cube name|fact table name|dimension1,type of dimension1;dimension2,type of dimension2...|measure1,expression of measure1,type of measure1...|settings|filter|
@@ -2021,40 +2021,40 @@ Cases can be found in file cube_def.csv, it does not support cube creation with 
 
 Use -c to create, use -F to specify cube definition file, for instance
 
-python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -c -F cube_def.csv
+python kylin_client_tool.py -c -F cube_def.csv
 </code></pre></blockquote>
 <h3 id="Build-cube-1"><a href="#Build-cube-1" class="headerlink" title="Build cube"></a>Build cube</h3><h4 id="Build-cube-with-cube-definition-file"><a href="#Build-cube-with-cube-definition-file" class="headerlink" title="Build cube with cube definition file"></a>Build cube with cube definition file</h4><p>Use -b to build, use -F to specify the cube definition file, if “partition date column” specified, use -T to specify the end date(year-month-day), if not specified, it will take current time as end date, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -b -F cube_def.csv -T 2016-03-01
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -T 2016-03-01
 </code></pre></blockquote>
 <h4 id="Build-cube-with-file-of-cube-names"><a href="#Build-cube-with-file-of-cube-names" class="headerlink" title="Build cube with file of cube names"></a>Build cube with file of cube names</h4><p>Use -f to specify the file of cube names, each line of the file has one cube name, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -b -f cube_names.csv -T 2016-03-01
+<pre><code>python kylin_client_tool.py -b -f cube_names.csv -T 2016-03-01
 </code></pre></blockquote>
 <h4 id="Build-cube-with-cube-names"><a href="#Build-cube-with-cube-names" class="headerlink" title="Build cube with cube names"></a>Build cube with cube names</h4><p>Use -C to specify cube names, split with commas, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -b -C client_tool_test1,client_tool_test2 -T 2016-03-01
+<pre><code>python kylin_client_tool.py -b -C client_tool_test1,client_tool_test2 -T 2016-03-01
 </code></pre></blockquote>
 <h3 id="Job-management"><a href="#Job-management" class="headerlink" title="Job management"></a>Job management</h3><h4 id="Check-jobs’-statuses"><a href="#Check-jobs’-statuses" class="headerlink" title="Check jobs’ statuses"></a>Check jobs’ statuses</h4><p>Use -s to check, use -f to specify file of cube names, use -C to specify cube names, if not specified, it will check all cubes’ statuses. Use -S to specify jobs’ statuses, R for Running, E for Error, F for Finished, D for Discarded, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -s -C kylin_sales_cube -f cube_names.csv -S F
+<pre><code>python kylin_client_tool.py -s -C kylin_sales_cube -f cube_names.csv -S F
 </code></pre></blockquote>
 <h4 id="Resume-jobs"><a href="#Resume-jobs" class="headerlink" title="Resume jobs"></a>Resume jobs</h4><p>Use -r to resume jobs, use -f to specify file of cube names, use -C to specify cube names, if not specified, it will reuse all jobs with error status, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -r -C kylin_sales_cube -f cube_names.csv
+<pre><code>python kylin_client_tool.py -r -C kylin_sales_cube -f cube_names.csv
 </code></pre></blockquote>
 <h4 id="Cancel-jobs"><a href="#Cancel-jobs" class="headerlink" title="Cancel jobs"></a>Cancel jobs</h4><p>Use -k to cancel jobs, use -f to specify file with cube names, use -C to specify cube names, if not specified, it will cancel all jobs with running or error statuses, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -k -C kylin_sales_cube -f cube_names.csv
+<pre><code>python kylin_client_tool.py -k -C kylin_sales_cube -f cube_names.csv
 </code></pre></blockquote>
 <h3 id="Schedule-cubes-building"><a href="#Schedule-cubes-building" class="headerlink" title="Schedule cubes building"></a>Schedule cubes building</h3><h3 id="Build-cube-at-set-intervals"><a href="#Build-cube-at-set-intervals" class="headerlink" title="Build cube at set intervals"></a>Build cube at set intervals</h3><p>On the basis of command of cube building, use -B i to specify the mode of build cube at set intervals, use -O to specify how many hours, for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -b -F cube_def.csv -B i -O 1
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -B i -O 1
 </code></pre></blockquote>
 <p>Build cube at given time</p>
 <p>Use -B t to specify the mode of build cube at given time, use -O to specify the build time, split with commas,for instance,</p>
 <blockquote>
-<pre><code>python kylin_client_<a href="http://tool.py" class="test test-url" target="_blank" rel="noopener noreferrer">tool.py</a> -b -F cube_def.csv -T 2016-03-04 -B t -O 2016,3,1,0,0,0
+<pre><code>python kylin_client_tool.py -b -F cube_def.csv -T 2016-03-04 -B t -O 2016,3,1,0,0,0
 </code></pre></blockquote>
 
       
@@ -2307,7 +2307,7 @@ python kylin_client_<a href="http://tool.py" class="test test-url" target="_blan
   
 
 <script type="text/javascript">
-  if (<a href="http://Object.prototype.toString.call" class="test test-url" target="_blank" rel="noopener noreferrer">Object.prototype.toString.call</a>(window.Promise) !== '[object Function]') {
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
 </script>
