@@ -426,13 +426,13 @@
 </ol>
 <p>曼哈顿距离也称为城市街区距离，数学定义如下：</p>
 <script type="math/tex; mode=display">d_{12} =\sum_{k=1}^{n}{\left| x_{1k}-x_{2k} \right| }</script><p>曼哈顿距离的Python实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([1,2,3])</span><br><span class="line">vector2 = mat([4,5,6])</span><br><span class="line">print sum(abs(vector1-vector2))</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">vector2 = mat([<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br><span class="line">print sum(<span class="name">abs</span>(<span class="name">vector1-vector2</span>))</span><br></pre></td></tr></table></figure>
 <ol>
 <li>欧氏距离</li>
 </ol>
 <p>欧氏距离其实就是L2范数，数学定义如下：</p>
 <script type="math/tex; mode=display">d_{12} =\sqrt{\sum_{k=1}^{n}{\left( x_{1k} -x_{2k}  \right) ^{2} } }</script><p>欧氏距离的Python实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([1,2,3])</span><br><span class="line">vector2 = mat([4,5,6])</span><br><span class="line">print sqrt((vector1-vector2)*(vector1-vector2).T)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">vector2 = mat([<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br><span class="line">print sqrt((vector1-vector2)*(vector1-vector2).T)</span><br></pre></td></tr></table></figure>
 <ol>
 <li>闵可夫斯基距离</li>
 </ol>
@@ -443,14 +443,14 @@
 </ol>
 <p>切比雪夫距离就是$L_{\varpi}$ ，即无穷范数，数学表达式如下：</p>
 <script type="math/tex; mode=display">d_{12} =max\left( \left| x_{1k}-x_{2k} \right|  \right)</script><p>切比雪夫距离额Python实现如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([1,2,3])</span><br><span class="line">vector2 = mat([4,5,6])</span><br><span class="line">print sqrt(abs(vector1-vector2).max)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">vector2 = mat([<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br><span class="line">print sqrt(<span class="name">abs</span>(<span class="name">vector1-vector2</span>).max)</span><br></pre></td></tr></table></figure>
 <ol>
 <li>夹角余弦</li>
 </ol>
 <p>夹角余弦的取值范围为[-1,1]，可以用来衡量两个向量方向的差异；夹角余弦越大，表示两个向量的夹角越小；当两个向量的方向重合时，夹角余弦取最大值1；当两个向量的方向完全相反时，夹角余弦取最小值-1。</p>
 <p>机器学习中用这一概念来衡量样本向量之间的差异，其数学表达式如下：</p>
 <script type="math/tex; mode=display">cos\theta =\frac{AB}{\left| A \right| \left|B \right| } =\frac{\sum_{k=1}^{n}{x_{1k}x_{2k} } }{\sqrt{\sum_{k=1}^{n}{x_{1k}^{2} } } \sqrt{\sum_{k=1}^{n}{x_{2k}^{2} } } }</script><p>夹角余弦的Python实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([1,2,3])</span><br><span class="line">vector2 = mat([4,5,6])</span><br><span class="line">print dot(vector1,vector2)/(linalg.norm(vector1)*linalg.norm(vector2))</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">vector1 = mat([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">vector2 = mat([<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br><span class="line">print dot(<span class="name">vector1</span>,vector2)/(<span class="name">linalg</span>.norm(<span class="name">vector1</span>)*linalg.norm(vector2))</span><br></pre></td></tr></table></figure>
 <ol>
 <li>汉明距离</li>
 </ol>
@@ -458,7 +458,7 @@
 <p>例如：字符串‘1111’与‘1001’之间的汉明距离为2。</p>
 <p>信息编码中一般应使得编码间的汉明距离尽可能的小。</p>
 <p>汉明距离的Python实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">matV = mat([1,1,1,1],[1,0,0,1])</span><br><span class="line">smstr = nonzero(matV[0]-matV[1])</span><br><span class="line">print smstr</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">matV = mat([<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>])</span><br><span class="line">smstr = nonzero(matV[<span class="number">0</span>]-matV[<span class="number">1</span>])</span><br><span class="line">print smstr</span><br></pre></td></tr></table></figure>
 <ol>
 <li>杰卡德相似系数</li>
 </ol>
@@ -469,7 +469,7 @@
 </ol>
 <p>与杰卡德相似系数相反的概念是杰卡德距离，其定义式为：</p>
 <script type="math/tex; mode=display">J_{\sigma} =1-J\left( A,B \right) =\frac{\left| A\cup B \right| -\left| A\cap B \right| }{\left| A\cup B \right| }</script><p>杰卡德距离的Python实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">import scipy.spatial.distance as dist</span><br><span class="line">matV = mat([1,1,1,1],[1,0,0,1])</span><br><span class="line">print dist.pdist(matV,&apos;jaccard&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">import scipy.spatial.distance as dist</span><br><span class="line">matV = mat([<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>])</span><br><span class="line">print dist.pdist(matV,'jaccard')</span><br></pre></td></tr></table></figure>
 <h2 id="延伸"><a href="#延伸" class="headerlink" title="延伸"></a>延伸</h2><h3 id="书籍推荐"><a href="#书籍推荐" class="headerlink" title="书籍推荐"></a>书籍推荐</h3><p><a href="https://www.amazon.com/Introduction-Linear-Algebra-Gilbert-Strang/dp/0980232775" target="_blank" rel="noopener">Introduction to Linear Algebra, Fifth Edition by  Gilbert Strang</a></p>
 <h3 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h3><p>待补充</p>
 <h1 id="概率"><a href="#概率" class="headerlink" title="概率"></a>概率</h1><h2 id="为什么使用概率？"><a href="#为什么使用概率？" class="headerlink" title="为什么使用概率？"></a>为什么使用概率？</h2><p>概率论是用于表示不确定性陈述的数学框架，即它是对事物不确定性的度量。</p>
