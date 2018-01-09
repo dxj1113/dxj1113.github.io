@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,算法,凸优化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+<meta name="keywords" content="机器学习,算法,凸优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="凸优化简论">
+<meta property="og:url" content="http://yoursite.com/2017/07/17/凸优化/index.html">
+<meta property="og:site_name" content="Eason Du&#39;s Notes">
+<meta property="og:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-09T02:16:37.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="凸优化简论">
+<meta name="twitter:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/17/凸优化/"/>
+
+
+
+
+
+  <title>凸优化简论 | Eason Du's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eason Du's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/凸优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eason Du">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eason Du's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">凸优化简论</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T14:10:26+08:00">
+                2017-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概论"><a href="#概论" class="headerlink" title="概论"></a>概论</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、</p>
+<p>主要参考资料<a href="https://www.amazon.com/Convex-Optimization-Stephen-Boyd/dp/0521833787/ref=sr_1_1?ie=UTF8&amp;qid=1500272157&amp;sr=8-1&amp;keywords=Stephen%20Boyd" target="_blank" rel="noopener">《凸优化》</a>(Stephen Boyd等著，王书宁等译)[1]这本书。<br>(各种公式用mathjax语法写的，写的崩溃了…..)<br> <a id="more"></a></p>
+<h2 id="什么是凸优化"><a href="#什么是凸优化" class="headerlink" title="什么是凸优化"></a>什么是凸优化</h2><p>不严格的说，凸优化就是在标准优化问题的范畴内，要求目标函数和约束函数是凸函数的一类优化问题。<br><a href="https://zh.wikipedia.org/wiki/%E5%87%B8%E5%84%AA%E5%8C%96" target="_blank" rel="noopener">维基百科的定义</a>：<br><strong>凸优化</strong>，或叫做凸最优化，凸最小化，是数学最优化的一个子领域，研究定义于凸集中的凸函数最小化的问题。凸优化在某种意义上说较一般情形的数学最优化问题要简单，譬如在凸优化中局部最优值必定是全局最优值。凸函数的凸性使得凸分析中的有力工具在最优化问题中得以应用，如次导数等。<br>凸优化应用于很多学科领域，诸如自动控制系统，信号处理，通讯和网络，电子电路设计，数据分析和建模，统计学(最优化设计），以及金融。在近来运算能力提高和最优化理论发展的背景下，一般的凸优化已经接近简单的线性规划一样直捷易行。许多最优化问题都可以转化成凸优化（凸最小化）问题，例如求凹函数f最大值的问题就等同于求凸函数 -f最小值的问题。</p>
+<h2 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h2><blockquote>
+<p>“凸优化在数学规划领域具有非常重要的地位。”</p>
+<p>“一旦将一个实际问题表述为凸优化问题，大体上意味着相应问题已经得到彻底解决，这是非凸的优化问题所不具有的性质。”</p>
+<p>——《&lt;凸优化&gt;译者序》</p>
+</blockquote>
+<p>凸优化之所以如此重要，是因为：</p>
+<ol>
+<li><p>其应用非常广泛，机器学习中很多优化问题都要通过凸优化来求解；</p>
+</li>
+<li><p>在非凸优化中，凸优化同样起到重要的作用，很多非凸优化问题，可以转化为凸优化问题来解决；</p>
+</li>
+<li><p>如上引用所述，凸优化问题可以看作是具有成熟求解方法的问题，而其他优化问题则未必。</p>
+</li>
+</ol>
+<h2 id="凸优化知识体系"><a href="#凸优化知识体系" class="headerlink" title="凸优化知识体系"></a>凸优化知识体系</h2><ul>
+<li><p><strong>凸集</strong>，定义目标函数和约束函数的定义域。</p>
+</li>
+<li><p><strong>凸函数</strong>，定义优化相关函数的凸性限制。</p>
+</li>
+<li><p><strong>凸优化</strong>，中心内容的标准描述。</p>
+</li>
+<li><p><strong>凸优化问题求解</strong>，核心内容。相关算法，梯度下降法、牛顿法、内点法等。</p>
+</li>
+<li><p><strong>对偶问题</strong>，将一般优化问题转化为凸优化问题的有效手段，求解凸优化问题的有效方法。</p>
+</li>
+</ul>
+<h2 id="标准优化问题"><a href="#标准优化问题" class="headerlink" title="标准优化问题"></a>标准优化问题</h2><script type="math/tex; mode=display">min\qquad f_0(x)</script><script type="math/tex; mode=display">s.t.\qquad f_i(x)\le0,\qquad i=1,\cdots m</script><script type="math/tex; mode=display">\qquad \qquad h_i(x)\le0,\qquad i=1,\cdots p</script><script type="math/tex; mode=display">(1)</script><p>表示在所有满足<script type="math/tex">f_i(x)\le0,\qquad i=1,\cdots m</script>及<script type="math/tex">h_i(x)=0,\qquad i=1,\cdots p</script>的$x$中找出使<script type="math/tex">f_0(x)</script>最小的x.<br>这里,<script type="math/tex">x \in \mathbf R^n</script>,函数<script type="math/tex">f_0:\mathbf R^n \to \mathbf R</script>称为目标函数。<br>不等式<script type="math/tex">f_i(x)\le0</script>称为不等式约束，相应的<script type="math/tex">f_i:\mathbf R^n\to \mathbf R,i=1,2,\cdots m</script>称为不等式约束函数，方程组<script type="math/tex">h_i(x)=0</script>称为等式约束，相应的<script type="math/tex">h_i:\mathbf R^n\to \mathbf R,i=1,2\cdots p</script>称为等式约束。<br>如果没有约束，即<script type="math/tex">m=p=0</script>,称问题1为无约束问题。<br>对目标和所有约束函数有定义的点的集合</p>
+<script type="math/tex; mode=display">\mathcal{D}=\bigcap\limits_{i=0}\limits^{m} domf_i \frown \bigcap\limits_{j=1}\limits^{p} domh_j</script><p>称为优化问题1的定义域</p>
+<h2 id="凸优化问题"><a href="#凸优化问题" class="headerlink" title="凸优化问题"></a>凸优化问题</h2><script type="math/tex; mode=display">min\qquad f_0(x)</script><script type="math/tex; mode=display">s.t.\qquad f_i(x)\le0,\qquad i=1,\cdots m</script><script type="math/tex; mode=display">a_1^T X=b_i,\qquad i=1,\cdots p</script><script type="math/tex; mode=display">(2)</script><p>上述优化问题中，<script type="math/tex">f_i(x),i=0,1,2\cdots m</script>是凸函数，此类问题被称为凸优化问题。<br>对比优化问题，也就是说，目标函数和不等式约束同为凸函数，等式约束是仿射函数的优化问题属于凸优化问题。</p>
+<h1 id="凸集"><a href="#凸集" class="headerlink" title="凸集"></a>凸集</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="直线上的点"><a href="#直线上的点" class="headerlink" title="直线上的点"></a>直线上的点</h3><p>$\forall x,y\in \mathbf R^n 且 x\neq y$,那么，</p>
+<script type="math/tex; mode=display">Z=\theta X+(1-\theta)Y,\theta\in \mathbf R \qquad \qquad \qquad (1)</script><p>是一条穿越X和Y的直线</p>
+<p>A,$\theta$=0时，Z=Y<br>B,$\theta$=1时，Z=X<br>C,$0\lt \theta \lt 1$时，Z是X和Y之间线段上的点<br>D,$\theta \lt 0或\theta\gt 1$时，线段上的点Z是X和Y线段之外的点</p>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>集合C中任意两点之间的线C中，则称集合C为凸集，也即满足$\forall x,y\in \mathbf C,0\lt \theta \lt 1有\theta x+(1-\theta)y\in \mathbf C$的集合称为凸集。</p>
+<h2 id="典型的凸集"><a href="#典型的凸集" class="headerlink" title="典型的凸集"></a>典型的凸集</h2><ul>
+<li><p>线段，射线，直线</p>
+</li>
+<li><p>超平面，半空间</p>
+</li>
+<li><p>仿射集</p>
+</li>
+<li><p>欧几里得球，范数球，椭球等</p>
+</li>
+<li><p>凸锥，范数锥等</p>
+</li>
+</ul>
+<h2 id="其它相关知识"><a href="#其它相关知识" class="headerlink" title="其它相关知识"></a>其它相关知识</h2><h3 id="保凸运算"><a href="#保凸运算" class="headerlink" title="保凸运算"></a>保凸运算</h3><p>交集、仿射函数、线性分式函数及透视函数</p>
+<h3 id="超平面分离定理"><a href="#超平面分离定理" class="headerlink" title="超平面分离定理"></a>超平面分离定理</h3><p>两个不相交的凸集，存在一个超平面将其分离。</p>
+<h1 id="凸函数"><a href="#凸函数" class="headerlink" title="凸函数"></a>凸函数</h1><h2 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h2><p>函数$f:\mathbf R^n \to \mathbf R 定义域domf$是凸集，并且对于$\forall x,y\in domf和\forall \theta 0\lt \theta \lt 1有$</p>
+<script type="math/tex; mode=display">f(\theta x+(1-\theta)y)\le \theta f(x)+(1-\theta)f(y) \qquad \qquad \qquad \qquad (1)</script><p>则称函数$f$是凸的</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="一阶条件"><a href="#一阶条件" class="headerlink" title="一阶条件"></a>一阶条件</h3><p>可微函数$f$是凸函数的充分必要条件是<br>A,定义域$domf$是凸集。<br>B,对于$\forall x,y\in domf有f(y)\ge f(x)+\forall f(x)^T(y-x)$</p>
+<h3 id="二阶条件"><a href="#二阶条件" class="headerlink" title="二阶条件"></a>二阶条件</h3><p>函数f的二阶偏导称为函数f的Hessian矩阵。<br>对于函数定义域domf内任意一点，其Hessian矩阵存在，则函数f是凸函数的重要条件是：其Hessian矩阵是半正定阵，也即，对于所有的$x\in domf有\forall^2f(x)\succ=0$<br>对于R上的函数，可以简化为$f(x)\ge 0$(f上面有两小撇，这个公式暂时没找到)</p>
+<h3 id="下水平集"><a href="#下水平集" class="headerlink" title="下水平集"></a>下水平集</h3><p>函数f的下水平集$C_a={ x\in domf\mid f(x)\le a}$是其定义域的子集。凸函数的下水平集是凸集。</p>
+<h3 id="上境图"><a href="#上境图" class="headerlink" title="上境图"></a>上境图</h3><p>函数$f:\mathbf R^n \to \mathbf R$的上境图$epi f=((x,t)\mid x \in domf,f(x)\le t))$,它是空间$\mathbf R+{n+1}$上的子集。一个函数是凸函数，当且仅当其上境图是凸集。</p>
+<h2 id="典型凸函数"><a href="#典型凸函数" class="headerlink" title="典型凸函数"></a>典型凸函数</h2><ol>
+<li><p>线性函数和仿射函数</p>
+</li>
+<li><p>指数函数</p>
+</li>
+<li><p>负熵</p>
+</li>
+<li><p>范数</p>
+</li>
+</ol>
+<h2 id="保凸运算-1"><a href="#保凸运算-1" class="headerlink" title="保凸运算"></a>保凸运算</h2><p>非负加权求和、复合仿射映射、逐点最大和逐点上确界、复合等。</p>
+<h2 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h2><p>Jensen当年提出的不等式相当简单，f是凸函数，则</p>
+<script type="math/tex; mode=display">f(\frac{x+y}2) \le \frac{f(x)+f(y)}{2}</script><p>Jensen不等式，又叫詹森不等式，以丹麦数学家约翰·詹森(Johan Jensen)命名。</p>
+<p>5.1、常规形式</p>
+<p>5.2、概率形式</p>
+<p>5.3、推广</p>
+<p>Jensen不等式用途非常广泛。凸性和Jensen不等式可以构成不等式理论的基础，很多著名的不等式都可以通过Jensen不等式应用于合适的凸函数得到[1]。</p>
+<p>例如，算数-几何平均不等式可以由负对数函数利用Jensen不等式得到。</p>
+<h1 id="问题求解"><a href="#问题求解" class="headerlink" title="问题求解"></a>问题求解</h1><h2 id="凸优化的优势"><a href="#凸优化的优势" class="headerlink" title="凸优化的优势"></a>凸优化的优势</h2><p>凸优化之所以如此重要，是因为凸优化的重要特性：凸优化的任意局部最优解也是全局最优解。</p>
+<h2 id="最优性准则"><a href="#最优性准则" class="headerlink" title="最优性准则"></a>最优性准则</h2><p>对于凸优化问题</p>
+<script type="math/tex; mode=display">min\qquad f_0(x)</script><script type="math/tex; mode=display">s.t.\qquad f_i(x)\le0,\qquad i=1,\cdots m</script><script type="math/tex; mode=display">\qquad \qquad a_i^tx=b_i,\qquad i=1,\cdots p</script><script type="math/tex; mode=display">(1)</script><p>其中$f_i(x),i=0,\cdots m$是凸函数。<br>$x^*\in \mathbf X$是可微函数$f_0$的最优解，当且仅当</p>
+<script type="math/tex; mode=display">\bigtriangledown f_0(x^*)^T(Y-X^*)\le 0,\forall y \in \mathbf X \qquad \qquad \qquad \qquad (2)</script><h3 id="无约束凸优化的最优性准则"><a href="#无约束凸优化的最优性准则" class="headerlink" title="无约束凸优化的最优性准则"></a>无约束凸优化的最优性准则</h3><p>无约束凸优化问题（式1中，m=p=0）,$x^* \in \mathbf X$是可微函数f的最优解的重要条件是众所周知的</p>
+<script type="math/tex; mode=display">\bigtriangledown f(x^*)=0</script><h3 id="等式约束凸优化的最优化准则"><a href="#等式约束凸优化的最优化准则" class="headerlink" title="等式约束凸优化的最优化准则"></a>等式约束凸优化的最优化准则</h3><p>等式约束凸优化问题（式1中，m=0）,$x^*\in \mathbf X$是可微函数$f_0$的最优解的重要条件是，<br>存在$\upsilon=[\upsilon_1,\cdots ,\upsilon_p] \in  \mathbf R^p$,使得</p>
+<script type="math/tex; mode=display">\bigtriangledown f_0(x^*)+\Sigma_{i=1}^{p} \upsilon_i a_i=0</script><p>其中，这里$a_i\in \mathbf R^n$.这个可以通过拉格朗日对偶函数的KKT条件证明得到。<br>将等式约束凸优化问题描述为矩阵形式</p>
+<script type="math/tex; mode=display">minf(x)</script><script type="math/tex; mode=display">s.t.\mathbf Ax=b</script><p>对应的，$x^*\in \mathbf X$是可微函数f的最优解的重要条件为，存在$\upsilon\in \mathbf R^p$使得</p>
+<script type="math/tex; mode=display">\bigtriangledown f(x^*)+\mathbf A^T\upsilon=0</script><p>其中：$\mathbf A \in \mathbf R^{p\times n}$</p>
+<h2 id="无约束凸优化问题求解"><a href="#无约束凸优化问题求解" class="headerlink" title="无约束凸优化问题求解"></a>无约束凸优化问题求解</h2><h3 id="解析解"><a href="#解析解" class="headerlink" title="解析解"></a>解析解</h3><p>对于少数一些简单的凸优化问题，可以利用最优性准则通过解析来求解。但对于大多数凸优化问题来讲，是没有办法通过解析来求解的。</p>
+<h3 id="下降方法"><a href="#下降方法" class="headerlink" title="下降方法"></a>下降方法</h3><p>下降方法将产生一个优化点列$x^{(K)},k=1,2,\cdots $,其中</p>
+<script type="math/tex; mode=display">x^{(K+1)}=$x^{(K)}+t^{(k)}\Delta x^{(k)},t^{(k)}>0</script><p>使得</p>
+<script type="math/tex; mode=display">f(x^{(k+1)})<f(x^{(k)})</script><p>$\Delta x^{(k)}$称为搜索方向，$t^{(k)}$称为步长<br>由凸函数的一阶条件可知，下降方法中的搜索方向必须满足</p>
+<script type="math/tex; mode=display">\bigtriangledown f(x^{(k)})^T\Delta x^{(k)}<0</script><p>下降方法中，有两个问题需要解决：确定搜索步长和确定搜索方向。确定搜索步长的方法和算法有：固定步长搜索、精确直线搜索和回溯直线搜索。确定搜索方向的方法和算法有：梯度下降方法、最速下降方法和牛顿法。</p>
+<h3 id="确定步长的方法"><a href="#确定步长的方法" class="headerlink" title="确定步长的方法"></a>确定步长的方法</h3><ol>
+<li><p>固定步长搜索<br>步长值根据经验设定，为了防止算法震荡，值应当较小。优点：直观、简单；缺点：收敛速度慢。</p>
+</li>
+<li><p>精确直线搜索<br>精确搜索方向确定时，精确直线搜索步长通过沿着射线$x+t\Delta x\mid t \ge 0$<br>求解如下优化问题确定。</p>
+<script type="math/tex; mode=display">t=arg min_{s \ge 0}f(x+s\Delta x)</script><p>当其优化成本比较低时，适合精确直线搜索。</p>
+</li>
+<li><p>回溯直线搜索<br>比较常用的是回溯直线搜索，大概思路是，用迭代方法求得的步长只要能使目标函数有足够的减少即可。详见第五章。</p>
+</li>
+</ol>
+<h3 id="调整搜索方向的方法"><a href="#调整搜索方向的方法" class="headerlink" title="调整搜索方向的方法"></a>调整搜索方向的方法</h3><ol>
+<li><p>梯度下降方法</p>
+</li>
+<li><p>最速下降方法<br>利用目标函数的一阶泰勒展开近似优化过程，进而确定学习方向。详见第六章。</p>
+</li>
+<li><p>牛顿法<br>利用目标函数的二阶泰勒展开近似表示目标函数，通过求解这个二次函数的极小值来确定搜索方向。详见第七章。</p>
+</li>
+</ol>
+<h2 id="等式约束凸优化问题求解"><a href="#等式约束凸优化问题求解" class="headerlink" title="等式约束凸优化问题求解"></a>等式约束凸优化问题求解</h2><h3 id="通过消除等式求解"><a href="#通过消除等式求解" class="headerlink" title="通过消除等式求解"></a>通过消除等式求解</h3><p>任何等式约束优化问题都可以通过消除等式约束转化为等价的无约束优化问题，然后利用无约束的方法求解。</p>
+<h3 id="通过Lagrange对偶问题求解"><a href="#通过Lagrange对偶问题求解" class="headerlink" title="通过Lagrange对偶问题求解"></a>通过Lagrange对偶问题求解</h3><p>利用无约束优化问题求解对偶问题，然后从对偶解中复原等式约束问题的解。详见第八章。</p>
+<h3 id="等式约束的牛顿法"><a href="#等式约束的牛顿法" class="headerlink" title="等式约束的牛顿法"></a>等式约束的牛顿法</h3><p>详见《凸优化(七)——牛顿法》。</p>
+<h2 id="不等式约束凸优化问题求解"><a href="#不等式约束凸优化问题求解" class="headerlink" title="不等式约束凸优化问题求解"></a>不等式约束凸优化问题求解</h2><h3 id="通过Lagrange对偶问题求解-1"><a href="#通过Lagrange对偶问题求解-1" class="headerlink" title="通过Lagrange对偶问题求解"></a>通过Lagrange对偶问题求解</h3><p>利用无约束优化问题求解对偶问题，然后从对偶解中复原不等式约束问题的解。《凸优化(八)——Lagrange对偶问题》。</p>
+<h3 id="内点法"><a href="#内点法" class="headerlink" title="内点法"></a>内点法</h3><p>主要思路：引进的惩罚函数的在可行域的边界上设置障碍，使求解的迭代过程始终在可行域内部进行。[2]</p>
+<p>这里暂不详述，待有时间再学习整理。</p>
+<h1 id="回溯直线搜索"><a href="#回溯直线搜索" class="headerlink" title="回溯直线搜索"></a>回溯直线搜索</h1><h2 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h2><p>回溯直线搜索是求解无约束凸优化问题中，调整搜索步长非常简单有效的方法，也是实际应用中常用的方法。[2]</p>
+<p>考虑固定步长搜索，为防止迭代震荡，一般步长值很小，很多经验值取0.01，这就导致收敛速度过慢。</p>
+<p>考虑精确直线搜索，其本身又是一个优化问题，如果这个优化问题很复杂，则这个搜索方法就是没有意义的。</p>
+<p>相比以上两种调整搜索步长的方法，回溯直线搜索则简单高效很多。</p>
+<h2 id="回溯直线搜索-1"><a href="#回溯直线搜索-1" class="headerlink" title="回溯直线搜索"></a>回溯直线搜索</h2><h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><h3 id="算法解释"><a href="#算法解释" class="headerlink" title="算法解释"></a>算法解释</h3><h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><p>(<strong>未完待续</strong>)<br>A、参考</p>
+<p>[1]、《凸优化》，Stephen Boyd等著，王书宁等译</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/凸优化/" rel="tag"># 凸优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/17/Kylin初探/" rel="next" title="Kylin初探">
+                <i class="fa fa-chevron-left"></i> Kylin初探
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eason Du</p>
+              <p class="site-description motion-element" itemprop="description">即使天空暗淡，阳光也会照耀圣西罗。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概论"><span class="nav-number">1.</span> <span class="nav-text">概论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是凸优化"><span class="nav-number">1.2.</span> <span class="nav-text">什么是凸优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重要性"><span class="nav-number">1.3.</span> <span class="nav-text">重要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凸优化知识体系"><span class="nav-number">1.4.</span> <span class="nav-text">凸优化知识体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准优化问题"><span class="nav-number">1.5.</span> <span class="nav-text">标准优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凸优化问题"><span class="nav-number">1.6.</span> <span class="nav-text">凸优化问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#凸集"><span class="nav-number">2.</span> <span class="nav-text">凸集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直线上的点"><span class="nav-number">2.1.1.</span> <span class="nav-text">直线上的点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#典型的凸集"><span class="nav-number">2.2.</span> <span class="nav-text">典型的凸集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它相关知识"><span class="nav-number">2.3.</span> <span class="nav-text">其它相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#保凸运算"><span class="nav-number">2.3.1.</span> <span class="nav-text">保凸运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超平面分离定理"><span class="nav-number">2.3.2.</span> <span class="nav-text">超平面分离定理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#凸函数"><span class="nav-number">3.</span> <span class="nav-text">凸函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义-2"><span class="nav-number">3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">3.2.</span> <span class="nav-text">性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一阶条件"><span class="nav-number">3.2.1.</span> <span class="nav-text">一阶条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二阶条件"><span class="nav-number">3.2.2.</span> <span class="nav-text">二阶条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下水平集"><span class="nav-number">3.2.3.</span> <span class="nav-text">下水平集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上境图"><span class="nav-number">3.2.4.</span> <span class="nav-text">上境图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#典型凸函数"><span class="nav-number">3.3.</span> <span class="nav-text">典型凸函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保凸运算-1"><span class="nav-number">3.4.</span> <span class="nav-text">保凸运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jensen不等式"><span class="nav-number">3.5.</span> <span class="nav-text">Jensen不等式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题求解"><span class="nav-number">4.</span> <span class="nav-text">问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#凸优化的优势"><span class="nav-number">4.1.</span> <span class="nav-text">凸优化的优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最优性准则"><span class="nav-number">4.2.</span> <span class="nav-text">最优性准则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无约束凸优化的最优性准则"><span class="nav-number">4.2.1.</span> <span class="nav-text">无约束凸优化的最优性准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等式约束凸优化的最优化准则"><span class="nav-number">4.2.2.</span> <span class="nav-text">等式约束凸优化的最优化准则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无约束凸优化问题求解"><span class="nav-number">4.3.</span> <span class="nav-text">无约束凸优化问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解析解"><span class="nav-number">4.3.1.</span> <span class="nav-text">解析解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下降方法"><span class="nav-number">4.3.2.</span> <span class="nav-text">下降方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确定步长的方法"><span class="nav-number">4.3.3.</span> <span class="nav-text">确定步长的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整搜索方向的方法"><span class="nav-number">4.3.4.</span> <span class="nav-text">调整搜索方向的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等式约束凸优化问题求解"><span class="nav-number">4.4.</span> <span class="nav-text">等式约束凸优化问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过消除等式求解"><span class="nav-number">4.4.1.</span> <span class="nav-text">通过消除等式求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过Lagrange对偶问题求解"><span class="nav-number">4.4.2.</span> <span class="nav-text">通过Lagrange对偶问题求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等式约束的牛顿法"><span class="nav-number">4.4.3.</span> <span class="nav-text">等式约束的牛顿法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不等式约束凸优化问题求解"><span class="nav-number">4.5.</span> <span class="nav-text">不等式约束凸优化问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过Lagrange对偶问题求解-1"><span class="nav-number">4.5.1.</span> <span class="nav-text">通过Lagrange对偶问题求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内点法"><span class="nav-number">4.5.2.</span> <span class="nav-text">内点法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回溯直线搜索"><span class="nav-number">5.</span> <span class="nav-text">回溯直线搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#意义"><span class="nav-number">5.1.</span> <span class="nav-text">意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回溯直线搜索-1"><span class="nav-number">5.2.</span> <span class="nav-text">回溯直线搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法"><span class="nav-number">5.2.1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法解释"><span class="nav-number">5.2.2.</span> <span class="nav-text">算法解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数解释"><span class="nav-number">5.2.3.</span> <span class="nav-text">参数解释</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eason Du</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
