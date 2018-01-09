@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+<meta name="description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
 <meta name="keywords" content="机器学习,算法,凸优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="凸优化简论">
 <meta property="og:url" content="https://dxj1113.github.io/2017/07/17/凸优化/index.html">
 <meta property="og:site_name" content="Eason Du&#39;s Notes">
-<meta property="og:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+<meta property="og:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-09T02:16:37.412Z">
+<meta property="og:updated_time" content="2018-01-09T10:32:57.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="凸优化简论">
-<meta name="twitter:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
+<meta name="twitter:description" content="概论说明最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。 主要参考资料《凸优化》(Stephen Boyd等著，王书宁等译)[1]这本书。(各种公式用mathjax语法写的，写的崩溃了…..)">
 
 
 
@@ -372,7 +372,7 @@
       
 
       
-        <h1 id="概论"><a href="#概论" class="headerlink" title="概论"></a>概论</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。、</p>
+        <h1 id="概论"><a href="#概论" class="headerlink" title="概论"></a>概论</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>最近在学习机器学习方面的算法知识，发现凸优化是机器学习中重要的数学基础，特地买了本书做学习，这里记录下一些学习心得，先搭个框架，内容会逐步展开，后续会陆续更新。</p>
 <p>主要参考资料<a href="https://www.amazon.com/Convex-Optimization-Stephen-Boyd/dp/0521833787/ref=sr_1_1?ie=UTF8&amp;qid=1500272157&amp;sr=8-1&amp;keywords=Stephen%20Boyd" target="_blank" rel="noopener">《凸优化》</a>(Stephen Boyd等著，王书宁等译)[1]这本书。<br>(各种公式用mathjax语法写的，写的崩溃了…..)<br> <a id="more"></a></p>
 <h2 id="什么是凸优化"><a href="#什么是凸优化" class="headerlink" title="什么是凸优化"></a>什么是凸优化</h2><p>不严格的说，凸优化就是在标准优化问题的范畴内，要求目标函数和约束函数是凸函数的一类优化问题。<br><a href="https://zh.wikipedia.org/wiki/%E5%87%B8%E5%84%AA%E5%8C%96" target="_blank" rel="noopener">维基百科的定义</a>：<br><strong>凸优化</strong>，或叫做凸最优化，凸最小化，是数学最优化的一个子领域，研究定义于凸集中的凸函数最小化的问题。凸优化在某种意义上说较一般情形的数学最优化问题要简单，譬如在凸优化中局部最优值必定是全局最优值。凸函数的凸性使得凸分析中的有力工具在最优化问题中得以应用，如次导数等。<br>凸优化应用于很多学科领域，诸如自动控制系统，信号处理，通讯和网络，电子电路设计，数据分析和建模，统计学(最优化设计），以及金融。在近来运算能力提高和最优化理论发展的背景下，一般的凸优化已经接近简单的线性规划一样直捷易行。许多最优化问题都可以转化成凸优化（凸最小化）问题，例如求凹函数f最大值的问题就等同于求凸函数 -f最小值的问题。</p>
 <h2 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h2><blockquote>
