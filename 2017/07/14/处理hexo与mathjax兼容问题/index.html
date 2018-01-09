@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png">
 <meta property="og:image" content="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer2.png">
-<meta property="og:updated_time" content="2018-01-09T01:26:44.451Z">
+<meta property="og:updated_time" content="2018-01-09T01:59:57.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="处理hexo与mathjax兼容问题">
 <meta name="twitter:description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
@@ -327,7 +327,7 @@
       
         <p>写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * <a href="#小结">Jump to the end to see sulution</a> 。<br> <a id="more"></a></p>
 <h1 id="问题重现"><a href="#问题重现" class="headerlink" title="问题重现"></a>问题重现</h1><p>先重现一下这个问题。在写文章的时候，我码了一个相当简单的公式：aaa</p>
-<script type="math/tex; mode=display">c^2</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$R_&#123;m \times n&#125; = U_&#123;m \times m&#125; S_&#123;m \times n&#125; V_&#123;n \times n&#125;&apos;$$</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">c^2</script><script type="math/tex; mode=display">c^2+a=b</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$R_&#123;m \times n&#125; = U_&#123;m \times m&#125; S_&#123;m \times n&#125; V_&#123;n \times n&#125;&apos;$$</span><br></pre></td></tr></table></figure>
 <p>渲染出来却变成了（红框内变为了斜体）：<br><img src="http://oe0e8k1nf.bkt.clouddn.com/Before_Change_Markdown_Renderer1.png" alt="enter image description here"></p>
 <h1 id="问题思考"><a href="#问题思考" class="headerlink" title="问题思考"></a>问题思考</h1><p>琢磨了一下，MathJax支持是开了的，这么简单的公式都渲染不出，肯定不是MathJax要背的锅。简单地测试了一下，发现：</p>
 <script type="math/tex; mode=display">R_{m \times n}</script><p>这个公式是能work的，那到底是什么问题呢？回到前面的公式，细心观察一下，不难发现渲染之后下划线 <code>_</code> 被吞掉了，而两个下划线 <code>_</code> 之间的文本变为了斜体，这就很有意思了。</p>
