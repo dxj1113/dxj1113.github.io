@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/17/%E5%87%B8%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2018-01-09T10:32:57.815Z</lastmod>
+    <data>
+        <display>
+        <title>凸优化简论</title>
+        <pubTime>2017-07-17T06:10:26.000Z</pubTime>
+        
+        <tag>机器学习</tag>
+         
+        <tag>算法</tag>
+         
+        <tag>凸优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2018-01-09T02:10:15.727Z</lastmod>
+    <data>
+        <display>
+        <title>机器学习所需的数学基础</title>
+        <pubTime>2017-07-14T01:55:32.000Z</pubTime>
+        
+        <tag>机器学习</tag>
+         
+        <tag>数学</tag>
+         
+        <tag>深度学习</tag>
+         
+        <tag>线性代数</tag>
+         
+        <tag>概率</tag>
+         
+        <tag>信息论</tag>
+         
+        <tag>数理统计</tag>
+         
+        <tag>最优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/14/%E5%A4%84%E7%90%86hexo%E4%B8%8Emathjax%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2018-01-09T02:03:53.900Z</lastmod>
+    <data>
+        <display>
+        <title>处理hexo与mathjax兼容问题</title>
+        <pubTime>2017-07-14T03:25:20.000Z</pubTime>
+        
+        <tag>Marddown</tag>
+         
+        <tag>Mathjax</tag>
+         
+        <tag>Hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/17/Kylin%E5%88%9D%E6%8E%A2/</loc>
+    <lastmod>2018-01-08T11:36:53.553Z</lastmod>
+    <data>
+        <display>
+        <title>Kylin初探</title>
+        <pubTime>2017-07-17T05:36:26.000Z</pubTime>
+        
+        <tag>Apache</tag>
+         
+        <tag>Big data</tag>
+         
+        <tag>CUBE</tag>
+         
+        <tag>OLAP</tag>
+         
+        <tag>HADOOP</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/12/%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2018-01-08T11:33:23.109Z</lastmod>
+    <data>
+        <display>
+        <title>用hexo+github搭建个人博客</title>
+        <pubTime>2017-07-12T05:45:51.000Z</pubTime>
+        
+        <tag>Hexo</tag>
+         
+        <tag>Markdown</tag>
+         
+        <tag>nodejs</tag>
+         
+        <tag>git</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
