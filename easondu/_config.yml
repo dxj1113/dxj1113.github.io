@@ -82,6 +82,10 @@ deploy:
     repo: git@github.com:dxj1113/dxj1113.github.io.git
     branch: master
 
+# Extensions
+## Plugins: http://hexo.io/plugins/
+plugins: hexo-generate-feed
+
 
 # math:
   # engine: 'mathjax' # or 'katex'
