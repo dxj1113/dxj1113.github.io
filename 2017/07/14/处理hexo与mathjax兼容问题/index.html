@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,Marddown,Mathjax," />
+  <meta name="keywords" content="Marddown,Mathjax,Hexo," />
 
 
 
@@ -82,7 +82,7 @@
 
 
 <meta name="description" content="写了一篇文章，发现Latex公式的无法渲染，经过一番推敲和实践，最终解决了这个问题，在这篇博文中简单记录一下，方便其他遇到同样问题的朋友们也能顺利解决。不想看解决思路的朋友也可以跳到文章末尾直接看解决方案 * Jump to the end to see sulution 。">
-<meta name="keywords" content="Hexo,Marddown,Mathjax">
+<meta name="keywords" content="Marddown,Mathjax,Hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="处理hexo与mathjax兼容问题">
 <meta property="og:url" content="https://dxj1113.github.io/2017/07/14/处理hexo与mathjax兼容问题/index.html">
@@ -353,6 +353,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/14/处理hexo与mathjax兼容问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/07/14/处理hexo与mathjax兼容问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -461,11 +471,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
-          
             <a href="/tags/Marddown/" rel="tag"># Marddown</a>
           
             <a href="/tags/Mathjax/" rel="tag"># Mathjax</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
           
         </div>
       
@@ -520,6 +530,14 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
 
 
 
@@ -851,7 +869,84 @@
 
 
 
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
 
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'dxj1113',
+            repo: 'dxj1113.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '099666ea82b1ad2ebac8e2bce5ad45a1b41e06cc',
+            
+                client_id: '6a2ff308492aa89daa39'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'dxj1113',
+            repo: 'dxj1113.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '099666ea82b1ad2ebac8e2bce5ad45a1b41e06cc',
+            
+                client_id: '6a2ff308492aa89daa39'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
