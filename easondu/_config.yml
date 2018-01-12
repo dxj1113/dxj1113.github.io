@@ -104,6 +104,12 @@ flowchart:
   # raphael:   # optional, the source url of raphael.js
   # flowchart: # optional, the source url of flowchart.js
   options: # options used for `drawSVG`
+
+# hexo-admin authentification
+admin:
+  username: dxj1113
+  password_hash: $2a$10$BCKJFoc7m3wAjxYeLo7sOuUA/Lc4Ib3ue71fFcD0KeEomddrfazIu
+  secret: jiajiababy
 # math:
   # engine: 'mathjax' # or 'katex'
   # mathjax:
