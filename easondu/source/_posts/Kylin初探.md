@@ -189,7 +189,7 @@ Kylin目前的多维数据存储引擎是HBase， Kylin利用了HBase的Coproces
 ## Apache kylin配置
 在[Apache kylin](http://kylin.apache.org)的日常运维中，通常根据日常运行产生的日志调整相关配置参数，从而达到性能的提升和运行的稳定性，[Apache kylin](http://kylin.apache.org)官网并没有给出这些配置的相关说明和解释，下面介绍一下[Apache kylin](http://kylin.apache.org)的配置。
 在${KYLIN_HOME}/conf 下一共4个配置文件：
-
+```
 >     kylin_hive_conf.xml
 >
 >     kylin_job_conf_inmem.xml
@@ -197,32 +197,32 @@ Kylin目前的多维数据存储引擎是HBase， Kylin利用了HBase的Coproces
 >     kylin_job_conf.xml
 >
 >     kylin.properties
-
+```
 kylin_hive_conf.xml是kylin提交任务到[hive](http://hive.apache.org)的配置文件，kylin_job_conf_inmem.xml、kylin_job_conf.xml是 kylin提交任务到[yarn](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)中的配置文件，用户可根据自己的情况酌情修改，下面介绍一下kylin.properties的重要配置项：
 
 kylin服务器的运行模式，有all、job、query
-
+```
 >     kylin.server.mode=all
-
+```
 kylin实例服务器列表，注意：不包括以job模式运行的服务器实例
-
+```
 >     kylin.rest.servers=hostname1:7070,hostname2:7070,hostname3:7070
-
+```
 kylin[元数据](https://en.wikipedia.org/wiki/Metadata)配置
-
+```
 >     kylin.metadata.url=kylin_metadata@hbase
-
+```
 [Apache kylin](http://kylin.apache.org) job的重试次数，注意：这个job指[cube]((https://en.wikipedia.org/wiki/OLAP_cube)) build、fresh时生成的job,而不是每一个step 的mapreduce job。
-
+```
 >     kylin.job.retry=0
-
+```
 [Apache kylin](http://kylin.apache.org)提交作业到[hadoop](http://hadoop.apache.org)中时，每个reduce的最大输入，该参数用来确定mapreduce的reduce个数，
 
-
+```
 >     kylin.job.mapreduce.default.reduce.input.mb=500.
-
+```
 参见以下代码：
-
+```
 >     public double getDefaultHadoopJobReducerInputMB() {
 >     return Double.parseDouble(getOptional("kylin.job.mapreduce.default.reduce.input.mb", "500"));}
 
@@ -257,13 +257,14 @@ And
 >     numReduceTasks = Math.min(kylinConfig.getHadoopJobMaxReducerNumber(), numReduceTasks);
 >     jobConf.setInt(MAPRED_REDUCE_TASKS, numReduceTasks);
 >     logger.info("Having total map input MB " + Math.round(totalMapInputMB));logger.info("Having level " + level + ", pre-level cuboids " + preLevelCuboids + ", this level cuboids " + thisLevelCuboids);logger.info("Having per reduce MB " + perReduceInputMB + ", reduce count ratio " + reduceCountRatio);logger.info("Setting " + MAPRED_REDUCE_TASKS + "=" + numReduceTasks);}
-
+```
 
 用户可根据自己的数据量大小，性能要求及[hadoop](http://hadoop.apache.org)集群中的mapred-site.xml配置，酌情修改该项。
-
+```
 >     kylin.job.run.as.remote.cmd=false
-
+```
 该项配置表示，是否以ssh命令方式，向[hadoop](http://hadoop.apache.org)、[hbase](http://hbase.apache.org)、[hive](http://hive.apache.org)等发起CLI命令。一般将[kylin](http://kylin.apache.org)部署在[hadoop](http://hadoop.apache.org)集群的客户机上，所以该值为false。假如[kylin](http://kylin.apache.org)服务不部署在[hadoop](http://hadoop.apache.org)的客户机上，则该值为true;这样[kylin](http://kylin.apache.org)访问[hadoop](http://hadoop.apache.org)集群，需要给出以下配置项的值：
+```
 >      # Only necessary when kylin.job.run.as.remote.cmd=true
 >     kylin.job.remote.cli.hostname=
 >
@@ -272,18 +273,18 @@ And
 >
 >      # Only necessary when kylin.job.run.as.remote.cmd=true
 >     kylin.job.remote.cli.password=
-
+```
 
 以下配置项是[Apache kylin](http://kylin.apache.org)并发执行job的最大值：
-
+```
 >     kylin.job.concurrent.max.limit=10
-
+```
 [Apache kylin](http://kylin.apache.org)检查提交[yarn](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)中的mapreduce任务状态的时间间隔：
-
+```
 >     kylin.job.yarn.app.rest.check.interval.seconds=10
-
+```
 代码如下：
-
+```
 >     while (!isDiscarded()) {
 >       JobStepStatusEnum newStatus = statusChecker.checkStatus();
 >         if (status == JobStepStatusEnum.KILLED) {
@@ -309,20 +310,20 @@ And
 >         }
 >     Thread.sleep(context.getConfig().getYarnStatusCheckIntervalSeconds() * 1000);
 >     }
-
+```
 
 以下配置项是[kylin](http://kylin.apache.org) build [cube]((https://en.wikipedia.org/wiki/OLAP_cube))时的第一步建立[hive](http://hive.apache.org)中间表所在的数据库：
-
+```
 >     kylin.job.hive.database.for.intermediatetable=default
-
+```
 以下是kylin build [cube]((https://en.wikipedia.org/wiki/OLAP_cube))时在[hbase](http://hbase.apache.org)中建表后，存储数据的压缩算法：
-
+```
 >     kylin.hbase.default.compression.codec=snappy
-
+```
 注意，设值时，先要检验[hbase](http://hbase.apache.org)所指向的[hadoop](http://hadoop.apache.org)支不支持该压缩算法，检验命令如下：
-
+```
 >     hadoop checknative -a
-
+```
 
 ## Apache Kylin元数据管理
 ### Apache kylin元数据的存储
@@ -336,7 +337,7 @@ Apache [Apache kylin](http://kylin.apache.org)的[元数据](https://en.wikipedi
 >     kylin.metadata.url=kylin_metadata@hbase
 
 kylin_metadata@hbase表示，[元数据](https://en.wikipedia.org/wiki/Metadata)存储在[hbase](http://hbase.apache.org)中的kylin_metadata表中。HBaseResourceStore#HBaseResourceStore的参考代码如下：
-
+```
 >     public HBaseResourceStore(KylinConfig kylinConfig) throws IOException {
 >         super(kylinConfig);
 >
@@ -348,20 +349,20 @@ kylin_metadata@hbase表示，[元数据](https://en.wikipedia.org/wiki/Metadata)
 >
 >         createHTableIfNeeded(getAllInOneTableName());
 >     }
-
+```
 如若存储[Apache kylin](http://kylin.apache.org)[元数据](https://en.wikipedia.org/wiki/Metadata)在本地文件系统中，需将kylin.metadata.url 指向本地文件系统的一个绝对路径, 如：可在${KYLIN_HOME}/conf/kylin.properties中配置如下：
-
+```
 >     kylin.metadata.url=/home/${username}/${kylin_home}/kylin_metada
-
+```
 注意，一定要是绝对路径，否则会出现错误。
 
 当选择[元数据](https://en.wikipedia.org/wiki/Metadata)存储在[hbase](http://hbase.apache.org)中时，并非所有的数据都在[hbase](http://hbase.apache.org)中，当待存储的记录（通常是key-value pairs）的value大于一个最大值kvSizeLimit时，数据将被保存在HDFS中，默认路径为：/kylin/kylin_metadata/，相关配置项在${KYLIN_HOME}/conf/kylin.properties中，如下：
-
+```
 >     kylin.hdfs.working.dir=/kylin
 >     kylin.metadata.url=kylin_metadata@hbase
-
+```
 HBaseResourceStore#buildPut的参考代码如下：
-
+```
     private Put buildPut(String resPath, long ts, byte[] row, byte[] content, HTableInterface table) throws IOException {
         int kvSizeLimit = this.kylinConfig.getHBaseKeyValueSize();
         if (content.length kvSizeLimit) {
@@ -375,7 +376,7 @@ HBaseResourceStore#buildPut的参考代码如下：
 
         return put;
     }
-
+```
 
 kvSizeLimit 的获取代码如下：
 >     public int getHBaseKeyValueSize() {
@@ -383,9 +384,9 @@ kvSizeLimit 的获取代码如下：
 >     }
 
 默认值为10M，可在在${KYLIN_HOME}/conf/kylin.properties中配置：
-
+```
 >     kylin.hbase.client.keyvalue.maxsize=10485760
-
+```
 注意，该值的大小十分重要，因为[kylin](http://kylin.apache.org)为了提高整体性能将[hbase](http://hbase.apache.org)中的[元数据](https://en.wikipedia.org/wiki/Metadata)缓存在[hbase](http://hbase.apache.org)内存中，如下图
 ![](http://ot801bf4v.bkt.clouddn.com/256ebd1d306843ca0bd2305c01ce1eb4_r.png)
 
@@ -398,14 +399,17 @@ kvSizeLimit 的获取代码如下：
 
 当kylin[元数据](https://en.wikipedia.org/wiki/Metadata)损坏或不一致，可采用如下命令恢复：
 
+```
 >     cd ${KYLIN_HOME}
 >     sh ./bin/metastore.sh reset
 >     sh ./bin/metastore.sh restore ./meta_backups/meta_xxxx_xx_xx_xx_xx_xx
+```
 
 ## Apache kylin-Slow Query SQL改造
 ### 慢查询（Slow Query SQL）定性
 在Apache [Apache kylin](http://kylin.apache.org)中，一旦[cube](https://en.wikipedia.org/wiki/OLAP_cube)）经过build、refresh或merge后，将对外提供基于[ODBC](http://kylin.apache.org/docs/tutorial/odbc.html)、[JDBC](http://kylin.apache.org/docs/howto/howto_jdbc.html)、RESTful API等接口的亚秒级OLAP功能；尽管如此，在生产环境中，我们仍然需要记录执行结果很慢的sql语句，并发出告警，以便分析、优化。
 在kylin的query engine 端，有一个后台线程BadQueryDetector不断去发现前端请求的错误的sql语句，当然包括slow query sql,核心代码如下：
+```
 >     public void run() {
 >         while (true) {
 >             try {
@@ -422,9 +426,10 @@ kvSizeLimit 的获取代码如下：
 >             }
 >         }
 >     }
-
+```
 
 BadQueryDetector#detectBadQuery 代码如下：
+```
 >     private void detectBadQuery() {
 >         long now = System.currentTimeMillis();
 >         ArrayList<Entryentries = new ArrayList<Entry>(runningQueries.values());
@@ -446,9 +451,10 @@ BadQueryDetector#detectBadQuery 代码如下：
 >             logger.info("System free memory less than " + alertMB + " MB. " + entries.size() + " queries running.");
 >         }
 >     }
+```
 
 即当sql的执行时间大于 alertRunningSec,kylin将其定性为 slow query sql,alertRunningSec的获取如下：
-
+```
 >     public BadQueryDetector() {
 >         super("BadQueryDetector");
 >         this.setDaemon(true);
@@ -459,47 +465,50 @@ BadQueryDetector#detectBadQuery 代码如下：
 >
 >         initNotifiers();
 >     }
-
+```
 以及
+```
 >     public int getBadQueryDefaultAlertingSeconds() {
 >         return Integer.parseInt(getOptional("kylin.query.badquery.alerting.seconds", "90"));
 >     }
-
+```
 可见当sql的响应时间超过90秒，kylin才会将其视为slow query sql, 显然，对于一个提供实时查询的OLAP系统，这个指标的设置是不合理的。在${KYLIN_HOME}/conf/kylin.properties中修改如下：
-
+```
 >     kylin.query.badquery.alerting.seconds=3
-
+```
 ### 告警改造
 当前 slow query sql的发现及输出采用观察者模式,用户可以通过实现接口 Notifier 自定义观察者,然后注册给BadQueryDetector。
-
+```
 >     public interface Notifier {
 >         void badQueryFound(String adj, float runningSec, long startTime, String project, String sql, Thread t);
 >     }
-
+```
 
 以及
+```
 >     public void registerNotifier(Notifier notifier) {
 >         notifiers.add(notifier);
 >     }
-
+```
 
 当前BadQueryDetector有两个内置观察者，LoggerNotifier和PersistenceNotifier，其中LoggerNotifier将slow query sql 记录到日志；PersistenceNotifier将记录至[元数据](https://en.wikipedia.org/wiki/Metadata)（一般是[hbase](http://hbase.apache.org)）。
 
 出于运维需要，我们可以自定义观察者，将slow qeury sql发送到业务负责人的邮箱或者手机。如：
-
+```
 >     public class  EmailNotifier  implements Notifier  {
 >         void badQueryFound(String adj, float runningSec, long startTime, String project, String sql, Thread t){
 >
 >                   //send a email;
 >          }
 >     }
-
+```
 ### slow query sql 在元数据中的位置
 当[元数据](https://en.wikipedia.org/wiki/Metadata)配置采用默认配置时，即：
 
 >     kylin.metadata.url=kylin_metadata@hbase
 
 [元数据](https://en.wikipedia.org/wiki/Metadata)在以下位置：
+```
 >     1)表 : kylin_metadata
 >
 >     2)rowKey : /bad_query/${project_name}.json // 用UTF-8 编码
@@ -507,7 +516,7 @@ BadQueryDetector#detectBadQuery 代码如下：
 >     3) column: f:c  // content: slow sql的具体内容,需先用UTF-8解码，然后用 JsonSerializer 反序列化
 >
 >        column: f:t  //timestamp  : 更新该条记录的 时间戳
-
+```
 
 ## Kylin on Docker
 This repository trackes the code and files for building docker images with Apache Kylin.
@@ -536,34 +545,40 @@ Before start, you need do some preparations:
 Below is a sample of building and running a docker image for Hortonworks HDP 2.2 cluster.
 下面是一个在Hortonworks HDP 2.2 集群上构建和运行一个docker镜像的例子。
 
-1. Collect the client configuration files Get the *-site.xml files from a working Hadoop client node, to a local folder say "~/hadoop-conf/";
-
+1. Collect the client configuration files Get the *-site.xml files from a working Hadoop client node, to a local folder say 
+```
+"~/hadoop-conf/";
+```
 2. Prepare kylin.properties
 
 The kylin.properties file is the main configuration file for Kylin; you need prepare such a file and put it to the "~/hadoop-conf/" folder, together with other conf files; suggest to double check the parameters in it; e.g, the "kylin.metadata.url" points to the right metadata table, "kylin.hdfs.working.dir" is an existing HDFS folder and you have permission to write, etc.
 
 3. Clone this repository, checkout the correct branch;
+```
 >     git clone https://github.com/Kyligence/kylin-docker
 >     cd kylin-docker
 >     git checkout kylin152-hdp22
-
+```
 
 4. Copy the client configuration files to "kylin-docker/conf" folder, overwriting those template files;
+```
 >     cp -rf ~/hadoop-conf/* conf/
-
+```
 
 5. Build docker image, which may take a while, just take a cup of tea;
+```
 >     docker build -t kyligence/kylin:152 .
-
+```
 
 After the build finished, should be able to see the image with "docker images" commmand;
-
+```
 >     [root@ip-10-0-0-38 ~]# docker images
 >     REPOSITORY  TAG IMAGE IDCREATED VIRTUAL SIZE
 >     kyligence/kylin 152 7ece32097fa3About an hour ago   3.043 GB
-
+```
 
 6. Now you can run a contianer with the bootstrap command (in which will start Kylin server). The "-bash" argument is telling to keep in bash so you can continue to run bash commands; If don't need, you can use the "-d" argument:
+```
 >     [root@ip-10-0-0-38 ~]# docker run -i -t -p 7070:7070 kyligence/kylin:152 /etc/bootstrap.sh -bash
 >     Generating SSH1 RSA host key:  [  OK  ]
 >     Starting sshd: [  OK  ]
@@ -578,7 +593,7 @@ After the build finished, should be able to see the image with "docker images" c
 >     A new Kylin instance is started by , stop it using "kylin.sh stop"
 >     Please visit http://<ip>:7070/kylin
 >     You can check the log at /usr/local/kylin/bin/..//logs/kylin.log
-
+```
 
 7. After a minute, you can open web browser with address http://host:7070/kylin , here the "host" is the hostname or IP address of the hosting machine which runs Docker; Its 7070 port will redirect to the contianer's 7070 port as we specified in the "docker run" command; You can change to other port as you like.
 
@@ -619,11 +634,11 @@ For 64 bit driver, please use the default “Data Sources (ODBC)” in Control P
 #### Authentication
 
 Build on kylin authentication restful service. Supported parameters:
-
+```
 >     1. user : username
 >     2. password : password
 >     3. ssl: true/false. Default be false; If true, all the services call will use https.
-
+```
 
 #### Connection URL format:
 
@@ -634,7 +649,7 @@ Build on kylin authentication restful service. Supported parameters:
 
 
  Query with Statement
-
+```
 > Driver driver = (Driver) Class.forName("org.apache.kylin.jdbc.Driver").newInstance();
 >
 > Properties info = new Properties();
@@ -658,7 +673,7 @@ Build on kylin authentication restful service. Supported parameters:
 > assertEquals("tool", resultSet.getString(3));
 >
 > }
-
+```
 
  Query with PreparedStatement
 
@@ -675,6 +690,7 @@ Supported prepared statement parameters:
 * setDate
 * setTime
 * setTimestamp
+```
 >     Driver driver = (Driver) Class.forName("org.apache.kylin.jdbc.Driver").newInstance();
 >     Properties info = new Properties();
 >     info.put("user", "ADMIN");
@@ -689,13 +705,13 @@ Supported prepared statement parameters:
 >     assertEquals("bar", resultSet.getString(2));
 >     assertEquals("tool", resultSet.getString(3));
 >     }
-
+```
 
 Get query result set metadata
 
 Kylin jdbc driver supports metadata list methods:
 List catalog, schema, table and column with sql pattern filters(such as %).
-
+```
 > Driver driver = (Driver) Class.forName("org.apache.kylin.jdbc.Driver").newInstance();
 >
 > Properties info = new Properties();
@@ -722,6 +738,8 @@ List catalog, schema, table and column with sql pattern filters(such as %).
 > }
 >
 > }
+```
+
 ###RESTful 接口
 #### Build Cube with RESTful API
 #####	Authentication
@@ -730,20 +748,23 @@ List catalog, schema, table and column with sql pattern filters(such as %).
 * Add Authorization header to first request for authentication
 * Or you can do a specific request by POST http://localhost:7070/kylin/api/user/authentication
 * Once authenticated, client can go subsequent requests with cookies.
+```
 > POST http://localhost:7070/kylin/api/user/authentication
 >
 > Authorization:Basic xxxxJD124xxxGFxxxSDF
 > Content-Type: application/json;charset=UTF-8
-
+```
 
 ##### Get details of cube.
 
 * GET http://localhost:7070/kylin/api/cubes?cubeName={cube_name}&limit=15&offset=0
 * Client can find cube segment date ranges in returned cube detail.
+```
 >     GET http://localhost:7070/kylin/api/cubes?cubeName=test_kylin_cube_with_slr&limit=15&offset=0
 >
 >     Authorization:Basic xxxxJD124xxxGFxxxSDF
 >     Content-Type: application/json;charset=UTF-8
+```
 ##### Then submit a build job of the cube.
 
 * PUT http://localhost:7070/kylin/api/cubes/{cube_name}/rebuild
@@ -751,6 +772,7 @@ List catalog, schema, table and column with sql pattern filters(such as %).
     -  startTime and endTime should be utc timestamp.
     -  buildType can be BUILD ,MERGE or REFRESH. BUILD is for building a new segment, REFRESH for refreshing an existing segment. MERGE is for merging multiple existing segments into one bigger segment.
 * This method will return a new created job instance, whose uuid is the unique id of job to track job status.
+```
 > PUT http://localhost:7070/kylin/api/cubes/test_kylin_cube_with_slr/rebuild
 >
 > Authorization:Basic xxxxJD124xxxGFxxxSDF
@@ -761,7 +783,7 @@ List catalog, schema, table and column with sql pattern filters(such as %).
 > "endTime": 1388563200000,
 > "buildType": "BUILD"
 > }
-
+```
 
 ##### Track job status.
 
@@ -775,6 +797,7 @@ List catalog, schema, table and column with sql pattern filters(such as %).
 Kylin security is based on basic access authorization, if you want to use API in your javascript, you need to add authorization info in http headers.
 
 ##### Example on Query API.
+```
 >     $.ajaxSetup({
 >       headers: { 'Authorization': "Basic eWFu**********X***ZA==", 'Content-Type': 'application/json;charset=utf-8' } // use your own authorization code here
 >     });
@@ -790,7 +813,7 @@ Kylin security is based on basic access authorization, if you want to use API in
 >     request.fail(function( jqXHR, textStatus ) {
 >        alert( "Request failed: " + textStatus );
 >       });
-
+```
 
 
 ##### Keypoints
@@ -799,7 +822,7 @@ Kylin security is based on basic access authorization, if you want to use API in
 ##### Basic access authorization
 * For what is basic access authorization, refer to [Wikipedia Page](http://en.wikipedia.org/wiki/Basic_access_authentication).
 * How to generate your authorization code (download and import “jquery.base64.js” from [https://github.com/yckart/jquery.base64.js](https://github.com/yckart/jquery.base64.js)).
-
+```
 >     var authorizationCode = $.base64('encode', 'NT_USERNAME' + ":" + 'NT_PASSWORD');
 >
 >     $.ajaxSetup({
@@ -808,11 +831,12 @@ Kylin security is based on basic access authorization, if you want to use API in
 >     'Content-Type': 'application/json;charset=utf-8'
 >        }
 >     });
-
+```
 #### Use RESTful API
 ##### Authentication
+```
 >     POST /user/authentication
-
+```
 ###### Request Header
 
 Authorization data encoded by basic auth is needed in the header, such as:
@@ -824,7 +848,7 @@ Authorization:Basic {data}
 
 
 ###### Response Sample
-
+```
 > {
 >    "userDetails":{
 >   "password":null,
@@ -843,18 +867,20 @@ Authorization:Basic {data}
 >   "enabled":true
 >    }
 > }
+```
 Example with curl:
-
+```
 >     curl -c /path/to/cookiefile.txt -X POST -H "Authorization: Basic XXXXXXXXX" -H 'Content-Type: application/json' http://<host>:<port>/kylin/api/user/authentication
-
+```
 
 If login successfully, the JSESSIONID will be saved into the cookie file; In the subsequent http requests, attach the cookie, for example:
-
+```
 >     curl -b /path/to/cookiefile.txt -X PUT -H 'Content-Type: application/json' -d '{"startTime":'1423526400000', "endTime":'1423526400', "buildType":"BUILD"}' http://<host>:<port>/kylin/api/cubes/your_cube/rebuild
-
+```
 ##### Query
+```
 >     POST /query
-
+```
 ###### Request Body
 
 * sql - required string The text of sql statement.
@@ -863,7 +889,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 * acceptPartial - optional bool Whether accept a partial result or not, default be “false”. Set to “false” for production use.
 * project - optional string Project to perform query. Default value is ‘DEFAULT’.
 ###### Request Sample
-
+```
 >     {
 >        "sql":"select * from TEST_KYLIN_FACT",
 >        "offset":0,
@@ -871,6 +897,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >        "acceptPartial":false,
 >        "project":"DEFAULT"
 >     }
+```
 ###### Response Body
 
 * columnMetas - Column metadata information of result set.
@@ -884,7 +911,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >        "columnMetas":[
 >       {
@@ -963,17 +990,18 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >        "duration":3451,
 >        "partial":false
 >     }
-
+```
 ##### List queryable tables
+```
 >     GET /tables_and_columns
-
+```
 ###### Request Parameters
 
 * project - required string The project to load tables
 
 
 ###### Response Sample
-
+```
 >     [
 >        {
 >       "columns":[
@@ -1040,10 +1068,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >       "type_NAME":null
 >        }
 >     ]
-
+```
 ##### List cubes
+```
 >     GET /cubes
-
+```
 ###### Request Parameters
 
 * offset - required int Offset used by pagination
@@ -1053,7 +1082,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 ###### Response Sample
 
-
+```
 
 >     [
 >        {
@@ -1073,23 +1102,28 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >       "size_kb":0
 >        }
 >     ]
+```
 
 ##### Get cube
+```
 >     GET /cubes/{cubeName}
+```
 
 ###### Path Variable
 
 * cubeName - required string Cube name to find.
+```
 >     Get cube descriptor
 >     GET /cube_desc/{cubeName}
 >     Get descriptor for specified cube instance.
+```
 
 ###### Path Variable
 
 * cubeName - required string Cube name.
 
 ###### Response Sample
-
+```
 >     [
 >     {
 >     "uuid": "a24ca905-1fc6-4f67-985c-38fa5aeafd92",
@@ -1340,9 +1374,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >     "retention_range": 0
 >     }
 >     ]
-
+```
 ##### Get data model
+```
 >     GET /model/{modelName}
+```
 
 ###### Path Variable
 
@@ -1350,7 +1386,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >     "uuid": "ff527b94-f860-44c3-8452-93b17774c647",
 >     "name": "test_kylin_with_slr_model_desc",
@@ -1394,10 +1430,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >     "partition_condition_builder": "org.apache.kylin.metadata.model.PartitionDesc$DefaultPartitionConditionBuilder"
 >     }
 >     }
-
+```
 ##### Build cube
+```
 >     PUT /cubes/{cubeName}/rebuild
-
+```
 ###### Path Variable
 
 * cubeName - required string Cube name.
@@ -1411,7 +1448,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >        "uuid":"c143e0e4-ac5f-434d-acf3-46b0d15e3dc6",
 >        "last_modified":1407908916705,
@@ -1470,9 +1507,12 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >        "job_status":"PENDING",
 >        "progress":0.0
 >     }
+```
 
 ##### Enable Cube
+```
 >     PUT /cubes/{cubeName}/enable
+```
 
 ###### Path variable
 
@@ -1480,7 +1520,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >        "uuid":"1eaca32a-a33e-4b69-83dd-0bb8b1f8c53b",
 >        "last_modified":1407909046305,
@@ -1525,9 +1565,12 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >        "source_records_size":0,
 >        "size_kb":4758
 >     }
+```
 
 ##### Disable Cube
+```
 >     PUT /cubes/{cubeName}/disable
+```
 
 ###### Path variable
 
@@ -1537,7 +1580,9 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 (Same as “Enable Cube”)
 
 ##### Purge Cube
+```
 >     PUT /cubes/{cubeName}/Purge
+```
 
 ###### Path variable
 
@@ -1547,7 +1592,9 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 (Same as “Enable Cube”)
 
 ##### Resume Job
+```
 >     PUT /jobs/{jobId}/resume
+```
 
 ###### Path variable
 
@@ -1555,7 +1602,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >        "uuid":"c143e0e4-ac5f-434d-acf3-46b0d15e3dc6",
 >        "last_modified":1407908916705,
@@ -1614,9 +1661,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >        "job_status":"PENDING",
 >        "progress":0.0
 >     }
-
+```
 ##### Discard Job
+```
 >     PUT /jobs/{jobId}/cancel
+```
 
 ###### Path variable
 
@@ -1628,7 +1677,9 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 (Same as “Resume job”)
 
 ##### Get Job Status
+```
 >     GET /jobs/{jobId}
+```
 
 ###### Path variable
 
@@ -1638,18 +1689,20 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 (Same as “Resume Job”)
 
 ##### Get job step output
+```
 >     GET /jobs/{jobId}/steps/{stepId}/output
+```
 
 ###### Path Variable
 
 * jobId - required string Job id.
 * stepId - required string Step id; the step id is composed by jobId with step sequence id; for example, the jobId is “fb479e54-837f-49a2-b457-651fc50be110”, its 3rd step id is “fb479e54-837f-49a2-b457-651fc50be110-3”,
 ###### Response Sample
-
+```
 >     {
 >        "cmd_output":"log string"
 >     }
-
+```
 ##### Get Hive Table
 >     GET /tables/{tableName}
 
@@ -1659,7 +1712,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >     uuid: "69cc92c0-fc42-4bb9-893f-bd1141c91dbe",
 >     name: "SAMPLE_07",
@@ -1683,9 +1736,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >     database: "DEFAULT",
 >     last_modified: 1419330476755
 >     }
-
+```
 ##### Get Hive Table (Extend Info)
+```
 >     GET /tables/{tableName}/exd-map
+```
 
 ###### Request Parameters
 
@@ -1693,7 +1748,7 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 
 
 ###### Response Sample
-
+```
 >     {
 >     "minFileSize": "46055",
 >     "totalNumberFiles": "1",
@@ -1711,16 +1766,18 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >     "totalFileSize": "46055",
 >     "outputformat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 >     }
-
+```
 ##### Get Hive Tables
+```
 >     GET /tables
+```
 
 ###### Request Parameters
 
 * project- required string will list all tables in the project.
 * ext- optional boolean set true to get extend info of table.
 ###### Response Sample
-
+```
 >     [
 >      {
 >     uuid: "53856c96-fe4d-459e-a9dc-c339b1bc3310",
@@ -1764,24 +1821,30 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 >     }
 >       }
 >     ]
+```
 
 ##### Load Hive Tables
+```
 >     POST /tables/{tables}/{project}
+```
 
 ###### Request Parameters
 
 * tables - required string table names you want to load from hive, separated with comma.
 * project - required String the project which the tables will be loaded into.
 ###### Response Sample
-
+```
 >     {
 >     "result.loaded": ["DEFAULT.SAMPLE_07"],
 >     "result.unloaded": ["sapmle_08"]
 >     }
+```
 
 
 ##### Wipe cache
+```
 >     PUT /cache/{type}/{name}/{action}
+```
 
 ##### Path variable
 
@@ -1790,9 +1853,11 @@ If login successfully, the JSESSIONID will be saved into the cookie file; In the
 * action - required string ‘create’, ‘update’ or ‘drop’
 
 ### Web Interface
+```
 >     Supported Browsers
 >     Windows: Google Chrome, FireFox
 >     Mac: Google Chrome, FireFox, Safari
+```
 
 
 #### Access & Login
