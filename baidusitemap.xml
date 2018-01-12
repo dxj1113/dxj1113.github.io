@@ -3,6 +3,34 @@
 
 
     
+  <url>
+    <loc>https://dxj1113.github.io/2017/07/17/Kylin%E5%88%9D%E6%8E%A2/</loc>
+    <lastmod>2018-01-12T01:54:58.959Z</lastmod>
+    <data>
+        <display>
+        <title>Kylin初探</title>
+        <pubTime>2017-07-17T05:36:26.000Z</pubTime>
+        
+        <tag>Apache</tag>
+         
+        <tag>Big data</tag>
+         
+        <tag>CUBE</tag>
+         
+        <tag>OLAP</tag>
+         
+        <tag>HADOOP</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
     
     
@@ -72,39 +100,11 @@
         <title>处理hexo与mathjax兼容问题</title>
         <pubTime>2017-07-14T03:25:20.000Z</pubTime>
         
+        <tag>Hexo</tag>
+         
         <tag>Marddown</tag>
          
         <tag>Mathjax</tag>
-         
-        <tag>Hexo</tag>
-         
-         
-           
-             
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://dxj1113.github.io/2017/07/17/Kylin%E5%88%9D%E6%8E%A2/</loc>
-    <lastmod>2018-01-08T11:36:53.553Z</lastmod>
-    <data>
-        <display>
-        <title>Kylin初探</title>
-        <pubTime>2017-07-17T05:36:26.000Z</pubTime>
-        
-        <tag>Apache</tag>
-         
-        <tag>Big data</tag>
-         
-        <tag>CUBE</tag>
-         
-        <tag>OLAP</tag>
-         
-        <tag>HADOOP</tag>
          
          
            
@@ -124,9 +124,9 @@
         <title>用hexo+github搭建个人博客</title>
         <pubTime>2017-07-12T05:45:51.000Z</pubTime>
         
-        <tag>Hexo</tag>
-         
         <tag>Markdown</tag>
+         
+        <tag>Hexo</tag>
          
         <tag>nodejs</tag>
          
