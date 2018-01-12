@@ -87,7 +87,18 @@ deploy:
 ## Plugins: http://hexo.io/plugins/
 plugins: hexo-generate-feed
 
-
+douban:
+  user: a-du
+  book:
+    title: '天堂应该是图书馆的模样'
+    quote: '壮士腰间三尺剑；男儿腹中五车书。'
+  movie:
+    title: 'Hope is a good thing, maybe the best of things, and no good thing ever dies.'
+    quote: 'Fear can hold you prisoner. Hope can set you free.'
+  game:
+    title: 'This is my game title'
+    quote: 'This is my game quote'
+  timeout: 10000 #optional
 
 # math:
   # engine: 'mathjax' # or 'katex'
