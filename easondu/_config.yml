@@ -100,6 +100,10 @@ douban:
     quote: 'This is my game quote'
   timeout: 10000 #optional
 
+flowchart:
+  # raphael:   # optional, the source url of raphael.js
+  # flowchart: # optional, the source url of flowchart.js
+  options: # options used for `drawSVG`
 # math:
   # engine: 'mathjax' # or 'katex'
   # mathjax:

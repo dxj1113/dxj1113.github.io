@@ -11,6 +11,7 @@
     "hexo-autolinker": "^1.0.1",
     "hexo-deployer-git": "^0.3.1",
     "hexo-douban": "^0.2.4",
+    "hexo-filter-flowchart": "^1.0.4",
     "hexo-generator-archive": "^0.1.5",
     "hexo-generator-baidu-sitemap": "^0.1.2",
     "hexo-generator-category": "^0.1.3",
