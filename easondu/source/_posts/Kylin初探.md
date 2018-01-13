@@ -2,7 +2,7 @@
 title: Kylin初探
 date: 2017-07-17 13:36:26
 tags: [Apache,Big data,CUBE,OLAP,HADOOP]
-categories: 技术
+categories: 大数据
 ---
 
 # Kylin #
