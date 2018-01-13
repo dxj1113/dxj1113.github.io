@@ -4,39 +4,34 @@
 
     
   <url>
-    <loc>https://dxj1113.github.io/2017/07/17/Kylin%E5%88%9D%E6%8E%A2/</loc>
-    <lastmod>2018-01-12T01:54:58.959Z</lastmod>
+    <loc>https://dxj1113.github.io/2017/07/12/%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2018-01-13T02:37:22.217Z</lastmod>
     <data>
         <display>
-        <title>Kylin初探</title>
-        <pubTime>2017-07-17T05:36:26.000Z</pubTime>
+        <title>用hexo+github搭建个人博客</title>
+        <pubTime>2017-07-12T05:45:51.000Z</pubTime>
         
-        <tag>Apache</tag>
+        <tag>Hexo</tag>
          
-        <tag>Big data</tag>
+        <tag>Markdown</tag>
          
-        <tag>CUBE</tag>
+        <tag>nodejs</tag>
          
-        <tag>OLAP</tag>
-         
-        <tag>HADOOP</tag>
+        <tag>git</tag>
          
          
            
              
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+              <breadCrumb title="前端" url="https://dxj1113.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
           
         </display>
     </data>
     </url>
 
     
-    
-    
-    
   <url>
     <loc>https://dxj1113.github.io/2017/07/17/%E5%87%B8%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2018-01-09T10:32:57.815Z</lastmod>
+    <lastmod>2018-01-13T02:37:10.401Z</lastmod>
     <data>
         <display>
         <title>凸优化简论</title>
@@ -51,7 +46,7 @@
          
            
              
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+              <breadCrumb title="机器学习" url="https://dxj1113.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
           
         </display>
     </data>
@@ -60,7 +55,7 @@
     
   <url>
     <loc>https://dxj1113.github.io/2017/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2018-01-09T02:10:15.727Z</lastmod>
+    <lastmod>2018-01-13T02:36:52.025Z</lastmod>
     <data>
         <display>
         <title>机器学习所需的数学基础</title>
@@ -85,7 +80,7 @@
          
            
              
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+              <breadCrumb title="数学" url="https://dxj1113.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
           
         </display>
     </data>
@@ -94,7 +89,7 @@
     
   <url>
     <loc>https://dxj1113.github.io/2017/07/14/%E5%A4%84%E7%90%86hexo%E4%B8%8Emathjax%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2018-01-09T02:03:53.900Z</lastmod>
+    <lastmod>2018-01-13T02:36:34.394Z</lastmod>
     <data>
         <display>
         <title>处理hexo与mathjax兼容问题</title>
@@ -109,7 +104,7 @@
          
            
              
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+              <breadCrumb title="前端" url="https://dxj1113.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
           
         </display>
     </data>
@@ -117,28 +112,33 @@
 
     
   <url>
-    <loc>https://dxj1113.github.io/2017/07/12/%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2018-01-08T11:33:23.109Z</lastmod>
+    <loc>https://dxj1113.github.io/2017/07/17/Kylin%E5%88%9D%E6%8E%A2/</loc>
+    <lastmod>2018-01-13T02:36:18.732Z</lastmod>
     <data>
         <display>
-        <title>用hexo+github搭建个人博客</title>
-        <pubTime>2017-07-12T05:45:51.000Z</pubTime>
+        <title>Kylin初探</title>
+        <pubTime>2017-07-17T05:36:26.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>Apache</tag>
          
-        <tag>Markdown</tag>
+        <tag>Big data</tag>
          
-        <tag>nodejs</tag>
+        <tag>CUBE</tag>
          
-        <tag>git</tag>
+        <tag>OLAP</tag>
+         
+        <tag>HADOOP</tag>
          
          
            
              
-              <breadCrumb title="技术" url="https://dxj1113.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+              <breadCrumb title="大数据" url="https://dxj1113.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
           
         </display>
     </data>
     </url>
 
+    
+    
+    
 </urlset>
